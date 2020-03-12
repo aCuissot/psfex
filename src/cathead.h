@@ -1,7 +1,7 @@
 /*
 *				cathead.h
 *
-* Merged and full catalogue headers.
+* Merged and full catalog headers.
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 *

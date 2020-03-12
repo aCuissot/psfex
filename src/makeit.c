@@ -132,7 +132,7 @@ void	makeit(void) {
 	QMALLOC(fields, fieldstruct *, ncat);
 
 	NFPRINTF(OUTPUT, "");
-	QPRINTF(OUTPUT, "----- %d input catalogues:\n", ncat);
+	QPRINTF(OUTPUT, "----- %d input catalogs:\n", ncat);
 	for (c=0; c<ncat; c++) {
 		fields[c] = field_init(incatnames[c]);
 		QPRINTF(OUTPUT, "%-20.20s:  \"%-16.16s\"  %3d extension%s %7d detection%s\n",

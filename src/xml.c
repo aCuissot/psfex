@@ -58,7 +58,7 @@ int			nxml, nxmlmax;
 PROTO	int init_xml(int ncat)
 PURPOSE	Initialize a set of meta-data kept in memory before being written to the
 	XML file
-INPUT	Number of catalogues.
+INPUT	Number of catalogs.
 OUTPUT	-.
 NOTES	-.
 AUTHOR	E. Bertin (IAP)

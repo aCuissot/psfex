@@ -62,11 +62,11 @@ typedef struct field
   int		ndet;			/* Number of detections (info only) */
   psfstruct	**psf;			/* Array of PSFs */
   wcsstruct	**wcs;			/* Array of WCS structures */
-  setstruct	*set;			/* Catalogue or array of catalogues */
+  setstruct	*set;			/* Catalog or array of catalogs */
   catstruct	**ccat;			/* Pointers to check-image files */
   double	meanwcspos[NAXIS];	/* Mean pixel coordinate */
   double	meanwcsscale[NAXIS];	/* Mean pixel scale */
-  double	maxradius;		/* Maxium radius */
+  double	maxradius;		/* Maximum radius */
   int		**lcount;		/* Count detections that are loaded */
   int		**acount;		/* Count detections that are accepted */
   int		**count;		/* Count detections in stats */

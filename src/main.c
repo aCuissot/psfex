@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 		fprintf(OUTPUT, "Copyright %s\n", COPYRIGHT);
 		fprintf(OUTPUT, "\nVisit %s\n", WEBSITE);
 		fprintf(OUTPUT, "\n%s\n", DISCLAIMER);
-		fprintf(OUTPUT, "Modified version 0.0.0\n");
+		fprintf(OUTPUT, "Modified version 0.0.1\n");
 		error(EXIT_SUCCESS, "SYNTAX: ", SYNTAX);
 	}
 

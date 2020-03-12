@@ -371,12 +371,12 @@ PROTO	setstruct *read_samples(setstruct *set, char *filename,
 
 PURPOSE	Read point source data for a given set.
 INPUT	Pointer to the data set,
-	catalogue filename,
+	catalog filename,
 	minimum FWHM,
 	maximum FWHM,
 	current extension,
 	number of extensions,
-	catalogue index
+	catalog index
 	pointer to the context,
 	pointer to the array of principal components, if available.
 OUTPUT  Pointer to a set containing samples that match acceptance criteria.
@@ -539,7 +539,7 @@ setstruct *read_samples(setstruct *set, char *filename,
 	strtok(rkeyname, "([{}])");
 	n = (pstr = strtok(NULL,"([{}])"))? atoi(pstr) - 1 : 0;
 	if (!(key = name_to_key(keytab, rkeyname))) {
-		sprintf(str, "*Error*: %s parameter not found in catalogue ",
+		sprintf(str, "*Error*: %s parameter not found in catalog ",
 				rkeyname);
 		error(EXIT_FAILURE, str, filename);
 	}
@@ -548,14 +548,14 @@ setstruct *read_samples(setstruct *set, char *filename,
 		if (key->naxis==1 && n<key->naxisn[0]) {
 			flux += n;
 		} else {
-			sprintf(str, "Not enough apertures for %s in catalogue %s: ",
+			sprintf(str, "Not enough apertures for %s in catalog %s: ",
 					prefs.photflux_key, filename);
 			warning(str, "using first aperture instead");
 		}
 	}
 
 	if (!(key = name_to_key(keytab, "SNR_WIN"))) {
-		sprintf(str, "*Error*: SNR_WIN parameter not found in catalogue ");
+		sprintf(str, "*Error*: SNR_WIN parameter not found in catalog ");
 		error(EXIT_FAILURE, str, filename);
 	}
 	snr = (float *)key->ptr;
@@ -675,7 +675,7 @@ setstruct *read_samples(setstruct *set, char *filename,
 				if (key->naxis==1 && n<key->naxisn[0]) {
 					contextvalp[i] += n * (key->nbytes / key->naxisn[0]);
 				} else {
-					sprintf(str, "Not enough %s elements in catalogue %s: ", rkeyname,
+					sprintf(str, "Not enough %s elements in catalog %s: ", rkeyname,
 							filename);
 					warning(str, "using first element instead");
 				}

@@ -47,7 +47,7 @@
 PROTO	float *pca_onsnaps(psfstruct **psf, int ncat, int npc)
 PURPOSE	Make a Principal Component Analysis in pixel space of PSF models.
 INPUT	Pointer to an array of PSF structures,
-	Number of catalogues (PSFs),
+	Number of catalogs (PSFs),
 	Number of principal components.
 OUTPUT  Pointer to an array of principal component vectors.
 NOTES   -.
@@ -127,7 +127,7 @@ PURPOSE	Make a Principal Component Analysis in image space on PSF model
 	components.
 INPUT	Pointer to an array of PSF structures,
 	Number of extensions,
-	Number of catalogues (PSFs),
+	Number of catalogs (PSFs),
 	Number of principal components.
 OUTPUT  Pointer to an array of principal component vectors.
 NOTES   -.
