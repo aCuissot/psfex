@@ -83,7 +83,8 @@ void	makeit(void) {
 	psfstep, step;
 	int			c,i,p, ncat, ext, next, nmed, nbasis;
 
-	/* Install error logging */
+
+    /* Install error logging */
 	error_installfunc(write_error);
 
 	incatnames = prefs.incat_name;
@@ -155,7 +156,7 @@ void	makeit(void) {
 	psfbasiss = NULL;
 
 	/* Initialize context */
-	NFPRINTF(OUTPUT, "Initializing contexts...");
+	NFPRINTF(OUTPUT, "Initializing contexts..."	);
 	context = context_init(prefs.context_name, prefs.context_group,
 			prefs.ncontext_group, prefs.group_deg, prefs.ngroup_deg,
 			CONTEXT_REMOVEHIDDEN);
@@ -272,6 +273,8 @@ void	makeit(void) {
 		}
 		free(cpsf);
 	}
+	//----- This following section take ~10% of the cpu time
+
 
 	/* Compute "final" PSF models */
 	if (prefs.psf_mef_type == PSF_MEF_COMMON) {
@@ -403,6 +406,8 @@ void	makeit(void) {
 			}
 		}
 	}
+	// END OF THE PREVIOUS SECTION
+	// ---- This section take ~90% of the cpu time
 
 	free(psfsteps);
 	if (psfbasiss) {
@@ -508,6 +513,8 @@ void	makeit(void) {
 		end_set(bigset? bigset : set);
 	}
 
+	//END OF THE PREVIOUS SECTION
+
 	if (prefs.outcat_type != CAT_NONE) {
 		end_outcat(outcat);
 	}
@@ -541,7 +548,7 @@ void	makeit(void) {
 		}
 		sprintf(pstr, "%s", prefs.psf_suffix);
 		field_psfsave(fields[c], str);
-		/* Create homogenisation kernels */
+		/* Create homogenization kernels */
 		if (prefs.homobasis_type != HOMOBASIS_NONE) {
 			for (ext=0; ext<next; ext++) {
 				if (next>1) {
@@ -614,8 +621,6 @@ void	makeit(void) {
 	if (context->npc) {
 		context_end(fullcontext);
 	}
-	context_end(context);
-
 	return;
 }
 
@@ -707,7 +712,7 @@ psfstruct	*make_psf(setstruct *set, float psfstep,
 
 /****** write_error ********************************************************
 PROTO	void    write_error(const char *msg1, const char *msg2)
-PURPOSE	Manage files in case of a catched error
+PURPOSE	Manage files in case of a caught error
 INPUT	a character string,
 	another character string
 OUTPUT	RETURN_OK if everything went fine, RETURN_ERROR otherwise.
@@ -726,5 +731,3 @@ void	write_error(const char *msg1, const char *msg2) {
 
 	return;
 }
-
-

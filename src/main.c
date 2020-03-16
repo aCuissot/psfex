@@ -46,6 +46,7 @@
 #include "fits/fitscat.h"
 #include "prefs.h"
 #include "cplot.h"
+#include "test.h"
 
 #define		SYNTAX \
 		EXECUTABLE " catalog1 [catalog2,...][@catalog_list1 [@catalog_list2 ...]]\n" \
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]) {
 		fprintf(OUTPUT, "Copyright %s\n", COPYRIGHT);
 		fprintf(OUTPUT, "\nVisit %s\n", WEBSITE);
 		fprintf(OUTPUT, "\n%s\n", DISCLAIMER);
-		fprintf(OUTPUT, "Modified version 0.0.1\n");
+		fprintf(OUTPUT, "Modified version 0.0.1 with test\n");
 		error(EXIT_SUCCESS, "SYNTAX: ", SYNTAX);
 	}
 
@@ -124,6 +125,9 @@ int main(int argc, char *argv[]) {
 #endif
 					exit(EXIT_SUCCESS);
 					break;
+				case 't':
+					testOutFiles(argv[0]);
+					break;
 				default:
 					error(EXIT_SUCCESS,"SYNTAX: ", SYNTAX);
 				}
@@ -151,6 +155,17 @@ int main(int argc, char *argv[]) {
 	}
 
 	prefs.ncat = nim;
+	/*
+	fprintf(OUTPUT, prefs.prefs_name);
+	fprintf(OUTPUT, "ARGKEY:\n");
+	while (*argkey)
+		fprintf(OUTPUT, "%s -", *argkey++);
+
+	fprintf(OUTPUT, "ARGVAL:\n");
+	while (*argval)
+		fprintf(OUTPUT, "%s -", *argval++);
+
+	fprintf(OUTPUT, "%d\n", narg);*/
 
 	readprefs(prefs.prefs_name, argkey, argval, narg);
 	useprefs();
