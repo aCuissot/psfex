@@ -68,7 +68,7 @@ void freeparsedargs(char **argv)
 int compareOutputFiles(FILE *fp1, FILE *fp2){
 	char ch1 = getc(fp1);
 	char ch2 = getc(fp2);
-	int nbDiffs =0, pos = 0, line = 1;
+	int pos = 0, line = 1;
 	while (ch1 != EOF && ch2 != EOF){
 		pos++;
 		if (ch1 == '\n' && ch2 == '\n') {
@@ -76,29 +76,36 @@ int compareOutputFiles(FILE *fp1, FILE *fp2){
 			pos = 0;
 		}
 		if (ch1 != ch2){
-			nbDiff++;
-			fprintf(OUTPUT, "line %d, ch1 = %c ch2 = %c\n", line, ch1, ch2)
+			fprintf(OUTPUT, "line %d, ch1 = %c ch2 = %c\n", line, ch1, ch2);
+			return 1;
 		}
 		ch1 = getc(fp1);
 		ch2 = getc(fp2);
 	}
-	return nbDiffs;
+	return 0;
 }
 
 int testOutFiles(char * progName){
 	int argc;
 	char ** argv;
-	char * inParams = NULL;
-	//f or the moment I put the full path of files, I've to change that
-	inParams = 	" /mnt/NewHDD/PSFEx/psfex/tests/outTest.cat -c /mnt/NewHDD/PSFEx/psfex/tests/default.psfex";
+	char * inParams = " /mnt/NewHDD/PSFEx/psfex/tests/outTest.cat -c /mnt/NewHDD/PSFEx/psfex/tests/default.psfex";
+	//for the moment I put the full path of files, I've to change that
 	char * fullInParams = strcat(progName, inParams);
+	fprintf(OUTPUT, "%s\n", fullInParams);
 	char * path = "/mnt/NewHDD/PSFEx/psfex/tests/toCompare_psfexOut/";
-	char * files_to_compare[1] = {"outTest.psf"}; // maybe test if the other output files are equals
-	argv = parsedargs(inParams,&argc);
+
+	//char * files_to_compare = ; // maybe test if the other output files are equals
+
+	argv = parsedargs(fullInParams,&argc);
 
 	char		**argkey, **argval,
 	*str,*listbuf;
 	int		a, narg, nim, ntok, opt, opt2;
+
+#ifdef HAVE_SETLINEBUF
+	/* flush output buffer at each line */
+	setlinebuf(stderr);
+#endif
 
 	QMALLOC(argkey, char *, argc);
 	QMALLOC(argval, char *, argc);
@@ -110,7 +117,7 @@ int testOutFiles(char * progName){
 	listbuf = (char *)NULL;
 	strcpy(prefs.prefs_name, "default.psfex");
 
-	for (a=0; a<argc; a++) {
+	for (a=1; a<argc; a++) {
 		if (*(argv[a]) == '-') {
 			opt = (int)argv[a][1];
 			if (strlen(argv[a])<4 || opt == '-') {
@@ -138,7 +145,7 @@ int testOutFiles(char * progName){
 					exit(EXIT_SUCCESS);
 					break;
 				default:
-					error(EXIT_SUCCESS,"SYNTAX: ", SYNTAX);
+					error(EXIT_SUCCESS,"SYNTAX ERROR", "in test part");
 				}
 			}
 			else {
@@ -167,19 +174,37 @@ int testOutFiles(char * progName){
 
 	readprefs(prefs.prefs_name, argkey, argval, narg);
 	useprefs();
-
+	free(argkey);
+	free(argval);
 	makeit();
-	FILE *outputFile, *refFile;
-	for (int i =0; i<1; ++i){
-		outputFile = fopen(files_to_compare[i],  "r");
-		char * tmpstr = strcat(path, files_to_compare[i]);
-		refFile = fopen(tmpstr, "r");
-		int nbDiffs = compareOutputFiles(outputFile, refFile);
-		if (nbDiffs!=0){
-			printf("TEST ERROR IN %s: %d bytes differs from the expected output\n", files_to_compare[i], nbDiffs);
-		} else {
-			printf("TEST SUCCESSFULL IN %s\n", files_to_compare[i]);
+	free(listbuf);
+	NFPRINTF(OUTPUT, "");
+	NPRINTF(OUTPUT, "> All done (in %.1f s)\n", prefs.time_diff);
 
+	int i;
+	for (i =0; i<1; ++i){
+		fprintf(OUTPUT, "Comparing File : 'outTest.psf'\n");
+
+		FILE * outputFile = fopen("/mnt/NewHDD/PSFEx/psfex/tests/outTest.psf",  "r");
+		if (outputFile){
+			fprintf(OUTPUT, "OUTPUT FILE OPEN SUCCESSFULLY:\n");
+		} else {
+			fprintf(OUTPUT, "CANNOT OPEN OUTPUT FILES\n");
+		}
+
+		FILE * refFile = fopen("/mnt/NewHDD/PSFEx/psfex/tests/toCompare_psfexOut/outTest.psf", "r");
+		if (outputFile && refFile){
+
+			int nbDiffs = compareOutputFiles(outputFile, refFile);
+			if (nbDiffs){
+				fprintf(OUTPUT, "TEST ERROR IN outTest.psf: some bytes differs from the expected output\n");
+			} else {
+				fprintf(OUTPUT, "TEST SUCCESSFULL IN outTest.psf\n");
+			}
+			fclose(outputFile);
+			fclose(refFile);
+		} else {
+			fprintf(OUTPUT, "CANNOT OPEN FILE outTest.psf\n");
 		}
 	}
 

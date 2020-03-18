@@ -36,15 +36,15 @@ bin_PROGRAMS		= psfex
 psfex_SOURCES		= catout.c check.c context.c $(CPLOTSOURCE) \
 			  diagnostic.c fft.c field.c fitswcs.c homo.c main.c \
 			  makeit.c misc.c pca.c prefs.c psf.c sample.c \
-			  vignet.c xml.c \
+			  vignet.c xml.c test.c\
 			  cathead.h catout.h check.h context.h cplot.h \
 			  define.h diagnostic.h fft.h field.h fitswcs.h \
 			  globals.h homo.h key.h misc.h pca.h prefs.h \
 			  preflist.h psf.h sample.h threads.h types.h vignet.h \
-			  wcscelsys.h xml.h
+			  wcscelsys.h xml.h test.h
 psfex_LDADD		= $(srcdir)/fits/libfits.a \
 			  $(srcdir)/levmar/liblevmar.a \
-			  $(srcdir)/wcs/libwcs_c.a
+			  $(srcdir)/wcs/libwcs_c.a	
 
 DATE=`date +"%Y-%m-%d"`
 

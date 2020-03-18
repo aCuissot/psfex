@@ -41,7 +41,7 @@ char		gstr[MAXCHAR];
 
 /*------------------------------- functions ---------------------------------*/
 extern  void	makeit(void);
-extern int testOutFiles(char * argv0);
+//extern int testOutFiles(char * argv0);
 psfstruct	*make_psf(setstruct *set, float psfstep,
 			float *basis, int nbasis, contextstruct *context);
 
