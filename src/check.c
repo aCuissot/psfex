@@ -81,7 +81,7 @@ void	check_write(fieldstruct *field, setstruct *set, char *checkname,
 	int			i,g,j,l,x,y, w,h,n, npc,nt, nw,nh,np, npos,npos2,
 	step,step2, ipos, inpos, ival1,ival2, npix;
 
-	/* Create the new cat (well it is not a "cat", but simply a FITS table */
+	/* Create the new cat (well it is not a "cat", but simply a FITS table)*/
 	if (!ext) {
 		cat = new_cat(1);
 		init_cat(cat);
