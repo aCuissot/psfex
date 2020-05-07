@@ -27,27 +27,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
-#ifdef HAVE_MATHIMF_H
-#include <mathimf.h>
-#else
-#include <math.h>
-#endif
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"fits/fitscat_defs.h"
-#include	"fits/fitscat.h"
 #include	"fitswcs.h"
-#include	"wcscelsys.h"
-#include	"wcs/wcs.h"
-#include	"wcs/lin.h"
-#include	"wcs/tnx.h"
-#include	"wcs/poly.h"
 
 /******* copy_wcs ************************************************************
 PROTO	wcsstruct *copy_wcs(wcsstruct *wcsin)

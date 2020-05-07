@@ -26,35 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include	<ctype.h>
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-#include        <unistd.h>
-
-#if defined(USE_THREADS) \
-		&& (defined(__APPLE__) || defined(FREEBSD) || defined(NETBSD))	/* BSD, Apple */
-#include	<sys/types.h>
-#include	<sys/sysctl.h>
-#elif defined(USE_THREADS) && defined(HAVE_MPCTL)		/* HP/UX */
-#include	<sys/mpctl.h>
-#endif
-
-#ifdef HAVE_MKL
-#include MKL_H
-#endif
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"prefs.h"
-#include	"preflist.h"
+#include "prefs.h"
 
 prefstruct	prefs;
 

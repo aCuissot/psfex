@@ -26,6 +26,10 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+#ifndef _PSFMEF_H_
+#define _PSFMEF_H_
+
 #ifndef _CONTEXT_H_
 #include "context.h"
 #endif
@@ -42,8 +46,23 @@
 #include "sample.h"
 #endif
 
-#ifndef _PSFMEF_H_
-#define _PSFMEF_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+#include	"check.h"
+#include	"misc.h"
+#include	"prefs.h"
 
 /*----------------------------- Internal constants --------------------------*/
 #define	COUNT_LOADED	1		/* Count detections that are loaded */

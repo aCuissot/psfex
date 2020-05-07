@@ -26,24 +26,6 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"check.h"
-#include	"fitswcs.h"
-#include	"misc.h"
-#include	"prefs.h"
-#include	"psf.h"
 #include	"field.h"
 
 /****** field_init ************************************************************

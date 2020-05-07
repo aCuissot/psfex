@@ -26,6 +26,15 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+
+#ifndef _PSF_H_
+#define _PSF_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
 #ifndef _POLY_H_
 #include "wcs/poly.h"
 #endif
@@ -34,8 +43,29 @@
 #include "sample.h"
 #endif
 
-#ifndef _PSF_H_
-#define _PSF_H_
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+#include	"prefs.h"
+#include	"context.h"
+#include	"misc.h"
+#include	"vignet.h"
+
+#ifdef HAVE_ATLAS
+#include ATLAS_LAPACK_H
+#endif
+
+#ifdef HAVE_LAPACKE
+#include LAPACKE_H
+//#define MATSTORAGE_PACKED 1
+#endif
+
 
 /*----------------------------- Internal constants --------------------------*/
 

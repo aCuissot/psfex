@@ -26,6 +26,19 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+#ifndef _MISC_H_
+#define _MISC_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#include	<stdlib.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+
 /*------------------------------- functions ---------------------------------*/
 
 extern double	dqmedian(double *ra, int n);
@@ -34,3 +47,4 @@ extern float	fast_median(float *arr, int n),
 		fqmedian(float *ra, int n),
 		fast_quantile(float *arr, long n, float frac);
 
+#endif

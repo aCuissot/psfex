@@ -26,13 +26,33 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifndef _PSF_H_
-#include "psf.h"
-#endif
+
 
 #ifndef _HOMO_H_
 #define _HOMO_H_
 
+#ifndef _PSF_H_
+#include "psf.h"
+#endif
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+#include	"diagnostic.h"
+#include	"fft.h"
+#include	"prefs.h"
+#include	"wcs/poly.h"
+#include	"vignet.h"
 /*----------------------------- Internal constants --------------------------*/
 
 #define		HOMO_NSNAP	5	/* Number of points per PSFVar dim. */

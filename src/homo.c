@@ -26,26 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"diagnostic.h"
-#include	"fft.h"
 #include	"homo.h"
-#include	"prefs.h"
-#include	"wcs/poly.h"
-#include	"psf.h"
-#include	"vignet.h"
 
 #ifdef HAVE_ATLAS
 #include ATLAS_LAPACK_H

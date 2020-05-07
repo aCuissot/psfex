@@ -26,6 +26,23 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+#ifndef _VIGNET_H_
+#define _VIGNET_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+
 /*----------------------------- Internal constants --------------------------*/
 
 #define APER_OVERSAMP	5	/* oversampling in each dimension (MAG_APER) */
@@ -74,3 +91,4 @@ extern float	vignet_interpolate_pix(float *posin, float *pix, int *naxisn,
 			float dxc, float dyc, float aper,
 			float gain, float backnoise, float *fluxvar);
 
+#endif

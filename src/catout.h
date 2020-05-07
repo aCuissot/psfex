@@ -26,6 +26,10 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+#ifndef _CATOUT_H_
+#define _CATOUT_H_
+
 #ifndef _CONTEXT_H_
 #include "context.h"
 #endif
@@ -34,9 +38,23 @@
 #include "sample.h"
 #endif
 
+#ifdef HAVE_CONFIG_H
+#include	"config.h"
+#endif
 
-#ifndef _CATOUT_H_
-#define _CATOUT_H_
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "define.h"
+#include "types.h"
+#include "globals.h"
+#include "fits/fitscat.h"
+#include "cathead.h"
+#include "prefs.h"
+#include "context.h"
+#include "xml.h"
+
 /*--------------------------------- constants -------------------------------*/
 /*--------------------------------- typedefs --------------------------------*/
 

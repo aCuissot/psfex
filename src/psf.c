@@ -26,35 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"prefs.h"
-#include	"context.h"
-#include	"misc.h"
-#include	"wcs/poly.h"
-#include	"psf.h"
-#include	"sample.h"
-#include	"vignet.h"
-
-#ifdef HAVE_ATLAS
-#include ATLAS_LAPACK_H
-#endif
-
-#ifdef HAVE_LAPACKE
-#include LAPACKE_H
-//#define MATSTORAGE_PACKED 1
-#endif
+#include "psf.h"
 
 static double	psf_laguerre(double x, int p, int q);
 

@@ -26,27 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
-#include	<dlfcn.h>
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	PLPLOT_H
-#include	PLPLOTP_H
-
-#include	"define.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
 #include	"cplot.h"
-#include	"fitswcs.h"
-#include	"prefs.h"
-#include	"field.h"
-#include	"psf.h"
 
 struct {cplotdevenum device; char *devname; char *extension;}
 cplot_device[] = {{CPLOT_NULL, "null", ""},

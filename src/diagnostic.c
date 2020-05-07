@@ -26,31 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#ifdef USE_THREADS
-#include <pthread.h>
-#endif
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"fitswcs.h"
-#include	"levmar/levmar.h"
 #include	"diagnostic.h"
-#include	"prefs.h"
-#include	"wcs/poly.h"
-#include	"psf.h"
-#ifdef USE_THREADS
-#include	"threads.h"
-#endif
 
 /*------------------- global variables for multithreading -------------------*/
 #ifdef USE_THREADS

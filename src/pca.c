@@ -26,22 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
 #include	"pca.h"
-#include	"prefs.h"
-#include	"psf.h"
-
 
 /****** pca_onsnaps ***********************************************************
 PROTO	float *pca_onsnaps(psfstruct **psf, int ncat, int npc)

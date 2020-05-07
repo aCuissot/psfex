@@ -26,8 +26,29 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+#ifndef _FFT_H_
+#define _FFT_H_
+
 #ifndef _FITSCAT_H_
 #include "fits/fitscat.h"
+#endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifndef FFTW3_H
+#include FFTW_H
+#endif
+
+#include "define.h"
+#include "globals.h"
+#ifdef USE_THREADS
+#include "threads.h"
 #endif
 
 /*---------------------------- Internal constants ---------------------------*/
@@ -56,3 +77,5 @@ extern void	fft_conv(float *data1, float *fdata2, int width, int height),
 		fft_shift(float *data, int width, int height);
 
 extern float	*fft_rtf(float *data, int width, int height);
+
+#endif

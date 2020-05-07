@@ -26,24 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "define.h"
-#include "types.h"
-#include "globals.h"
-#include "fits/fitscat.h"
-#include "prefs.h"
 #include "context.h"
-#include "wcs/poly.h"
-#include "psf.h"
-#include "field.h"
 
 /****** context_init *********************************************************
 PROTO   contextstruct *context_init(char **names, int *group, int ndim,

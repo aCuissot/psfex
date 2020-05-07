@@ -26,8 +26,13 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+
+#ifndef _CPLOT_H_
+#define _CPLOT_H_
+
 #ifdef HAVE_CONFIG_H
-#include        "config.h"
+#include	"config.h"
 #endif
 
 #ifndef _FITSWCS_H_
@@ -38,8 +43,20 @@
 #include "field.h"
 #endif
 
-#ifndef _CPLOT_H_
-#define _CPLOT_H_
+#include	<dlfcn.h>
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	PLPLOT_H
+#include	PLPLOTP_H
+
+#include	"define.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+#include	"prefs.h"
+#include	"psf.h"
 
 /*------------------------------- constants ---------------------------------*/
 

@@ -26,6 +26,9 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+#ifndef _XML_H_
+#define _XML_H_
+
 #ifdef HAVE_CONFIG_H
 #include	"config.h"
 #endif
@@ -34,6 +37,20 @@
 #include "field.h"
 #endif
 
+
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#include "define.h"
+#include "globals.h"
+#include "fits/fitscat.h"
+#include "cplot.h"
+#include "key.h"
+#include "prefs.h"
+#include "psf.h"
 /*----------------------------- Internal constants --------------------------*/
 #ifndef XSL_URL
 #define	XSL_URL	"."
@@ -50,3 +67,4 @@ extern int	init_xml(int ncat),
 				char *ucd, char *format);
 extern void	end_xml(void),
 		write_xmlerror(char *filename, char *error);
+#endif

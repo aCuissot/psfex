@@ -26,24 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#include "define.h"
-#include "globals.h"
-#include "fits/fitscat.h"
-#include "cplot.h"
-#include "key.h"
-#include "field.h"
-#include "prefs.h"
-#include "psf.h"
 #include "xml.h"
 
 extern time_t		thetime,thetime2;	/* from makeit.c */

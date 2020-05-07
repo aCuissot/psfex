@@ -26,28 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
 #include	"check.h"
-#include	"diagnostic.h"
-#include	"field.h"
-#include	"wcs/poly.h"
-#include	"prefs.h"
-#include	"psf.h"
-#include	"sample.h"
-#include	"vignet.h"
-
 
 /****** check_write ********************************************************
 PROTO	void	check_write(fieldstruct *field, char *checkname,

@@ -1,4 +1,4 @@
-/*
+o/*
  *				misc.c
  *
  * Miscellaneous functions.
@@ -26,15 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
 
-#include	<stdlib.h>
-
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"misc.h"
 
 

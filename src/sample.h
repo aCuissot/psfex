@@ -26,12 +26,32 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+
+#ifndef _SAMPLE_H_
+#define _SAMPLE_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
 #ifndef _CONTEXT_H_
 #include "context.h"
 #endif
 
-#ifndef _SAMPLE_H_
-#define _SAMPLE_H_
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "define.h"
+#include "types.h"
+#include "globals.h"
+#include "fits/fitscat.h"
+#include "prefs.h"
+#include "misc.h"
+#include "vignet.h"
 
 /*--------------------------------- constants -------------------------------*/
 

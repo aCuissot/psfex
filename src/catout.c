@@ -26,24 +26,7 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "define.h"
-#include "types.h"
-#include "globals.h"
-#include "fits/fitscat.h"
-#include "cathead.h"
 #include "catout.h"
-#include "prefs.h"
-#include "context.h"
-#include "sample.h"
-#include "xml.h"
 
 /****** init_outcat *************************************************
 PROTO	outcatstruct *init_outcat(char *filename, int ncontext)

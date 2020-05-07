@@ -26,6 +26,18 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+
+#ifndef _DIAGNOSTIC_H_
+#define _DIAGNOSTIC_H_
+
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#ifdef USE_THREADS
+#include <pthread.h>
+#endif
+
 #ifndef _PSF_H_
 #include "psf.h"
 #endif
@@ -33,8 +45,23 @@
 #ifndef _FITSWCS_H_
 #include "fitswcs.h"
 #endif
-#ifndef _DIAGNOSTIC_H_
-#define _DIAGNOSTIC_H_
+
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+
+#include	"define.h"
+#include	"types.h"
+#include	"globals.h"
+#include	"fits/fitscat.h"
+#include	"levmar/levmar.h"
+#include	"diagnostic.h"
+#include	"prefs.h"
+#include	"wcs/poly.h"
+#ifdef USE_THREADS
+#include	"threads.h"
+#endif
 
 /*----------------------------- Internal constants --------------------------*/
 #define		PSF_DIAGMAXITER	1000	/* Max. nb of iterations in fitting */
