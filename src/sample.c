@@ -464,7 +464,7 @@ setstruct *read_samples(setstruct *set, char *filename,
 	}
 	if (!ldflag) {
 		key=read_key(tab, "Field Header Card");
-		head = key->ptr;
+		head = (char *) key->ptr;
 		if (fitsread(head,"SEXBKDEV",&backnoise,H_FLOAT,T_FLOAT)==RETURN_ERROR) {
 			error(EXIT_FAILURE, "*Error*: Keyword not found:", "SEXBKDEV");
 		}

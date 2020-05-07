@@ -45,7 +45,7 @@ char **parsedargs(char *args, int *argc)
 	if (args && *args
 			&& (args = strdup(args))
 			&& (argn = setargs(args,NULL))
-			&& (argv = malloc((argn+1) * sizeof(char *)))) {
+			&& (argv = (char **)malloc((argn+1) * sizeof(char *)))) {
 		*argv++ = args;
 		argn = setargs(args,argv);
 	}

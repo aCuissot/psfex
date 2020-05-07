@@ -1019,11 +1019,15 @@ void	check_write(fieldstruct *field, setstruct *set, char *checkname,
 		}
 		if (tab->naxis>2) {
 			addkeywordto_head(tab,"CTYPE3  ","WCS axis type");
-			fitswrite(tab->headbuf, "CTYPE3  ", " ",  H_STRING, T_STRING);
+			char * tmp1 =  "CTYPE3  ";
+			char * tmp2 = " ";
+			fitswrite(tab->headbuf, tmp1, tmp2,  H_STRING, T_STRING);
 		}
 		if (tab->naxis>3) {
 			addkeywordto_head(tab,"CTYPE4  ","WCS axis type");
-			fitswrite(tab->headbuf, "CTYPE4  ", " ",  H_STRING, T_STRING);
+			char * tmp1 =  "CTYPE4  ";
+			char * tmp2 = " ";
+			fitswrite(tab->headbuf, tmp1, tmp2,  H_STRING, T_STRING);
 		}
 	}
 	if (fitsread(set->head, "CRVAL1  ", &dval1, H_EXPO, T_DOUBLE)==RETURN_OK) {
@@ -1200,7 +1204,9 @@ void	check_write(fieldstruct *field, setstruct *set, char *checkname,
 	if (next == 1) {
 		prim_head(tab);
 	}
-	fitswrite(tab->headbuf, "XTENSION", "IMAGE   ", H_STRING, T_STRING);
+	char * tmp1 =  "XTENSION";
+	char * tmp2 = "IMAGE   ";
+	fitswrite(tab->headbuf, tmp1, tmp2, H_STRING, T_STRING);
 
 	/* save table */
 	save_tab(cat, tab);

@@ -166,7 +166,7 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 		key->naxis = 2;
 		QMALLOC(key->naxisn, int, key->naxis);
 		key->naxisn[0] = 80;
-		key->naxisn[1] = fitsfind(key->ptr, "END     ")+1;
+		key->naxisn[1] = fitsfind((char *) key->ptr, "END     ")+1;
 		key->htype = H_STRING;
 		key->ttype = T_STRING;
 		key->nobj = 1;

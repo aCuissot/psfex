@@ -366,7 +366,7 @@ void	psf_savehomo(psfstruct *psf, char *filename, int ext, int next) {
 	if (next == 1) {
 		prim_head(tab);
 	}
-	fitswrite(tab->headbuf, "XTENSION", "IMAGE   ", H_STRING, T_STRING);
+	fitswrite((char *)tab->headbuf, "XTENSION", "IMAGE   ", H_STRING, T_STRING);
 
 	save_tab(cat, tab);
 	/* But don't touch my arrays!! */
