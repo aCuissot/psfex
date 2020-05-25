@@ -44,14 +44,31 @@
 #include "define.h"
 #include "fits/fitscat.h"
 #include "cplot.h"
-#include "key.h"
 #include "prefs.h"
 #include "psf.h"
 /*----------------------------- Internal constants --------------------------*/
 #ifndef XSL_URL
 #define	XSL_URL	"."
 #endif
+
+#define         FIND_STRICT     0
+#define         FIND_NOSTRICT   1
+
 /*--------------------------------- typedefs --------------------------------*/
+typedef struct
+  {
+  char		name[32];
+  enum  {P_FLOAT, P_INT, P_STRING, P_BOOL, P_KEY, P_INTLIST, P_FLOATLIST,
+	P_BOOLLIST, P_KEYLIST, P_STRINGLIST} type;
+  void		*ptr;			/* Pointer to the keyword value */
+  int		imin, imax;		/* Range for int's */
+  double	dmin, dmax;		/* Range for floats */
+  char		keylist[32][32];	/* List of keywords */
+  int           nlistmin;		/* Minimum number of list members */
+  int           nlistmax; 		/* Maximum number of list members */
+  int		*nlistptr;		/* Ptr to store the nb of read params*/
+  int		flag;
+  }	pkeystruct;
 /*------------------------------- functions ---------------------------------*/
 
 extern int	init_xml(int ncat),
