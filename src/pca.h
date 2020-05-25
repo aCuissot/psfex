@@ -33,9 +33,7 @@
 #include	"config.h"
 #endif
 
-#ifndef _PSF_H_
 #include "psf.h"
-#endif
 
 #include	<math.h>
 #include	<stdio.h>
@@ -43,7 +41,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"prefs.h"
 

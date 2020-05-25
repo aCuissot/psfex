@@ -25,23 +25,39 @@
 *	Last modified:		02/12/2013
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
 
-#ifndef _CONTEXT_H_
+#ifdef USE_THREADS
+#ifdef HAVE_MKL
+#include MKL_H
+#endif
+#endif
+
+#include	<math.h>
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<string.h>
+#include	<time.h>
+
 #include "context.h"
-#endif
-#ifndef _PSF_H_
 #include "psf.h"
-#endif
-#ifndef _SAMPLE_H_
 #include "sample.h"
-#endif
-
-/*----------------------- miscellaneous variables ---------------------------*/
-char		gstr[MAXCHAR];
+#include	"define.h"
+#include	"fits/fitscat.h"
+#include	"check.h"
+#include	"cplot.h"
+#include	"diagnostic.h"
+#include	"field.h"
+#include	"homo.h"
+#include	"catout.h"
+#include	"pca.h"
+#include	"prefs.h"
+#include	"xml.h"
 
 /*------------------------------- functions ---------------------------------*/
 extern  void	makeit(void);
-//extern int testOutFiles(char * argv0);
+
 psfstruct	*make_psf(setstruct *set, float psfstep,
 			float *basis, int nbasis, contextstruct *context);
-

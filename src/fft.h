@@ -29,9 +29,7 @@
 #ifndef _FFT_H_
 #define _FFT_H_
 
-#ifndef _FITSCAT_H_
 #include "fits/fitscat.h"
-#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -46,7 +44,6 @@
 #endif
 
 #include "define.h"
-#include "globals.h"
 #ifdef USE_THREADS
 #include "threads.h"
 #endif

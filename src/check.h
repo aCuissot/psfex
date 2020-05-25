@@ -31,9 +31,7 @@
 #ifndef _CHECK_H_
 #define _CHECK_H_
 
-#ifndef	_FIELD_H_
 #include "field.h"
-#endif
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -45,11 +43,8 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"diagnostic.h"
-#include	"field.h"
 #include	"wcs/poly.h"
 #include	"prefs.h"
 #include	"psf.h"

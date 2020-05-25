@@ -38,13 +38,10 @@
 #include <pthread.h>
 #endif
 
-#ifndef _PSF_H_
 #include "psf.h"
-#endif
 
-#ifndef _FITSWCS_H_
 #include "fitswcs.h"
-#endif
+
 
 #include	<math.h>
 #include	<stdio.h>
@@ -52,8 +49,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"levmar/levmar.h"
 #include	"diagnostic.h"

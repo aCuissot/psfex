@@ -1,4 +1,4 @@
-o/*
+/*
  *				misc.c
  *
  * Miscellaneous functions.

@@ -39,8 +39,6 @@
 #include <string.h>
 
 #include "define.h"
-#include "types.h"
-#include "globals.h"
 #include "fits/fitscat.h"
 #include "prefs.h"
 #include "wcs/poly.h"

@@ -30,6 +30,8 @@
 
 /* Check if we are using a configure script here */
 #ifndef HAVE_CONFIG_H
+
+
 #define		VERSION		"3.x"
 #define		DATE		"2009-03-30"
 #endif
@@ -52,6 +54,7 @@
 #define		MAXCHAR		512		/* max. number of characters */
 #define		MAXFILE		32768		/* max number of input files */
 #define		ALL_EXTENSIONS	(-1)		/* code for all MEF extensions*/
+char		gstr[MAXCHAR];
 
 /*------------ Set defines according to machine's specificities -------------*/
 #if _LARGEFILE_SOURCE

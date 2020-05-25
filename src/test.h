@@ -1,6 +1,26 @@
 #ifndef _TEST_H_
 #define	_TEST_H_
 
+#ifdef HAVE_CONFIG_H
+#include        "config.h"
+#endif
+
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#ifdef HAVE_PLPLOT
+#include PLPLOT_H
+#endif
+
+#include "define.h"
+#include "fits/fitscat.h"
+#include "prefs.h"
+#include "cplot.h"
+
+
 char **parsedargs(char *args, int *argc);
 
 void freeparsedargs(char **argv);

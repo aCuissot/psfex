@@ -33,10 +33,7 @@
 #include	"config.h"
 #endif
 
-#ifndef _FIELD_H_
 #include "field.h"
-#endif
-
 
 #include <math.h>
 #include <stdio.h>
@@ -45,7 +42,6 @@
 #include <time.h>
 
 #include "define.h"
-#include "globals.h"
 #include "fits/fitscat.h"
 #include "cplot.h"
 #include "key.h"

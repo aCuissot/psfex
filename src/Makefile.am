@@ -39,8 +39,8 @@ psfex_SOURCES		= catout.c check.c context.c $(CPLOTSOURCE) \
 			  vignet.c xml.c test.c\
 			  cathead.h catout.h check.h context.h cplot.h \
 			  define.h diagnostic.h fft.h field.h fitswcs.h \
-			  globals.h homo.h key.h misc.h pca.h prefs.h \
-			  preflist.h psf.h sample.h threads.h types.h vignet.h \
+			  makeit.h homo.h key.h misc.h pca.h prefs.h \
+			  preflist.h psf.h sample.h threads.h vignet.h \
 			  wcscelsys.h xml.h test.h
 psfex_LDADD		= $(srcdir)/fits/libfits.a \
 			  $(srcdir)/levmar/liblevmar.a \

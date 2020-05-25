@@ -31,9 +31,6 @@
 #ifndef _HOMO_H_
 #define _HOMO_H_
 
-#ifndef _PSF_H_
-#include "psf.h"
-#endif
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -44,9 +41,9 @@
 #include	<stdlib.h>
 #include	<string.h>
 
+#include "psf.h"
+
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"diagnostic.h"
 #include	"fft.h"

@@ -35,13 +35,9 @@
 #include        "config.h"
 #endif
 
-#ifndef _POLY_H_
 #include "wcs/poly.h"
-#endif
 
-#ifndef _SAMPLE_H_
 #include "sample.h"
-#endif
 
 #include	<math.h>
 #include	<stdio.h>
@@ -49,8 +45,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"prefs.h"
 #include	"context.h"

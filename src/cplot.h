@@ -35,13 +35,8 @@
 #include	"config.h"
 #endif
 
-#ifndef _FITSWCS_H_
 #include "fitswcs.h"
-#endif
-
-#ifndef _FIELD_H_
 #include "field.h"
-#endif
 
 #include	<dlfcn.h>
 #include	<math.h>
@@ -53,7 +48,6 @@
 #include	PLPLOTP_H
 
 #include	"define.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"prefs.h"
 #include	"psf.h"

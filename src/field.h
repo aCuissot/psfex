@@ -30,22 +30,13 @@
 #ifndef _PSFMEF_H_
 #define _PSFMEF_H_
 
-#ifndef _CONTEXT_H_
 #include "context.h"
-#endif
 
-#ifndef _FITSWCS_H_
 #include "fitswcs.h"
-#endif
 
-#ifndef _PSF_H_
 #include "psf.h"
-#endif
 
-#ifndef _SAMPLE_H_
 #include "sample.h"
-#endif
-
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -57,8 +48,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"check.h"
 #include	"misc.h"

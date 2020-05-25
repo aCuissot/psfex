@@ -26,38 +26,10 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
 
-#ifdef USE_THREADS
-#ifdef HAVE_MKL
-#include MKL_H
-#endif
-#endif
 
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-#include	<time.h>
+#include "makeit.h"
 
-#include	"define.h"
-#include	"types.h"
-#include	"globals.h"
-#include	"fits/fitscat.h"
-#include	"check.h"
-#include	"context.h"
-#include	"cplot.h"
-#include	"diagnostic.h"
-#include	"field.h"
-#include	"homo.h"
-#include	"catout.h"
-#include	"pca.h"
-#include	"prefs.h"
-#include	"psf.h"
-#include	"sample.h"
-#include	"xml.h"
 
 void		write_error(const char *msg1, const char *msg2);
 time_t		thetime, thetime2;

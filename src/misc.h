@@ -26,8 +26,8 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#ifndef _MISC_H_
-#define _MISC_H_
+#ifndef _MISC__H_
+#define _MISC__H_
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -36,8 +36,6 @@
 #include	<stdlib.h>
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 
 /*------------------------------- functions ---------------------------------*/
 

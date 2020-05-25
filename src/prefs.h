@@ -35,25 +35,15 @@
 #include        "config.h"
 #endif
 
-#ifndef _CATOUT_H_
 #include "catout.h"
-#endif
 
-#ifndef	_CHECK_H_
 #include "check.h"
-#endif
 
-#ifndef _CONTEXT_H_
 #include "context.h"
-#endif
 
-#ifndef _CPLOT_H_
 #include "cplot.h"
-#endif
 
-#ifndef _PSF_H_
 #include "psf.h"
-#endif
 
 #include	<ctype.h>
 #include	<math.h>
@@ -75,8 +65,6 @@
 #endif
 
 #include	"define.h"
-#include	"types.h"
-#include	"globals.h"
 #include	"fits/fitscat.h"
 #include	"preflist.h"
 
