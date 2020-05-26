@@ -30,6 +30,7 @@
 
 #ifndef _PSF_H_
 #define _PSF_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -76,115 +77,12 @@
 #define	PSF_NORTHOSTEP	16	/* Number of PSF orthonor. snapshots/dimension*/
 
 /*----------------------------- Type definitions --------------------------*/
-typedef enum {BASIS_NONE, BASIS_PIXEL, BASIS_GAUSS_LAGUERRE, BASIS_FILE,
-		BASIS_PIXEL_AUTO}
-        basistypenum;
+
+//basistypeenum
+
 /*--------------------------- structure definitions -------------------------*/
 
-typedef struct moffat
-  {
-  double	context[POLY_MAXDIM];	/* Context coordinates */
-  float		amplitude;	/* Central amplitude */
-  float		xc[2];		/* Center coordinates */
-  float		fwhm_min;	/* FWHM along the minor axis */
-  float		fwhm_max;	/* FWHM along the major axis */
-  float		theta;		/* Position angle of the major axis / NAXIS1 */
-  float		beta;		/* Moffat beta parameter */
-  float		residuals;	/* Normalized residuals */
-  float		symresiduals;	/* Normalized symmetry residuals */
-  float		noiseqarea;	/* Noise equivalent area (pixels^2) */
-  int		nsubpix;	/* Number of supersampled pixels */
-  }	moffatstruct;
-
-typedef struct psf
-  {
-  int		dim;		/* Dimensionality of the tabulated data */
-  int		*size;		/* PSF dimensions */
-  int		npix;		/* Total number of involved PSF pixels */
-  float		*comp; 		/* Complete pix. data (PSF components) */
-  float		*loc;		/* Local PSF */
-  float		*resi;		/* Map of residuals */
-  char		**contextname;	/* Array of context key-names */
-  double	*contextoffset;	/* Offset to apply to context data */
-  double	*contextscale;	/* Scaling to apply to context data */
-  int		cx,cy;		/* Indices of X and Y mapping contexts */
-  struct poly	*poly;		/* Polynom describing the PSF variations */
-  float		pixstep;	/* Mask oversampling (pixel). */
-  float		pixsize[2];	/* Effective pixel size on each axis (pixel) */
-  int		samples_total;	/* Total number of detections */
-  int		samples_loaded;	/* Number of detections loaded */
-  int		samples_accepted;/* Number of detections accepted */
-  double	chi2;		/* chi2/d.o.f. */
-  float		fwhm;		/* Initial guess of the FWHM */
-  int		*pixmask;	/* Pixel mask for local bases */
-  float		*basis;		/* Basis vectors */
-  float		*basiscoeff;	/* Basis vector coefficients */
-  int		nbasis;		/* Number of basis vectors */
-  int		ndata;		/* Size of the design matrix along data axis */
-  int		nsnap;		/* Total number of snapshots */
-  int		nmed;		/* Median position amongst snapshots */
-  int		nsubpix;	/* Number of intrapixel samples per axis */
-  moffatstruct	*moffat;	/* Array of Moffat fits to PSF */
-  moffatstruct	*pfmoffat;	/* Array of pixel-free Moffat fits to PSF */
-  float		moffat_fwhm_min;
-  float		moffat_fwhm;	/* Central Moffat FWHM */
-  float		moffat_fwhm_max;
-  float		moffat_fwhm_wcs_min;
-  float		moffat_fwhm_wcs;	/* Average Moffat FWHM in arcsec*/
-  float		moffat_fwhm_wcs_max;
-  float		moffat_ellipticity_min;
-  float		moffat_ellipticity;	/* Central Moffat ellipticity */
-  float		moffat_ellipticity_max;
-  float		moffat_ellipticity1_min;
-  float		moffat_ellipticity1;	/* Central Moffat e1 */
-  float		moffat_ellipticity1_max;
-  float		moffat_ellipticity2_min;
-  float		moffat_ellipticity2;	/* Central Moffat e2 */
-  float		moffat_ellipticity2_max;
-  float		moffat_beta_min;
-  float		moffat_beta;	/* Central Moffat beta */
-  float		moffat_beta_max;
-  float		moffat_residuals_min;
-  float		moffat_residuals;/* Central Moffat residuals */
-  float		moffat_residuals_max;
-  float		moffat_score_min;
-  float		moffat_score;	/* Central pixel-free Moffat score */
-  float		moffat_score_max;
-  float		pfmoffat_fwhm_min;
-  float		pfmoffat_fwhm;	/* Central pixel-free Moffat FWHM */
-  float		pfmoffat_fwhm_max;
-  float		pfmoffat_fwhm_wcs_min;
-  float		pfmoffat_fwhm_wcs; /* Average pixel-free Moffat FWHM in arcsec*/
-  float		pfmoffat_fwhm_wcs_max;
-  float		pfmoffat_ellipticity_min;
-  float		pfmoffat_ellipticity;	/* Central pix-free Moffat ellipticity*/
-  float		pfmoffat_ellipticity_max;
-  float		pfmoffat_ellipticity1_min;
-  float		pfmoffat_ellipticity1;	/* Central pix-free Moffat e1 */
-  float		pfmoffat_ellipticity1_max;
-  float		pfmoffat_ellipticity2_min;
-  float		pfmoffat_ellipticity2;	/* Central pix-free Moffat e2 */
-  float		pfmoffat_ellipticity2_max;
-  float		pfmoffat_beta_min;
-  float		pfmoffat_beta;	/* Central pixel-free Moffat beta */
-  float		pfmoffat_beta_max;
-  float		pfmoffat_residuals_min;
-  float		pfmoffat_residuals;/* Central pixel-free Moffat residuals */
-  float		pfmoffat_residuals_max;
-  float		sym_residuals_min;
-  float		sym_residuals;/* Symmetry residuals */
-  float		sym_residuals_max;
-  float		noiseqarea_min;
-  float		noiseqarea;	/* Noise equivalent area */
-  float		noiseqarea_max;
-  float		pixscale_wcs_min;
-  float		pixscale_wcs;	/* Average pixel scale in arcsec */
-  float		pixscale_wcs_max;
-  float		*homo_kernel;		/* PSF homogenization kernel */
-  double	homopsf_params[2];	/* Idealised Moffat PSF params*/
-  int		homobasis_number;	/* nb of supersampled pixels */
-  }	psfstruct;
-
+// moffatstruct psfstruct
 
 /*---------------------------------- protos --------------------------------*/
 extern void	psf_build(psfstruct *psf, double *pos),

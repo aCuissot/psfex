@@ -30,6 +30,7 @@
 
 #ifndef _SAMPLE_H_
 #define _SAMPLE_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -71,55 +72,7 @@
 
 /*--------------------------- structure definitions -------------------------*/
 
-typedef struct sample
-  {
-  int		detindex;		/* Detection index */
-  int		extindex;		/* Extension index */
-  int		catindex;		/* Catalogue index */
-  float		*vig;			/* Vignette array */
-  float		*vigresi;		/* Residual-map of the PSF-residuals */
-  float		*vigchi;		/* Chi-map of the PSF-residuals */
-  float		*vigweight;		/* Vignette-weight array */
-  float		*vigdgeox;		/* Vignette diff geo x-map array */
-  float		*vigdgeoy;		/* Vignette diff geo y-map array */
-  float		norm;			/* Normalisation */
-  float		fwhm;			/* Source FWHM (derived from ) */
-  float		ellip;			/* Source ellipticity */
-  float		snr;			/* Source Signal-to-Noise ratio */
-  double	x,y;			/* x,y position estimate in frame */
-  float		dx,dy;			/* x,y shift / vignet center */
-  float		backnoise2;		/* Variance of the background noise */
-  float		gain;			/* conversion factor (e-/ADU) */
-  float		chi2;			/* Chi2 of the fit */
-  float		modresi;		/* Residual index */
-  double	*context;		/* Context vector */
-  int		badflag;		/* True if sample is discarded */
-  }	samplestruct;
-
-typedef struct set
-  {
-  char		*head;			/* Table structure */
-  struct sample	*sample;		/* Array of samples */
-  int		nsample;		/* Number of samples in stack */
-  int		ngood;			/* Number of "good" samples */
-  int		nsamplemax;		/* Max number of samples in stack */
-  int		*vigsize;		/* Dimensions of vignette frames */
-  int		vigdim;			/* Dimensionality of the vignette */
-  int		nvig;			/* Number of pixels of the vignette */
-  int		ncontext;		/* Number of contexts */
-  char		**contextname;		/* List of context keywords used */
-  double	*contextoffset;		/* Offset to apply to context data */
-  double	*contextscale;		/* Scaling to apply to context data */
-  float		fwhm;			/* FWHM of the PSF core */
-  int		badflags;		/* # discarded with bad SEx flags */
-  int		badwflags;		/* # discarded with bad SEx flags */
-  int		badimaflags;		/* # discarded with bad SEx flags */
-  int		badsn;			/* # discarded with S/N too low*/
-  int		badfwhmmin;		/* # discarded with size too small */
-  int		badfwhmmax;		/* # discarded with size too large */
-  int		badellip;		/* # discarded with too much ellipt. */
-  int		badpix;			/* # discarded with too many bad pix. */
-  }	setstruct;
+  // setstruct samplestruct
 
 /*-------------------------------- protos -----------------------------------*/
 

@@ -30,6 +30,7 @@
 
 #ifndef _CPLOT_H_
 #define _CPLOT_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include	"config.h"
@@ -87,17 +88,7 @@
 #endif
 
 /*--------------------------------- typedefs --------------------------------*/
-typedef enum {CPLOT_NONE, CPLOT_FWHM, CPLOT_ELLIPTICITY, CPLOT_MOFFATRESI,
-		CPLOT_ASYMRESI, CPLOT_COUNTS, CPLOT_COUNTFRAC, CPLOT_CHI2,
-		CPLOT_MODRESI, CPLOT_SNRVSFWHM}	cplotenum;
-
-typedef enum {CPLOT_NULL, CPLOT_XWIN, CPLOT_TK, CPLOT_XTERM, CPLOT_PLMETA,
-	CPLOT_PS, CPLOT_PSC, CPLOT_XFIG, CPLOT_LJIIP, CPLOT_LJHPGL, CPLOT_IMP,
-	CPLOT_PBM, CPLOT_PNG, CPLOT_JPEG, CPLOT_PSTEX, CPLOT_AQT, CPLOT_PDF,
-	CPLOT_SVG} cplotdevenum;
-
-typedef struct {cplotdevenum device; char *devname; char *extension;}
-		devicestruct;
+//cplotenum cplotdevenum devicestruct
 
 /*---------------------------------- svgp -----------------------------------*/
 /*------------------------------- functions ---------------------------------*/

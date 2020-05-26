@@ -31,6 +31,7 @@
 #ifndef _CHECK_H_
 #define _CHECK_H_
 
+#include "structs.h"
 #include "field.h"
 
 #ifdef HAVE_CONFIG_H
@@ -56,11 +57,8 @@
 #define		MAXCHECK	16		/* max. # of CHECKimages */
 
 /*----------------------------- Type definitions --------------------------*/
-typedef enum {PSF_NONE, PSF_BASIS, PSF_CHI, PSF_PROTO, PSF_RESIDUALS,
-		PSF_RESIDUALS_GRID, PSF_SAMPLES, PSF_SAMPLES_GRID,
-		PSF_SNAPSHOTS, PSF_SNAPSHOTS_IMRES,
-		PSF_WEIGHTS, PSF_MOFFAT,PSF_SUBMOFFAT,PSF_SUBSYM, PSF_GREAT}
-	checkenum;
+
+//checkenum
 
 /*---------------------------------- protos --------------------------------*/
 extern void		check_write(fieldstruct *field,	setstruct *set,

@@ -1,5 +1,5 @@
 /*
-*				globals.h
+*				makeit.h
 *
 * Global declarations.
 *
@@ -25,6 +25,11 @@
 *	Last modified:		02/12/2013
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
+#ifndef _MAKEIT__H_
+#define _MAKEIT__H_
+#include "structs.h"
+
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
 #endif
@@ -61,3 +66,4 @@ extern  void	makeit(void);
 
 psfstruct	*make_psf(setstruct *set, float psfstep,
 			float *basis, int nbasis, contextstruct *context);
+#endif

@@ -1,5 +1,6 @@
 #ifndef _TEST_H_
 #define	_TEST_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"

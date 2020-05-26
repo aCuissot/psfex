@@ -28,6 +28,7 @@
 
 #ifndef _VIGNET_H_
 #define _VIGNET_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -65,11 +66,7 @@
 
 /*--------------------------------- typedefs --------------------------------*/
 
-typedef  enum {VIGNET_CPY, VIGNET_ADD, VIGNET_SUB, VIGNET_MUL, VIGNET_DIV}
-		vigopenum;
-
-typedef enum	{INTERP_NEARESTNEIGHBOUR, INTERP_BILINEAR, INTERP_LANCZOS2,
-		INTERP_LANCZOS3, INTERP_LANCZOS4}       interpenum;
+//vigopenum interpenum
 
 
 /*---------------------------------- protos --------------------------------*/

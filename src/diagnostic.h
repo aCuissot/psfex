@@ -29,6 +29,7 @@
 
 #ifndef _DIAGNOSTIC_H_
 #define _DIAGNOSTIC_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"
@@ -51,7 +52,6 @@
 #include	"define.h"
 #include	"fits/fitscat.h"
 #include	"levmar/levmar.h"
-#include	"diagnostic.h"
 #include	"prefs.h"
 #include	"wcs/poly.h"
 #ifdef USE_THREADS

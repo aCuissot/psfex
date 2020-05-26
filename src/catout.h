@@ -30,6 +30,8 @@
 #ifndef _CATOUT_H_
 #define _CATOUT_H_
 
+#include "structs.h"
+
 #include "context.h"
 #include "sample.h"
 
@@ -43,45 +45,16 @@
 
 #include "define.h"
 #include "fits/fitscat.h"
-#include "cathead.h"
 #include "prefs.h"
 #include "xml.h"
 
 /*--------------------------------- constants -------------------------------*
 /*--------------------------------- typedefs --------------------------------*/
 
-typedef enum {CAT_NONE, CAT_ASCII_HEAD, CAT_ASCII,
-		CAT_ASCII_VOTABLE, CAT_FITS_LDAC} cattypenum;
+//cattypeenum
 
 /*--------------------------- structure definitions -------------------------*/
-typedef struct outsample
-  {
-  int		detindex;		/* Detection index */
-  short		extindex;		/* Extension index */
-  int		catindex;		/* Catalog index */
-  int		badflag;		/* Rejection flags (0 = accepted) */
-  double	context[MAXCONTEXT];	/* Context vector */
-  int		ncontext;		/* Number of contexts */
-  float		norm;			/* Normalisation flux */
-  float		fwhm;			/* FWHM (derived from input catalog) */
-  float		ellip;			/* Ellipticity */
-  float		snr;			/* Signal-to-Noise ratio */
-  double	x,y;			/* x,y position estimate in frame */
-  float		dx,dy;			/* x,y shift / vignet center */
-  float		chi2;			/* Chi2 of the fit */
-  float		modresi;		/* Residual index */
-  }	outsamplestruct;
-
-typedef struct outcat
-  {
-  outsamplestruct	outsample;	/* Current output line */
-  FILE			*ascfile;	/* Output ASCII file (if needed) */
-  tabstruct		*objtab;	/* Output object table */
-  keystruct		*objkeys;  	/* List of output catalog keys */
-  char			*buf;		/* Line buffer */
-  int			ncontext;	/* Number of contexts */
-  }	outcatstruct;
-
+//outsamplestrcut outcatstruct
 
   /* Output catalog fields */
 

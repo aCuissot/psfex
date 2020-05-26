@@ -31,6 +31,7 @@
 #ifndef _HOMO_H_
 #define _HOMO_H_
 
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include        "config.h"

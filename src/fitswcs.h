@@ -29,6 +29,7 @@
 
 #ifndef _FITSWCS_H_
 #define _FITSWCS_H_
+#include "structs.h"
 
 #ifdef HAVE_CONFIG_H
 #include	"config.h"
@@ -101,57 +102,11 @@ double	celsysorig[][2] = {	{0.0, 0.0},
 
 /*-------------------------------- typedefs ---------------------------------*/
 
-typedef  enum {CELSYS_NATIVE, CELSYS_PIXEL, CELSYS_EQUATORIAL, CELSYS_GALACTIC,
-	CELSYS_ECLIPTIC, CELSYS_SUPERGALACTIC}	celsysenum;
+//celsysenum
 
 /*------------------------------- structures --------------------------------*/
 
-typedef struct wcs
-  {
-  int		naxis;			/* Number of image axes */
-  int		naxisn[NAXIS];		/* FITS NAXISx parameters */
-  char		ctype[NAXIS][9];	/* FITS CTYPE strings */
-  char		cunit[NAXIS][32];	/* FITS CUNIT strings */
-  double	crval[NAXIS];		/* FITS CRVAL parameters */
-  double	cdelt[NAXIS];		/* FITS CDELT parameters */
-  double	crpix[NAXIS];		/* FITS CRPIX parameters */
-  double	crder[NAXIS];		/* FITS CRDER parameters */
-  double	csyer[NAXIS];		/* FITS CSYER parameters */
-  double	cd[NAXIS*NAXIS];	/* FITS CD matrix */
-  double	*projp;			/* FITS PV/PROJP mapping parameters */
-  int		nprojp;			/* number of useful projp parameters */
-  double	longpole,latpole;	/* FITS LONGPOLE and LATPOLE */
-  double	wcsmin[NAXIS];		/* minimum values of WCS coords */
-  double	wcsmax[NAXIS];		/* maximum values of WCS coords */
-  double	wcsscale[NAXIS];	/* typical pixel scale at center */
-  double	wcsscalepos[NAXIS];	/* WCS coordinates of scaling point */
-  double	wcsmaxradius;		/* Maximum distance to wcsscalepos */
-  int		outmin[NAXIS];		/* minimum output pixel coordinate */
-  int		outmax[NAXIS];		/* maximum output pixel coordinate */
-  int		lat,lng;		/* longitude and latitude axes # */
-  double	r0;			/* projection "radius" */
-  double	lindet;			/* Determinant of the local matrix */
-  int		chirality;		/* Chirality of the CD matrix */
-  double	pixscale;		/* (Local) pixel scale */
-  double	ap2000,dp2000;		/* J2000 coordinates of pole */
-  double	ap1950,dp1950;		/* B1950 coordinates of pole */
-  double	obsdate;		/* Date of observations */
-  double	equinox;		/* Equinox of observations */
-  double	epoch;			/* Epoch of observations (deprec.) */
-  enum {RDSYS_ICRS, RDSYS_FK5, RDSYS_FK4, RDSYS_FK4_NO_E, RDSYS_GAPPT}
-		radecsys;		/* FITS RADECSYS reference frame */
-  celsysenum	celsys;			/* Celestial coordinate system */
-  double	celsysmat[4];		/* Equ. <=> Cel. system parameters */
-  int		celsysconvflag;		/* Equ. <=> Cel. conversion needed? */
-  struct wcsprm	*wcsprm;		/* WCSLIB's wcsprm structure */
-  struct linprm	*lin;			/* WCSLIB's linprm structure */
-  struct celprm	*cel;			/* WCSLIB's celprm structure */
-  struct prjprm *prj;			/* WCSLIB's prjprm structure */
-  struct tnxaxis *tnx_latcor;		/* IRAF's TNX latitude corrections */
-  struct tnxaxis *tnx_lngcor;		/* IRAF's TNX longitude corrections */
-  struct poly	*inv_x;			/* Proj. correction polynom in x */
-  struct poly	*inv_y;			/* Proj. correction polynom in y */
-  }	wcsstruct;
+//wcsstruct
 
 /*------------------------------- functions ---------------------------------*/
 

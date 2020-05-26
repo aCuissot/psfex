@@ -29,6 +29,7 @@
 
 #ifndef _PSFMEF_H_
 #define _PSFMEF_H_
+#include "structs.h"
 
 #include "context.h"
 
@@ -49,38 +50,18 @@
 
 #include	"define.h"
 #include	"fits/fitscat.h"
-#include	"check.h"
 #include	"misc.h"
 #include	"prefs.h"
 
 /*----------------------------- Internal constants --------------------------*/
 #define	COUNT_LOADED	1		/* Count detections that are loaded */
 #define	COUNT_ACCEPTED	2		/* Count detections that are accepted */
+//MAXCHECK IS DEFINED ALSO IN check.h BUT TO AVOID CIRCULAR INCLUDES I DEFINE IT HERE TOO FOR THE MOMENT => should set it in define.h
 
 /*------------------------------ Type definitions ---------------------------*/
 /*--------------------------- structure definitions -------------------------*/
 
-typedef struct field
-  {
-  char		catname[MAXCHAR];	/* Input catalog filename */
-  char		*rcatname;		/* "Reduced" catalog name */
-  char		rtcatname[MAXCHAR];	/* "Reduced", no trail catalog name */
-  char		ident[MAXCHAR];		/* Field identifier (read from FITS) */
-  int		next;			/* Number of extensions */
-  int		ndet;			/* Number of detections (info only) */
-  psfstruct	**psf;			/* Array of PSFs */
-  wcsstruct	**wcs;			/* Array of WCS structures */
-  setstruct	*set;			/* Catalog or array of catalogs */
-  catstruct	**ccat;			/* Pointers to check-image files */
-  double	meanwcspos[NAXIS];	/* Mean pixel coordinate */
-  double	meanwcsscale[NAXIS];	/* Mean pixel scale */
-  double	maxradius;		/* Maximum radius */
-  int		**lcount;		/* Count detections that are loaded */
-  int		**acount;		/* Count detections that are accepted */
-  int		**count;		/* Count detections in stats */
-  double	**modchi2;		/* Sum of chi2's per image area */
-  double	**modresi;		/* Sum of res. indices per image area */
-  }	fieldstruct;
+//fieldstruct
 
 /*---------------------------------- protos --------------------------------*/
 extern fieldstruct	*field_init(char *catname);

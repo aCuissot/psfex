@@ -195,3 +195,7 @@ char		gstr[MAXCHAR];
 				fprintf(w, "\33[01;31m%s\33[0m\n", x); \
 			else if (prefs.verbose_type == LOG) \
 			fprintf(w, "%s\n", x);}
+
+/* Some defines from other files that I putted here */
+#define		MAXCHECK	16
+
