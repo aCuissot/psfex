@@ -34,6 +34,7 @@
 #ifdef HAVE_CONFIG_H
 #include	"config.h"
 #endif
+#include "define.h"
 
 #ifdef HAVE_MATHIMF_H
 #include <mathimf.h>
@@ -77,7 +78,6 @@ double	celsysorig[][2] = {	{0.0, 0.0},
 				 1.0};
 
 
-#define		NAXIS	2		/* Max number of FITS axes */
 
 #define		DEG	(PI/180.0)	/* 1 deg in radians */
 #define		ARCMIN	(DEG/60.0)	/* 1 arcsec in radians */

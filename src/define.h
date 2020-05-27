@@ -28,6 +28,8 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
+#ifndef _DEFINE__H_
+#define _DEFINE__H_
 /* Check if we are using a configure script here */
 #ifndef HAVE_CONFIG_H
 
@@ -198,4 +200,8 @@ char		gstr[MAXCHAR];
 
 /* Some defines from other files that I putted here */
 #define		MAXCHECK	16
+#define		NAXIS	2		/* Max number of FITS axes */
+#define		MAXCONTEXT		8	/* max. # of context keys */
 
+
+#endif

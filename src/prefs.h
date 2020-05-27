@@ -81,6 +81,8 @@
 
 /*-------------------------------- initialization ---------------------------*/
 int	idummy;
+prefstruct	prefs;
+
 
 pkeystruct key[] =
  {

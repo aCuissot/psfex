@@ -45,8 +45,10 @@
 #include	<stdlib.h>
 #include	<string.h>
 
+#ifdef HAVE_PLPLOT
 #include	PLPLOT_H
 #include	PLPLOTP_H
+#endif
 
 #include	"define.h"
 #include	"fits/fitscat.h"

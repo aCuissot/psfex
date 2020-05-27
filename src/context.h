@@ -50,7 +50,6 @@
 
 /*--------------------------------- constants -------------------------------*/
 
-#define		MAXCONTEXT		8	/* max. # of context keys */
 #define		CONTEXT_KEEPHIDDEN	0
 #define		CONTEXT_REMOVEHIDDEN	1
 

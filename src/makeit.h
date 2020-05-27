@@ -59,7 +59,7 @@
 #include	"catout.h"
 #include	"pca.h"
 #include	"prefs.h"
-#include	"xml.h"
+//#include	"xml.h"
 
 /*------------------------------- functions ---------------------------------*/
 extern  void	makeit(void);

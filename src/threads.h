@@ -26,6 +26,8 @@
 *	Last modified:		10/10/2010
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+#ifndef _THREADS__H_
+#define _THREADS__H_
 
 #include <pthread.h>
 #include <signal.h>
@@ -135,3 +137,4 @@ threads_gate_t	*threads_gate_init(int nthreads, void (*func)(void));
 void		threads_gate_end(threads_gate_t *gate),
 		threads_gate_sync(threads_gate_t *gate);
 
+#endif
