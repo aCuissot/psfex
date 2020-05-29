@@ -39,6 +39,28 @@ NOTES	Actually, only FITS parameters are copied. Lower-level structures
 AUTHOR	E. Bertin (IAP)
 VERSION	31/08/2002
  ***/
+
+char	celsysname[][2][8] = {  {"RA--", "DEC-"},
+				{"GLON", "GLAT"},
+				{"ELON", "ELAT"},
+				{"SLON", "SLAT"},
+				{""}};
+double	celsysorig[][2] = {	{0.0, 0.0},
+				{266.40499625, -28.93617242},
+				{0.0, 0.0},
+				{42.308333, 59.528333}},
+	celsyspole[][2] = {	{0.0, 90.0},
+				{192.85948123, 27.12825120},
+				{270.00000000, 66.560709},
+				{283.754167, 15.708889}},
+/* Note: the code to handle the rotation sign is not yet implemented!!! */
+	celsyssign[]	= {	 1.0,
+				 1.0,
+				 1.0,
+				 1.0};
+
+
+
 wcsstruct	*copy_wcs(wcsstruct *wcsin) {
 	wcsstruct	*wcs;
 
