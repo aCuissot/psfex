@@ -42,11 +42,7 @@
 #include <string.h>
 
 #include "define.h"
-#include "fits/fitscat.h"
-#include "prefs.h"
 #include "wcs/poly.h"
-#include "psf.h"
-#include "field.h"
 
 /*--------------------------------- constants -------------------------------*/
 

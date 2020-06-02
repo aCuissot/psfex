@@ -18,7 +18,6 @@
 
 #include "makeit.h"
 #include "define.h"
-#include "fits/fitscat.h"
 #include "prefs.h"
 #include "cplot.h"
 

@@ -50,7 +50,6 @@
 #include "psf.h"
 #include "sample.h"
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"check.h"
 #include	"cplot.h"
 #include	"diagnostic.h"
@@ -59,7 +58,6 @@
 #include	"catout.h"
 #include	"pca.h"
 #include	"prefs.h"
-//#include	"xml.h"
 
 /*------------------------------- functions ---------------------------------*/
 extern  void	makeit(void);

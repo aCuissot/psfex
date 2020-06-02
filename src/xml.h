@@ -43,7 +43,6 @@
 #include <time.h>
 
 #include "define.h"
-#include "fits/fitscat.h"
 #include "cplot.h"
 #include "prefs.h"
 #include "psf.h"

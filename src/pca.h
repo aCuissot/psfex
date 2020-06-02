@@ -42,7 +42,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"prefs.h"
 
 

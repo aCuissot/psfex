@@ -40,7 +40,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 
 /*----------------------------- Internal constants --------------------------*/
 

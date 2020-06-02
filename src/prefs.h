@@ -30,20 +30,9 @@
 
 #ifndef _PREFS_H_
 #define _PREFS_H_
+
 #include "structs.h"
-
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
-#include "catout.h"
-
-#include "check.h"
-
-#include "context.h"
-
-#include "cplot.h"
-
+#include "config.h"
 #include "psf.h"
 
 #include	<ctype.h>
@@ -51,7 +40,7 @@
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<string.h>
-#include        <unistd.h>
+#include    <unistd.h>
 
 #if defined(USE_THREADS) \
 		&& (defined(__APPLE__) || defined(FREEBSD) || defined(NETBSD))	/* BSD, Apple */
@@ -66,7 +55,6 @@
 #endif
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 
 /* preflist */
 #ifndef _XML_H_

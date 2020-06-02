@@ -31,12 +31,9 @@
 #define _PSFMEF_H_
 #include "structs.h"
 
-#include "context.h"
 
 #include "fitswcs.h"
-
 #include "psf.h"
-
 #include "sample.h"
 
 #ifdef HAVE_CONFIG_H
@@ -49,7 +46,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"misc.h"
 #include	"prefs.h"
 

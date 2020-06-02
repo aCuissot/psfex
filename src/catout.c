@@ -29,10 +29,6 @@
 #include "catout.h"
 
 
-
-
-
-
 keystruct	refoutkey[] = {
     {"SOURCE_NUMBER", "Source index",
   	&refoutsample.detindex, H_INT, T_LONG,

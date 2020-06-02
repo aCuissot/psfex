@@ -45,7 +45,6 @@
 #include "psf.h"
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"diagnostic.h"
 #include	"fft.h"
 #include	"prefs.h"

@@ -30,7 +30,6 @@
 #define _FFT_H_
 #include "structs.h"
 
-#include "fits/fitscat.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

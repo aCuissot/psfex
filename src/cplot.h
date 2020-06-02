@@ -51,7 +51,6 @@
 #endif
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"prefs.h"
 #include	"psf.h"
 

@@ -1,7 +1,7 @@
 #ifndef _STRUCT__H_
 #define _STRUCT__H_
 #include "define.h"
-#include	"fits/fitscat.h"
+#include "fits/fitscat.h"
 #include "wcs/poly.h"
 #include <stdio.h>
 
@@ -418,7 +418,7 @@ typedef struct field
 	double	**modresi;		/* Sum of res. indices per image area */
 }	fieldstruct;
 
-//devicestruct not here cause used only in cplot
+//devicestruct is not here because it is only used in cplot
 
 typedef struct context
 {

@@ -44,7 +44,6 @@
 #include	<string.h>
 
 #include	"define.h"
-#include	"fits/fitscat.h"
 #include	"diagnostic.h"
 #include	"wcs/poly.h"
 #include	"prefs.h"

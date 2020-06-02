@@ -33,7 +33,6 @@
 #include "structs.h"
 
 #include "context.h"
-#include "sample.h"
 
 #ifdef HAVE_CONFIG_H
 #include	"config.h"
@@ -44,7 +43,6 @@
 #include <string.h>
 
 #include "define.h"
-#include "fits/fitscat.h"
 #include "prefs.h"
 #include "xml.h"
 
@@ -54,7 +52,7 @@
 //cattypeenum
 
 /*--------------------------- structure definitions -------------------------*/
-//outsamplestrcut outcatstruct
+//outsamplestruct outcatstruct
 
   /* Output catalog fields */
 
