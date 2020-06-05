@@ -101,7 +101,7 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 			"END                            "};
 	catstruct		*cat;
 	tabstruct		*asctab, *imtab, *objtab;
-	keystruct		*key, *objkeys;
+	keystruct		*keyl, *objkeys;
 	samplestruct		*samp;
 	outsamplestruct	*outsample;
 	outcatstruct		*outcat;
@@ -126,11 +126,11 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 	dptr = (long)((char *)outsample - (char *)&refoutsample);
 	for (k=0; refoutkey[k].name[0]; k++) {
 		objkeys[k] = refoutkey[k];
-		key = objkeys+k;
+		keyl = objkeys+k;
 		/*-- A trick to access the fields of the dynamic outsample structure */
-		key->ptr = (void *)((char *)key->ptr + dptr);
-		key->nbytes = t_size[key->ttype]*(key->naxis? *key->naxisn : 1);
-		add_key(key,objtab, 0);
+		keyl->ptr = (void *)((char *)keyl->ptr + dptr);
+		keyl->nbytes = t_size[keyl->ttype]*(keyl->naxis? *keyl->naxisn : 1);
+		add_key(keyl,objtab, 0);
 	}
 	/* Create a new output catalog */
 	if (prefs.outcat_type == CAT_ASCII_HEAD || prefs.outcat_type == CAT_ASCII || prefs.outcat_type == CAT_ASCII_VOTABLE) {
@@ -140,16 +140,16 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 		} else if (!(ascfile = fopen(filename, "w+"))) {
 			error(EXIT_FAILURE,"*Error*: cannot open ", filename);
 		}
-		if (prefs.outcat_type == CAT_ASCII_HEAD && (key = objtab->key)) {
-			for (i=0,n=1; i++<objtab->nkey; key=key->nextkey) {
-				if (*key->unit) {
+		if (prefs.outcat_type == CAT_ASCII_HEAD && (keyl = objtab->key)) {
+			for (i=0,n=1; i++<objtab->nkey; keyl=keyl->nextkey) {
+				if (*keyl->unit) {
 					fprintf(ascfile, "# %3d %-22.22s %-58.58s [%s]\n",
-							n, key->name,key->comment, key->unit);
+							n, keyl->name,keyl->comment, keyl->unit);
 				} else {
 					fprintf(ascfile, "# %3d %-22.22s %-58.58s\n",
-							n, key->name,key->comment);
+							n, keyl->name,keyl->comment);
 				}
-				n += key->naxis? *key->naxisn : 1;
+				n += keyl->naxis? *keyl->naxisn : 1;
 			}
 		}else if (prefs.outcat_type == CAT_ASCII_VOTABLE && objtab->key) {
 			/*---- A short, "relative" version of the filename */
@@ -193,19 +193,19 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 		/*-- (dummy) LDAC Image header */
 
 		imtab = new_tab("LDAC_IMHEAD");
-		key = new_key("Field Header Card");
-		key->ptr = asctab->headbuf;
+		keyl = new_key("Field Header Card");
+		keyl->ptr = asctab->headbuf;
 		asctab->headbuf = NULL;
 		free_tab(asctab);
-		key->naxis = 2;
-		QMALLOC(key->naxisn, int, key->naxis);
-		key->naxisn[0] = 80;
-		key->naxisn[1] = fitsfind(key->ptr, "END     ")+1;
-		key->htype = H_STRING;
-		key->ttype = T_STRING;
-		key->nobj = 1;
-		key->nbytes = key->naxisn[0]*key->naxisn[1];
-		add_key(key, imtab, 0);
+		keyl->naxis = 2;
+		QMALLOC(keyl->naxisn, int, keyl->naxis);
+		keyl->naxisn[0] = 80;
+		keyl->naxisn[1] = fitsfind(keyl->ptr, "END     ")+1;
+		keyl->htype = H_STRING;
+		keyl->ttype = T_STRING;
+		keyl->nobj = 1;
+		keyl->nbytes = keyl->naxisn[0]*keyl->naxisn[1];
+		add_key(keyl, imtab, 0);
 		save_tab(cat, imtab);
 		free_tab(imtab);
 		objtab->cat = cat;
@@ -324,25 +324,25 @@ AUTHOR	E. Bertin (IAP)
 VERSION	19/10/2009
  ***/
 void	write_vo_fields(FILE *file, tabstruct *objtab) {
-	keystruct	*key;
+	keystruct	*keyl;
 	char		datatype[40], arraysize[40], str[40];
 	int		i, d;
 
 	if (!objtab || !objtab->key)
 		return;
-	key=objtab->key;
-	for (i=0; i++<objtab->nkey; key=key->nextkey) {
+	keyl=objtab->key;
+	for (i=0; i++<objtab->nkey; keyl=keyl->nextkey) {
 		/*--- indicate datatype, arraysize, width and precision attributes */
 		/*--- Handle multidimensional arrays */
 		arraysize[0] = '\0';
-		if (key->naxis>1) {
-			for (d=0; d<key->naxis; d++) {
-				sprintf(str, "%s%d", d?"x":" arraysize=\"", key->naxisn[d]);
+		if (keyl->naxis>1) {
+			for (d=0; d<keyl->naxis; d++) {
+				sprintf(str, "%s%d", d?"x":" arraysize=\"", keyl->naxisn[d]);
 				strcat(arraysize, str);
 			}
 			strcat(arraysize, "\"");
 		}
-		switch(key->ttype) {
+		switch(keyl->ttype) {
 		case T_BYTE:	strcpy(datatype, "unsignedByte"); break;
 		case T_SHORT:	strcpy(datatype, "short"); break;
 		case T_LONG:	strcpy(datatype, "int"); break;
@@ -354,8 +354,8 @@ void	write_vo_fields(FILE *file, tabstruct *objtab) {
 		}
 		fprintf(file,
 				"  <FIELD name=\"%s\" ucd=\"%s\" datatype=\"%s\" unit=\"%s\"%s>\n",
-				key->name, key->voucd, datatype,key->vounit, arraysize);
-		fprintf(file, "   <DESCRIPTION>%s</DESCRIPTION>\n", key->comment);
+				keyl->name, keyl->voucd, datatype,keyl->vounit, arraysize);
+		fprintf(file, "   <DESCRIPTION>%s</DESCRIPTION>\n", keyl->comment);
 		fprintf(file, "  </FIELD>\n");
 	}
 

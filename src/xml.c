@@ -30,8 +30,8 @@
 #include "xml.h"
 
 extern time_t		thetime,thetime2;	/* from makeit.c */
-extern pkeystruct	key[];			/* from preflist.h */
-extern char		keylist[][32];		/* from preflist.h */
+extern pkeystruct	key[];			/* from prefs.h */
+extern char		keylist[][32];		/* from prefs.h */
 
 fieldstruct		**field_xml;
 int			nxml, nxmlmax;

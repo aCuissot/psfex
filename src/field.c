@@ -41,7 +41,7 @@ fieldstruct	*field_init(char *catname) {
 	fieldstruct	*field;
 	catstruct	*cat;
 	tabstruct	*tab, *imatab;
-	keystruct	*key;
+	keystruct	*keyl;
 	char		*pstr;
 	int		e, next, next0, ntab, countsize;
 
@@ -89,13 +89,13 @@ fieldstruct	*field_init(char *catname) {
 	for (ntab = 0 ; ntab<cat->ntab; ntab++, tab = tab->nexttab) {
 		/*--  Check for the next valid FITS extension */
 		if ((!strcmp("LDAC_IMHEAD",tab->extname))
-				&& (key=read_key(tab, "Field Header Card"))) {
+				&& (keyl=read_key(tab, "Field Header Card"))) {
 			/*---- Create a new table from scratch to hold the image header */
 			imatab = new_tab("Image header");
 			free(imatab->headbuf);
-			imatab->headnblock = 1 + (key->nbytes-1)/FBSIZE;
+			imatab->headnblock = 1 + (keyl->nbytes-1)/FBSIZE;
 			QCALLOC(imatab->headbuf, char, imatab->headnblock*FBSIZE);
-			memcpy(imatab->headbuf, key->ptr, key->nbytes);
+			memcpy(imatab->headbuf, keyl->ptr, keyl->nbytes);
 			imatab->cat = cat;
 			readbasic_head(imatab);
 			field->wcs[next++] = read_wcs(imatab);
@@ -369,7 +369,7 @@ VERSION 15/09/2016
 void	field_psfsave(fieldstruct *field, char *filename) {
 	catstruct	*cat;
 	tabstruct	*tab;
-	keystruct	*key;
+	keystruct	*keyl;
 	psfstruct	*psf;
 	float	zero = 0.0;
 	char		*head,
@@ -439,36 +439,36 @@ void	field_psfsave(fieldstruct *field, char *filename) {
 		}
 
 		/*-- PSF pixels */
-		key = new_key("PSF_MASK");
-		key->naxis = psf->dim;
-		QMALLOC(key->naxisn, int, key->naxis);
+		keyl = new_key("PSF_MASK");
+		keyl->naxis = psf->dim;
+		QMALLOC(keyl->naxisn, int, keyl->naxis);
 		for (i=0; i<psf->dim; i++) {
-			key->naxisn[i] = psf->size[i];
+			keyl->naxisn[i] = psf->size[i];
 		}
-		strcat(key->comment, "Tabulated PSF data");
-		key->htype = H_FLOAT;
-		key->ttype = T_FLOAT;
-		key->nbytes = psf->npix*t_size[T_FLOAT];
-		key->nobj = 1;
-		key->ptr = psf->comp;
-		add_key(key, tab, 0);
+		strcat(keyl->comment, "Tabulated PSF data");
+		keyl->htype = H_FLOAT;
+		keyl->ttype = T_FLOAT;
+		keyl->nbytes = psf->npix*t_size[T_FLOAT];
+		keyl->nobj = 1;
+		keyl->ptr = psf->comp;
+		add_key(keyl, tab, 0);
 
 		/*-- Basis coefficient (if applicable) */
 		if (psf->basiscoeff) {
-			key = new_key("PSF_COEFFS");
-			key->naxis = psf->dim - 1;
-			QMALLOC(key->naxisn, int, key->naxis);
-			key->naxisn[0] = psf->nbasis;
-			if (key->naxis>1) {
-				key->naxisn[1] = psf->size[2];
+			keyl = new_key("PSF_COEFFS");
+			keyl->naxis = psf->dim - 1;
+			QMALLOC(keyl->naxisn, int, keyl->naxis);
+			keyl->naxisn[0] = psf->nbasis;
+			if (keyl->naxis>1) {
+				keyl->naxisn[1] = psf->size[2];
 			}
-			strcat(key->comment, "PSF basis vector coefficients");
-			key->htype = H_FLOAT;
-			key->ttype = T_FLOAT;
-			key->nbytes = psf->nbasis*psf->size[2]*t_size[T_FLOAT];
-			key->nobj = 1;
-			key->ptr = psf->basiscoeff;
-			add_key(key, tab, 0);
+			strcat(keyl->comment, "PSF basis vector coefficients");
+			keyl->htype = H_FLOAT;
+			keyl->ttype = T_FLOAT;
+			keyl->nbytes = psf->nbasis*psf->size[2]*t_size[T_FLOAT];
+			keyl->nobj = 1;
+			keyl->ptr = psf->basiscoeff;
+			add_key(keyl, tab, 0);
 		}
 		save_tab(cat, tab);
 		/*-- But don't touch my arrays!! */

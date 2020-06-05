@@ -50,7 +50,7 @@ setstruct *load_samples(char **filename, int catindex, int ncat, int ext,
 	setstruct		*set;
 	catstruct		*cat;
 	tabstruct		*tab;
-	keystruct		*fkey, *key;
+	keystruct		*fkey, *keyl;
 	char			keynames[][32]={"ELONGATION", "FLAGS", "FLUX_RADIUS",
 			"SNR_WIN", ""};
 	char			str[MAXCHAR];
@@ -125,41 +125,41 @@ setstruct *load_samples(char **filename, int catindex, int ncat, int ext,
 
 					read_keys(tab, pkeynames, NULL, nkeys, NULL);
 
-					if ((key = name_to_key(tab, "ELONGATION"))) {
-						elong = (float *)key->ptr;
+					if ((keyl = name_to_key(tab, "ELONGATION"))) {
+						elong = (float *)keyl->ptr;
 					} else {
 						warning("ELONGATION parameter not found in catalog ",
 								filename[icat]);
 						elong = NULL;
 					}
-					if ((key = name_to_key(tab, "FLAGS"))) {
-						flags = (unsigned short *)key->ptr;
+					if ((keyl = name_to_key(tab, "FLAGS"))) {
+						flags = (unsigned short *)keyl->ptr;
 					} else {
 						warning("FLAGS parameter not found in catalog ", filename[icat]);
 						flags = NULL;
 					}
-					if ((key = name_to_key(tab, "FLAGS_WEIGHT"))) {
-						wflags = (unsigned short *)key->ptr;
+					if ((keyl = name_to_key(tab, "FLAGS_WEIGHT"))) {
+						wflags = (unsigned short *)keyl->ptr;
 					} else {
 						wflags = NULL;
 					}
-					if ((key = name_to_key(tab, "IMAFLAGS_ISO"))) {
-						imaflags = (unsigned int *)key->ptr;
+					if ((keyl = name_to_key(tab, "IMAFLAGS_ISO"))) {
+						imaflags = (unsigned int *)keyl->ptr;
 					} else {
 						imaflags = NULL;
 					}
-					if (!(key = name_to_key(tab, "FLUX_RADIUS"))) {
+					if (!(keyl = name_to_key(tab, "FLUX_RADIUS"))) {
 						sprintf(str, "FLUS_RADIUS not found in catalog %s",
 								filename[icat]);
 						error(EXIT_FAILURE, "*Error*: ", str);
 					}
-					hl = (float *)key->ptr;
-					if (!(key = name_to_key(tab, "SNR_WIN"))) {
+					hl = (float *)keyl->ptr;
+					if (!(keyl = name_to_key(tab, "SNR_WIN"))) {
 						sprintf(str, "SNR_WIN not found in catalog %s",
 								filename[icat]);
 						error(EXIT_FAILURE, "*Error*: ", str);
 					}
-					snr = (float *)key->ptr;
+					snr = (float *)keyl->ptr;
 
 					for (n=tab->naxisn[1]; n--; hl++, snr++, flags++, elong++) {
 						if (*snr>minsn
@@ -372,7 +372,7 @@ setstruct *read_samples(setstruct *set, char *filename,
 		contextstruct *context, double *pcval) {
 	catstruct		*cat;
 	tabstruct		*tab, *keytab;
-	keystruct		*key;
+	keystruct		*keyl;
 	samplestruct		*sample;
 	t_type		contexttyp[MAXCONTEXT];
 	void			*contextvalp[MAXCONTEXT];
@@ -445,8 +445,8 @@ setstruct *read_samples(setstruct *set, char *filename,
 		error(EXIT_FAILURE, "*Error*: SExtractor table missing in ", filename);
 	}
 	if (!ldflag) {
-		key=read_key(tab, "Field Header Card");
-		head = key->ptr;
+		keyl=read_key(tab, "Field Header Card");
+		head = keyl->ptr;
 		if (fitsread(head,"SEXBKDEV",&backnoise,H_FLOAT,T_FLOAT)==RETURN_ERROR) {
 			error(EXIT_FAILURE, "*Error*: Keyword not found:", "SEXBKDEV");
 		}
@@ -482,52 +482,52 @@ setstruct *read_samples(setstruct *set, char *filename,
 	sxm = sym = NULL;
 	keytab = init_readobj(tab, &buf);
 
-	if (!(key = name_to_key(keytab, prefs.center_key[0]))) {
+	if (!(keyl= name_to_key(keytab, prefs.center_key[0]))) {
 		sprintf(str, "*Error*: %s parameter not found in catalog ",
 				prefs.center_key[0]);
 		error(EXIT_FAILURE, str, filename);
 	}
-	if (key->ttype == T_DOUBLE) {
-		dxm = (double *)key->ptr;
-	} else if (key->ttype == T_FLOAT) {
-		xm = (float *)key->ptr;
-	} else if (key->ttype == T_LONG) {
-		lxm = (int *)key->ptr;
+	if (keyl->ttype == T_DOUBLE) {
+		dxm = (double *)keyl->ptr;
+	} else if (keyl->ttype == T_FLOAT) {
+		xm = (float *)keyl->ptr;
+	} else if (keyl->ttype == T_LONG) {
+		lxm = (int *)keyl->ptr;
 	} else {
-		sxm = (short *)key->ptr;
+		sxm = (short *)keyl->ptr;
 	}
 
-	if (!(key = name_to_key(keytab, prefs.center_key[1]))) {
+	if (!(keyl = name_to_key(keytab, prefs.center_key[1]))) {
 		sprintf(str, "*Error*: %s parameter not found in catalog ",
 				prefs.center_key[1]);
 		error(EXIT_FAILURE, str, filename);
 	}
-	if (key->ttype == T_DOUBLE) {
-		dym = (double *)key->ptr;
-	} else if (key->ttype == T_FLOAT) {
-		ym = (float *)key->ptr;
-	} else if (key->ttype == T_LONG) {
-		lym = (int *)key->ptr;
+	if (keyl->ttype == T_DOUBLE) {
+		dym = (double *)keyl->ptr;
+	} else if (keyl->ttype == T_FLOAT) {
+		ym = (float *)keyl->ptr;
+	} else if (keyl->ttype == T_LONG) {
+		lym = (int *)keyl->ptr;
 	} else {
-		sym = (short *)key->ptr;
+		sym = (short *)keyl->ptr;
 	}
-	if (!(key = name_to_key(keytab, "FLUX_RADIUS"))) {
+	if (!(keyl = name_to_key(keytab, "FLUX_RADIUS"))) {
 		error(EXIT_FAILURE, "*Error*: FLUX_RADIUS parameter not found in catalog ",
 				filename);
 	}
-	fluxrad = (float *)key->ptr;
+	fluxrad = (float *)keyl->ptr;
 
 	strcpy(rkeyname, prefs.photflux_key);
 	strtok(rkeyname, "([{}])");
 	n = (pstr = strtok(NULL,"([{}])"))? atoi(pstr) - 1 : 0;
-	if (!(key = name_to_key(keytab, rkeyname))) {
+	if (!(keyl = name_to_key(keytab, rkeyname))) {
 		sprintf(str, "*Error*: %s parameter not found in catalog ",
 				rkeyname);
 		error(EXIT_FAILURE, str, filename);
 	}
-	flux = (float *)key->ptr;
+	flux = (float *)keyl->ptr;
 	if (n) {
-		if (key->naxis==1 && n<key->naxisn[0]) {
+		if (keyl->naxis==1 && n<keyl->naxisn[0]) {
 			flux += n;
 		} else {
 			sprintf(str, "Not enough apertures for %s in catalog %s: ",
@@ -536,49 +536,49 @@ setstruct *read_samples(setstruct *set, char *filename,
 		}
 	}
 
-	if (!(key = name_to_key(keytab, "SNR_WIN"))) {
+	if (!(keyl = name_to_key(keytab, "SNR_WIN"))) {
 		sprintf(str, "*Error*: SNR_WIN parameter not found in catalog ");
 		error(EXIT_FAILURE, str, filename);
 	}
-	snr = (float *)key->ptr;
+	snr = (float *)keyl->ptr;
 
-	if ((key = name_to_key(keytab, "ELONGATION"))) {
-		elong = (float *)key->ptr;
+	if ((keyl = name_to_key(keytab, "ELONGATION"))) {
+		elong = (float *)keyl->ptr;
 	} else {
 		elong = NULL;
 	}
 	/* Load optional SExtractor FLAGS parameter */
-	if ((key = name_to_key(keytab, "FLAGS"))) {
-		flags = (unsigned short *)key->ptr;
+	if ((keyl = name_to_key(keytab, "FLAGS"))) {
+		flags = (unsigned short *)keyl->ptr;
 	} else {
 		flags = NULL;
 	}
 	/* Load optional SExtractor FLAGS_WEIGHT parameter */
-	if ((key = name_to_key(keytab, "FLAGS_WEIGHT"))) {
-		wflags = (unsigned short *)key->ptr;
+	if ((keyl = name_to_key(keytab, "FLAGS_WEIGHT"))) {
+		wflags = (unsigned short *)keyl->ptr;
 	} else {
 		wflags = NULL;
 	}
 	/* Load optional SExtractor IMAFLAGS_ISO parameter */
-	if ((key = name_to_key(keytab, "IMAFLAGS_ISO"))) {
-		imaflags = (unsigned int *)key->ptr;
+	if ((keyl = name_to_key(keytab, "IMAFLAGS_ISO"))) {
+		imaflags = (unsigned int *)keyl->ptr;
 	} else {
 		imaflags = NULL;
 	}
 
 	/* Load SExtractor VIGNET vector */
-	if (!(key = name_to_key(keytab, "VIGNET"))) {
+	if (!(keyl = name_to_key(keytab, "VIGNET"))) {
 		error(EXIT_FAILURE,
 				"*Error*: VIGNET parameter not found in catalog ", filename);
 	}
-	vignet = (float *)key->ptr;
-	nobj = key->nobj;
+	vignet = (float *)keyl->ptr;
+	nobj = keyl->nobj;
 
-	if (key->naxis < 2) {
+	if (keyl->naxis < 2) {
 		error(EXIT_FAILURE, "*Error*: VIGNET should be a 2D vector", "");
 	}
-	vigw = *(key->naxisn);
-	vigh = *(key->naxisn+1);
+	vigw = *(keyl->naxisn);
+	vigh = *(keyl->naxisn+1);
 	vigsize = vigw*vigh;
 	if (!set->sample) {
 		set->vigsize[0] = vigw;
@@ -587,13 +587,13 @@ setstruct *read_samples(setstruct *set, char *filename,
 	}
 
 	/* Load optional SExtractor VIGNET_DGEOX vector */
-	if (prefs.dgeo_flag && (key = name_to_key(keytab, "VIGNET_DGEOX"))) {
-		dgeox = (float *)key->ptr;
-		nobj = key->nobj;
-		if (key->naxis < 2) {
+	if (prefs.dgeo_flag && (keyl = name_to_key(keytab, "VIGNET_DGEOX"))) {
+		dgeox = (float *)keyl->ptr;
+		nobj = keyl->nobj;
+		if (keyl->naxis < 2) {
 			error(EXIT_FAILURE, "*Error*: VIGNET_DGEOX should be a 2D vector", "");
 		}
-		if (*(key->naxisn) != vigw || *(key->naxisn+1) != vigh) {
+		if (*(keyl->naxisn) != vigw || *(keyl->naxisn+1) != vigh) {
 			error(EXIT_FAILURE, "*Error*: VIGNET_DGEOX size does not match that of ",
 					"VIGNET");
 		}
@@ -602,13 +602,13 @@ setstruct *read_samples(setstruct *set, char *filename,
 	}
 
 	/* Load optional SExtractor VIGNET_DGEOY vector */
-	if (prefs.dgeo_flag && (key = name_to_key(keytab, "VIGNET_DGEOY"))) {
-		dgeoy = (float *)key->ptr;
-		nobj = key->nobj;
-		if (key->naxis < 2) {
+	if (prefs.dgeo_flag && (keyl = name_to_key(keytab, "VIGNET_DGEOY"))) {
+		dgeoy = (float *)keyl->ptr;
+		nobj = keyl->nobj;
+		if (keyl->naxis < 2) {
 			error(EXIT_FAILURE, "*Error*: VIGNET_DGEOY should be a 2D vector", "");
 		}
-		if (*(key->naxisn) != vigw || *(key->naxisn+1) != vigh) {
+		if (*(keyl->naxisn) != vigw || *(keyl->naxisn+1) != vigh) {
 			error(EXIT_FAILURE, "*Error*: VIGNET_DGEOY size does not match that of ",
 					"VIGNET");
 		}
@@ -647,22 +647,22 @@ setstruct *read_samples(setstruct *set, char *filename,
 			strcpy(rkeyname, *kstr);
 			strtok(rkeyname,"([{}])");
 			n= (pstr = strtok(NULL,"([{}])"))? atoi(pstr) - 1 : -1;
-			if (!(key = name_to_key(keytab, rkeyname))) {
+			if (!(keyl = name_to_key(keytab, rkeyname))) {
 				sprintf(str, "*Error*: %s parameter not found in catalog ", *kstr);
 				error(EXIT_FAILURE, str, filename);
 			}
-			contextvalp[i] = key->ptr;
-			contexttyp[i] = key->ttype;
+			contextvalp[i] = keyl->ptr;
+			contexttyp[i] = keyl->ttype;
 			if (n >= 0) {
-				if (key->naxis==1 && n<key->naxisn[0]) {
-					contextvalp[i] += n * (key->nbytes / key->naxisn[0]);
+				if (keyl->naxis==1 && n<keyl->naxisn[0]) {
+					contextvalp[i] += n * (keyl->nbytes / keyl->naxisn[0]);
 				} else {
 					sprintf(str, "Not enough %s elements in catalog %s: ", rkeyname,
 							filename);
 					warning(str, "using first element instead");
 				}
 			}
-			strcpy(set->contextname[i], key->name);
+			strcpy(set->contextname[i], keyl->name);
 		}
 	}
 	if (next>1) {

@@ -165,7 +165,7 @@ pkeystruct key[] =
   {""}
  };
 
-extern char keylist[sizeof(key)/sizeof(pkeystruct)][32];
+char keylist[sizeof(key)/sizeof(pkeystruct)][32];
 extern const char	notokstr[];
 
 extern char *default_prefs[];
