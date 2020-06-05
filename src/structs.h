@@ -2,8 +2,6 @@
 #define _STRUCT__H_
 
 #include "define.h"
-#include "fits/fitscat.h"
-#include "wcs/poly.h"
 #include <stdio.h>
 
 

@@ -41,7 +41,6 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"define.h"
 #include	"prefs.h"
 #include	"misc.h"
 #include	"vignet.h"

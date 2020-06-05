@@ -32,14 +32,11 @@
 #include "structs.h"
 #include "field.h"
 
-#include  "define.h"
-
 #include	<math.h>
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"define.h"
 #include	"diagnostic.h"
 #include	"wcs/poly.h"
 #include	"prefs.h"

@@ -13,7 +13,6 @@
 #endif
 
 #include "makeit.h"
-#include "define.h"
 #include "prefs.h"
 #include "cplot.h"
 

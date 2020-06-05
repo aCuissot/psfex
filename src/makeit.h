@@ -36,26 +36,7 @@
 #endif
 #endif
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
 #include "structs.h"
-#include "define.h"
-#include "context.h"
-#include "psf.h"
-#include "sample.h"
-#include "check.h"
-#include "cplot.h"
-#include "diagnostic.h"
-#include "field.h"
-#include "homo.h"
-#include "catout.h"
-#include "pca.h"
-#include "prefs.h"
-
 
 /*------------------------------- functions ---------------------------------*/
 extern  void	makeit(void);

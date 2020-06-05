@@ -32,8 +32,6 @@
 
 #include	<stdlib.h>
 
-#include	"define.h"
-
 /*------------------------------- functions ---------------------------------*/
 
 extern double	dqmedian(double *ra, int n);

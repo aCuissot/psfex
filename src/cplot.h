@@ -46,7 +46,6 @@
 #include	PLPLOTP_H
 #endif
 
-#include	"define.h"
 #include	"prefs.h"
 #include	"psf.h"
 

@@ -30,7 +30,6 @@
 #ifndef _FITSWCS_H_
 #define _FITSWCS_H_
 #include "structs.h"
-#include "define.h"
 
 #ifdef HAVE_MATHIMF_H
 #include <mathimf.h>

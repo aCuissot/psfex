@@ -31,7 +31,6 @@
 #define _PSFMEF_H_
 #include "structs.h"
 
-#include "define.h"
 #include "fitswcs.h"
 #include "psf.h"
 #include "sample.h"

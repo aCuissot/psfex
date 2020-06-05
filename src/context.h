@@ -29,8 +29,6 @@
 #ifndef _CONTEXT_H_
 #define _CONTEXT_H_
 
-#include "define.h"
-
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

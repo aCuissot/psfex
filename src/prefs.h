@@ -32,7 +32,6 @@
 #define _PREFS_H_
 
 #include "structs.h"
-#include "define.h"
 #include "psf.h"
 
 #include	<ctype.h>

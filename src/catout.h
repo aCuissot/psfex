@@ -29,7 +29,6 @@
 #ifndef _CATOUT_H_
 #define _CATOUT_H_
 
-#include "define.h"
 #include "structs.h"
 
 #include "context.h"

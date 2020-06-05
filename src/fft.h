@@ -38,7 +38,6 @@
 #include FFTW_H
 #endif
 
-#include "define.h"
 #ifdef USE_THREADS
 #include "threads.h"
 #endif

@@ -35,8 +35,6 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"define.h"
-
 /*----------------------------- Internal constants --------------------------*/
 
 #define APER_OVERSAMP	5	/* oversampling in each dimension (MAG_APER) */

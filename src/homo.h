@@ -40,7 +40,6 @@
 
 #include "psf.h"
 
-#include	"define.h"
 #include	"diagnostic.h"
 #include	"fft.h"
 #include	"prefs.h"

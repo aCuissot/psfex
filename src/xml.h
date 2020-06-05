@@ -38,7 +38,6 @@
 #include <string.h>
 #include <time.h>
 
-#include "define.h"
 #include "cplot.h"
 #include "prefs.h"
 #include "psf.h"

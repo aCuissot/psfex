@@ -46,7 +46,6 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"define.h"
 #include	"levmar/levmar.h"
 #include	"prefs.h"
 #include	"wcs/poly.h"
