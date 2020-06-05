@@ -32,10 +32,6 @@
 #define _PSF_H_
 #include "structs.h"
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
 #include "wcs/poly.h"
 
 #include "sample.h"

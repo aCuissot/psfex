@@ -32,10 +32,6 @@
 #define _SAMPLE_H_
 #include "structs.h"
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
 #include "context.h"
 
 #include <assert.h>

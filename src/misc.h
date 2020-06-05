@@ -30,10 +30,6 @@
 #define _MISC__H_
 #include "structs.h"
 
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
-
 #include	<stdlib.h>
 
 #include	"define.h"

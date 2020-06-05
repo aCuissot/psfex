@@ -35,15 +35,18 @@
 #endif
 
 /*------------------------ what, who, when and where ------------------------*/
-
+#undef      BANNER
 #define		BANNER		"LDACTools"
+#undef      COPYRIGHT
 #define		COPYRIGHT	"Emmanuel BERTIN (bertin@iap.fr)"
+#undef      INSTITUTE
 #define		INSTITUTE	"IAP/Leiden"
 
 
 /*----------------------------- Internal constants --------------------------*/
 
 #define	MAXCHAR		512		/* max. number of characters */
+#undef OUTPUT
 #define	OUTPUT		stdout		/* where all msgs are sent */
 #define	KBYTE		1024		/* 1 kbyte! */
 #define	MBYTE		(1024*KBYTE)	/* 1 Mbyte! */
@@ -102,27 +105,32 @@ extern int	bswapflag;		/* != 0 if bytes are swapped/IEEE */
 #define	FTELLO	ftell
 #endif
 
+#undef QFREAD
 #define QFREAD(ptr, size, file, fname) \
 		{if (fread(ptr, (size_t)(size), (size_t)1, file)!=1) \
 		  error(EXIT_FAILURE, "*Error* while reading ", fname);;}
 
+#undef QFWRITE
 #define QFWRITE(ptr, size, file, fname) \
 		{if (fwrite(ptr, (size_t)(size), (size_t)1, file)!=1) \
 		   error(EXIT_FAILURE, "*Error* while writing ", fname);;}
 
+#undef QFSEEK
 #define	QFSEEK(file, offset, pos, fname) \
 		{if (FSEEKO(file, offset, pos)) \
 		   error(EXIT_FAILURE,"*Error*: File positioning failed in ", \
 			fname);;}
 
+#undef QFTELL
 #define	QFTELL(file, pos, fname) \
 		{if ((pos=FTELLO(file))==-1) \
 		   error(EXIT_FAILURE,"*Error*: File position unknown in ", \
 			fname);;}
 
-
+#undef QFREE
 #define	QFREE(x)	{free(x); x = NULL;}
 
+#undef QCALLOC
 #define	QCALLOC(ptr, typ, nel) \
 		{if (!(ptr = (typ *)calloc((size_t)(nel),sizeof(typ)))) \
 		   { \
@@ -133,6 +141,7 @@ extern int	bswapflag;		/* != 0 if bytes are swapped/IEEE */
                    }; \
                  }
 
+#undef QMALLOC
 #define	QMALLOC(ptr, typ, nel) \
 		{if (!(ptr = (typ *)malloc((size_t)(nel)*sizeof(typ)))) \
 		   { \
@@ -142,7 +151,7 @@ extern int	bswapflag;		/* != 0 if bytes are swapped/IEEE */
 		   error(EXIT_FAILURE, "Could not allocate memory for ", gstr);\
                    }; \
                  }
-
+#undef QREALLOC
 #define	QREALLOC(ptr, typ, nel) \
 		{if (!(ptr = (typ *)realloc(ptr, (size_t)(nel)*sizeof(typ))))\
 		   { \
@@ -153,6 +162,7 @@ extern int	bswapflag;		/* != 0 if bytes are swapped/IEEE */
                    }; \
                  }
 
+#undef QMEMCPY
 #define QMEMCPY(ptrin, ptrout, typ, nel) \
 		{if (ptrin) \
                   {if (!(ptrout = (typ *)malloc((size_t)(nel)*sizeof(typ)))) \
@@ -168,7 +178,7 @@ extern int	bswapflag;		/* != 0 if bytes are swapped/IEEE */
 
 #define	RINT(x)	(int)(floor(x+0.5))
 
-
+#undef QPRINTF
 #define	QPRINTF		if (qflag) fprintf
 
 #define	QFPRINTF(w,x)	{if (qflag) \

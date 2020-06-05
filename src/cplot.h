@@ -32,10 +32,6 @@
 #define _CPLOT_H_
 #include "structs.h"
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
 #include "fitswcs.h"
 #include "field.h"
 

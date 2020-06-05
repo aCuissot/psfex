@@ -29,19 +29,14 @@
 #ifndef _CONTEXT_H_
 #define _CONTEXT_H_
 
-#include "structs.h"
-
-
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
+#include "define.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "define.h"
+#include "structs.h"
 #include "wcs/poly.h"
 
 /*--------------------------------- constants -------------------------------*/

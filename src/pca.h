@@ -30,10 +30,6 @@
 #define	_PCA_H_
 #include "structs.h"
 
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
-
 #include "psf.h"
 
 #include	<math.h>

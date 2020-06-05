@@ -121,6 +121,7 @@ outcatstruct	*init_outcat(char *filename, int ncontext) {
 
 	/* LDAC Object header */
 	outcat->objtab = objtab = new_tab("LDAC_OBJECTS");
+
 	/* Set key pointers */
 	QCALLOC(objkeys, keystruct, (sizeof(refoutkey) / sizeof(keystruct)));
 	dptr = (long)((char *)outsample - (char *)&refoutsample);

@@ -1,5 +1,6 @@
 #ifndef _STRUCT__H_
 #define _STRUCT__H_
+
 #include "define.h"
 #include "fits/fitscat.h"
 #include "wcs/poly.h"

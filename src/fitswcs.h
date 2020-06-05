@@ -30,10 +30,6 @@
 #ifndef _FITSWCS_H_
 #define _FITSWCS_H_
 #include "structs.h"
-
-#ifdef HAVE_CONFIG_H
-#include	"config.h"
-#endif
 #include "define.h"
 
 #ifdef HAVE_MATHIMF_H
@@ -45,12 +41,7 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"fits/fitscat_defs.h"
-#include	"fits/fitscat.h"
-#include	"wcs/wcs.h"
-#include	"wcs/lin.h"
-#include	"wcs/tnx.h"
-#include	"wcs/poly.h"
+
 
 /*-------------------------------- macros -----------------------------------*/
 

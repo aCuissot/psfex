@@ -31,21 +31,17 @@
 #define _PSFMEF_H_
 #include "structs.h"
 
-
+#include "define.h"
 #include "fitswcs.h"
 #include "psf.h"
 #include "sample.h"
-
-#ifdef HAVE_CONFIG_H
-#include        "config.h"
-#endif
 
 #include	<math.h>
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"define.h"
+
 #include	"misc.h"
 #include	"prefs.h"
 

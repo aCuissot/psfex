@@ -32,7 +32,7 @@
 #define _PREFS_H_
 
 #include "structs.h"
-#include "config.h"
+#include "define.h"
 #include "psf.h"
 
 #include	<ctype.h>
@@ -54,12 +54,9 @@
 #include MKL_H
 #endif
 
-#include	"define.h"
 
 /* preflist */
-#ifndef _XML_H_
 #include "xml.h"
-#endif
 
 #ifdef  USE_THREADS
 #define	THREADS_PREFMAX	THREADS_NMAX
