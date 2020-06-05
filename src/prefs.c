@@ -183,8 +183,8 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 	}
 	/*Build the keyword-list from pkeystruct-array */
 
-	for (i=0; key[i].name[0]; i++) {
-		strcpy(keylist[i], key[i].name);
+	for (i=0; key_str[i].name[0]; i++) {
+		strcpy(keylist[i], key_str[i].name);
 	}
 	keylist[i][0] = '\0';
 
@@ -271,7 +271,7 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 					value = strtok(value2, notokstr);
 				}
 #endif
-				switch(key[nkey].type) {
+				switch(key_str[nkey].type) {
 				case P_FLOAT:
 					if (!value || value[0]==(char)'#') {
 						error(EXIT_FAILURE, keyword," keyword has no value!");
@@ -280,8 +280,8 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = listbuf = list_to_str(value+1);
 					}
 					dval = atof(value);
-					if (dval>=key[nkey].dmin && dval<=key[nkey].dmax) {
-						*(double *)(key[nkey].ptr) = dval;
+					if (dval>=key_str[nkey].dmin && dval<=key_str[nkey].dmax) {
+						*(double *)(key_str[nkey].ptr) = dval;
 					} else {
 						error(EXIT_FAILURE, keyword," keyword out of range");
 					}
@@ -295,8 +295,8 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = listbuf = list_to_str(value+1);
 					}
 					ival = (int)strtol(value, (char **)NULL, 0);
-					if (ival>=key[nkey].imin && ival<=key[nkey].imax) {
-						*(int *)(key[nkey].ptr) = ival;
+					if (ival>=key_str[nkey].imin && ival<=key_str[nkey].imax) {
+						*(int *)(key_str[nkey].ptr) = ival;
 					} else {
 						error(EXIT_FAILURE, keyword, " keyword out of range");
 					}
@@ -309,7 +309,7 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 					if (*value=='@') {
 						value = listbuf = list_to_str(value+1);
 					}
-					strcpy((char *)key[nkey].ptr, value);
+					strcpy((char *)key_str[nkey].ptr, value);
 					break;
 
 				case P_BOOL:
@@ -320,7 +320,7 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = listbuf = list_to_str(value+1);
 					}
 					if ((cp = strchr("yYnN", (int)value[0]))) {
-						*(int *)(key[nkey].ptr) = (tolower((int)*cp)=='y')?1:0;
+						*(int *)(key_str[nkey].ptr) = (tolower((int)*cp)=='y')?1:0;
 					} else {
 						error(EXIT_FAILURE, keyword, " value must be Y or N");
 					}
@@ -333,9 +333,9 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 					if (*value=='@') {
 						value = listbuf = list_to_str(value+1);
 					}
-					if ((ival = findkeys(value, key[nkey].keylist,FIND_STRICT))
+					if ((ival = findkeys(value, key_str[nkey].keylist,FIND_STRICT))
 							!= RETURN_ERROR) {
-						*(int *)(key[nkey].ptr) = ival;
+						*(int *)(key_str[nkey].ptr) = ival;
 					} else {
 						sprintf(errstr, "*Error*: %s set to an unknown keyword: ",
 								keyword);
@@ -348,20 +348,20 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = strtok(listbuf = list_to_str(value+1), notokstr);
 					}
 					for (i=0; i<MAXLIST&&value&&value[0]!=(char)'#'; i++) {
-						if (i>=key[nkey].nlistmax) {
+						if (i>=key_str[nkey].nlistmax) {
 							error(EXIT_FAILURE, keyword, " has too many members");
 						}
 						if ((cp = strchr("yYnN", (int)value[0]))) {
-							((int *)(key[nkey].ptr))[i] = (tolower((int)*cp)=='y')?1:0;
+							((int *)(key_str[nkey].ptr))[i] = (tolower((int)*cp)=='y')?1:0;
 						} else {
 							error(EXIT_FAILURE, keyword, " value must be Y or N");
 						}
 						value = strtok((char *)NULL, notokstr);
 					}
-					if (i<key[nkey].nlistmin) {
+					if (i<key_str[nkey].nlistmin) {
 						error(EXIT_FAILURE, keyword, " list has not enough members");
 					}
-					*(key[nkey].nlistptr) = i;
+					*(key_str[nkey].nlistptr) = i;
 					break;
 
 				case P_INTLIST:
@@ -369,21 +369,21 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = strtok(listbuf = list_to_str(value+1), notokstr);
 					}
 					for (i=0; i<MAXLIST&&value&&value[0]!=(char)'#'; i++) {
-						if (i>=key[nkey].nlistmax) {
+						if (i>=key_str[nkey].nlistmax) {
 							error(EXIT_FAILURE, keyword, " has too many members");
 						}
 						ival = strtol(value, (char **)NULL, 0);
-						if (ival>=key[nkey].imin && ival<=key[nkey].imax) {
-							((int *)key[nkey].ptr)[i] = ival;
+						if (ival>=key_str[nkey].imin && ival<=key_str[nkey].imax) {
+							((int *)key_str[nkey].ptr)[i] = ival;
 						} else {
 							error(EXIT_FAILURE, keyword, " keyword out of range");
 						}
 						value = strtok((char *)NULL, notokstr);
 					}
-					if (i<key[nkey].nlistmin) {
+					if (i<key_str[nkey].nlistmin) {
 						error(EXIT_FAILURE, keyword, " list has not enough members");
 					}
-					*(key[nkey].nlistptr) = i;
+					*(key_str[nkey].nlistptr) = i;
 					break;
 
 				case P_FLOATLIST:
@@ -391,21 +391,21 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = strtok(listbuf = list_to_str(value+1), notokstr);
 					}
 					for (i=0; i<MAXLIST&&value&&value[0]!=(char)'#'; i++) {
-						if (i>=key[nkey].nlistmax) {
+						if (i>=key_str[nkey].nlistmax) {
 							error(EXIT_FAILURE, keyword, " has too many members");
 						}
 						dval = atof(value);
-						if (dval>=key[nkey].dmin && dval<=key[nkey].dmax) {
-							((double *)key[nkey].ptr)[i] = dval;
+						if (dval>=key_str[nkey].dmin && dval<=key_str[nkey].dmax) {
+							((double *)key_str[nkey].ptr)[i] = dval;
 						} else {
 							error(EXIT_FAILURE, keyword, " keyword out of range");
 						}
 						value = strtok((char *)NULL, notokstr);
 					}
-					if (i<key[nkey].nlistmin) {
+					if (i<key_str[nkey].nlistmin) {
 						error(EXIT_FAILURE, keyword, " list has not enough members");
 					}
-					*(key[nkey].nlistptr) = i;
+					*(key_str[nkey].nlistptr) = i;
 					break;
 
 				case P_KEYLIST:
@@ -413,12 +413,12 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						value = strtok(listbuf = list_to_str(value+1), notokstr);
 					}
 					for (i=0; i<MAXLIST && value && value[0]!=(char)'#'; i++) {
-						if (i>=key[nkey].nlistmax) {
+						if (i>=key_str[nkey].nlistmax) {
 							error(EXIT_FAILURE, keyword, " has too many members");
 						}
-						if ((ival = findkeys(value, key[nkey].keylist, FIND_STRICT))
+						if ((ival = findkeys(value, key_str[nkey].keylist, FIND_STRICT))
 								!= RETURN_ERROR) {
-							((int *)(key[nkey].ptr))[i] = ival;
+							((int *)(key_str[nkey].ptr))[i] = ival;
 						} else {
 							sprintf(errstr, "*Error*: %s set to an unknown keyword: ",
 									keyword);
@@ -426,10 +426,10 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						}
 						value = strtok((char *)NULL, notokstr);
 					}
-					if (i<key[nkey].nlistmin) {
+					if (i<key_str[nkey].nlistmin) {
 						error(EXIT_FAILURE, keyword, " list has not enough members");
 					}
-					*(key[nkey].nlistptr) = i;
+					*(key_str[nkey].nlistptr) = i;
 					break;
 
 				case P_STRINGLIST:
@@ -443,18 +443,18 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 						flagz = 0;
 					}
 					for (i=0; i<MAXLIST && value && value[0]!=(char)'#'; i++) {
-						if (i>=key[nkey].nlistmax) {
+						if (i>=key_str[nkey].nlistmax) {
 							error(EXIT_FAILURE, keyword, " has too many members");
 						}
-						free(((char **)key[nkey].ptr)[i]);
-						QMALLOC(((char **)key[nkey].ptr)[i], char, MAXCHAR);
-						strcpy(((char **)key[nkey].ptr)[i], value);
+						free(((char **)key_str[nkey].ptr)[i]);
+						QMALLOC(((char **)key_str[nkey].ptr)[i], char, MAXCHAR);
+						strcpy(((char **)key_str[nkey].ptr)[i], value);
 						value = strtok((char *)NULL, notokstr);
 					}
-					if (i<key[nkey].nlistmin) {
+					if (i<key_str[nkey].nlistmin) {
 						error(EXIT_FAILURE, keyword, " list has not enough members");
 					}
-					*(key[nkey].nlistptr) = flagz?0:i;
+					*(key_str[nkey].nlistptr) = flagz?0:i;
 					break;
 
 				default:
@@ -462,7 +462,7 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 							" in readprefs()");
 					break;
 				}
-				key[nkey].flag = 1;
+				key_str[nkey].flag = 1;
 			} else {
 				warning(keyword, " keyword unknown");
 				warn++;
@@ -470,9 +470,9 @@ void    readprefs(char *filename, char **argkey, char **argval, int narg) {
 		}
 	}
 
-	for (i=0; key[i].name[0]; i++) {
-		if (!key[i].flag) {
-			error(EXIT_FAILURE, key[i].name, " configuration keyword missing");
+	for (i=0; key_str[i].name[0]; i++) {
+		if (!key_str[i].flag) {
+			error(EXIT_FAILURE, key_str[i].name, " configuration keyword missing");
 		}
 	}
 	if (!flage) {

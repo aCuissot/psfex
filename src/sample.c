@@ -27,6 +27,7 @@
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
 #include "sample.h"
+#include "prefs.h"
 
 static float	compute_fwhmrange(float *fwhm, int nfwhm, float maxvar,
 		float minin, float maxin, float *minout, float *maxout);

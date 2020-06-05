@@ -42,7 +42,6 @@
 
 
 #include	"misc.h"
-#include	"prefs.h"
 
 /*----------------------------- Internal constants --------------------------*/
 #define	COUNT_LOADED	1		/* Count detections that are loaded */

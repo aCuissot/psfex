@@ -28,6 +28,11 @@
 
 #include	"check.h"
 
+#include    <math.h>
+#include    <string.h>
+
+#include    "prefs.h"
+
 /****** check_write ********************************************************
 PROTO	void	check_write(fieldstruct *field, char *checkname,
 		checkenum checktype, int ext, int next, int cubeflag)

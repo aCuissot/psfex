@@ -30,19 +30,6 @@
 #define _CHECK_H_
 
 #include "structs.h"
-#include "field.h"
-
-#include	<math.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-
-#include	"diagnostic.h"
-#include	"wcs/poly.h"
-#include	"prefs.h"
-#include	"psf.h"
-#include	"sample.h"
-#include	"vignet.h"
 
 /*----------------------------- Internal constants --------------------------*/
 

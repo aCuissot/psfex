@@ -27,6 +27,7 @@
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
 #include "psf.h"
+#include "prefs.h"
 
 static double	psf_laguerre(double x, int p, int q);
 

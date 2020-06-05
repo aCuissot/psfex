@@ -26,8 +26,6 @@
 *
 *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-
-
 #ifndef _PREFS_H_
 #define _PREFS_H_
 
@@ -64,10 +62,12 @@
 #endif
 
 /*-------------------------------- initialization ---------------------------*/
-int	idummy;
-prefstruct	prefs;
 
-pkeystruct key[] =
+
+/*------------------------------- preferences -------------------------------*/
+prefstruct prefs;
+
+pkeystruct key_str[] =
  {
   {"BADPIXEL_FILTER", P_BOOL, &prefs.badpix_flag},
   {"BADPIXEL_NMAX", P_INT, &prefs.badpix_nmax, 0,100000000},
@@ -161,7 +161,7 @@ pkeystruct key[] =
   {""}
  };
 
-char keylist[sizeof(key)/sizeof(pkeystruct)][32];
+char keylist[sizeof(key_str)/sizeof(pkeystruct)][32];
 extern const char	notokstr[];
 
 extern char *default_prefs[];
@@ -177,19 +177,18 @@ extern char *default_prefs[];
 /* NOTES:
 One must have:	MAXLIST >= 1 (preferably >= 16!)
 */
-/*------------------------------- preferences -------------------------------*/
 
-//prefstruct
-extern prefstruct	prefs;
 
 /*-------------------------------- protos -----------------------------------*/
-extern char	*list_to_str(char *listname);
 
-extern int	cistrcmp(char *cs, char *ct, int mode);
+char *list_to_str(char *listname);
 
-extern void	dumpprefs(int state),
-		readprefs(char *filename,char **argkey,char **argval,int narg),
-		useprefs(void);
-int	findkeys(char *str, char key[][32], int mode);
+int	cistrcmp(char *cs, char *ct, int mode);
+
+void dumpprefs(int state);
+void readprefs(char *filename,char **argkey,char **argval,int narg);
+void useprefs(void);
+
+int	findkeys(char *str, char keyw[][32], int mode);
 
 #endif

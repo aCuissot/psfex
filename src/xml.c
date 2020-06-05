@@ -28,9 +28,10 @@
 
 
 #include "xml.h"
+#include "prefs.h"
 
 extern time_t		thetime,thetime2;	/* from makeit.c */
-extern pkeystruct	key[];			/* from prefs.h */
+//extern pkeystruct	key[];			/* from prefs.h */
 extern char		keylist[][32];		/* from prefs.h */
 
 fieldstruct		**field_xml;
@@ -1449,8 +1450,8 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 	char		value[MAXCHAR], uunit[MAXCHAR];
 	int		i,j,n;
 
-	for (i=0; key[i].name[0] && cistrcmp(name, key[i].name, FIND_STRICT); i++);
-	if (!key[i].name[0]) {
+	for (i=0; key_str[i].name[0] && cistrcmp(name, key_str[i].name, FIND_STRICT); i++);
+	if (!key_str[i].name[0]) {
 		return RETURN_ERROR;
 	}
 	if (*unit) {
@@ -1458,22 +1459,22 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 	} else {
 		*uunit = '\0';
 	}
-	switch(key[i].type) {
+	switch(key_str[i].type) {
 	case P_FLOAT:
-		sprintf(value, format, *((double *)key[i].ptr));
+		sprintf(value, format, *((double *)key_str[i].ptr));
 		fprintf(file, "   <PARAM name=\"%s\"%s datatype=\"double\""
 				" ucd=\"%s\" value=\"%s\"/>\n",
 				name, uunit, ucd, value);
 		break;
 	case P_FLOATLIST:
-		n = *(key[i].nlistptr);
+		n = *(key_str[i].nlistptr);
 		if (n) {
-			sprintf(value, format, ((double *)key[i].ptr)[0]);
+			sprintf(value, format, ((double *)key_str[i].ptr)[0]);
 			fprintf(file, "   <PARAM name=\"%s\"%s datatype=\"double\""
 					" arraysize=\"%d\" ucd=\"%s\" value=\"%s",
 					name, uunit, n, ucd, value);
 			for (j=1; j<n; j++) {
-				sprintf(value, format, ((double *)key[i].ptr)[j]);
+				sprintf(value, format, ((double *)key_str[i].ptr)[j]);
 				fprintf(file, " %s", value);
 			}
 			fprintf(file, "\"/>\n");
@@ -1484,20 +1485,20 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 		}
 		break;
 	case P_INT:
-		sprintf(value, format, *((int *)key[i].ptr));
+		sprintf(value, format, *((int *)key_str[i].ptr));
 		fprintf(file, "   <PARAM name=\"%s\"%s datatype=\"int\""
 				" ucd=\"%s\" value=\"%s\"/>\n",
 				name, uunit, ucd, value);
 		break;
 	case P_INTLIST:
-		n = *(key[i].nlistptr);
+		n = *(key_str[i].nlistptr);
 		if (n) {
-			sprintf(value, format, ((int *)key[i].ptr)[0]);
+			sprintf(value, format, ((int *)key_str[i].ptr)[0]);
 			fprintf(file, "   <PARAM name=\"%s\"%s datatype=\"int\""
 					" arraysize=\"%d\" ucd=\"%s\" value=\"%s",
 					name, uunit, n, ucd, value);
 			for (j=1; j<n; j++) {
-				sprintf(value, format, ((int *)key[i].ptr)[j]);
+				sprintf(value, format, ((int *)key_str[i].ptr)[j]);
 				fprintf(file, " %s", value);
 			}
 			fprintf(file, "\"/>\n");
@@ -1508,20 +1509,20 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 		}
 		break;
 	case P_BOOL:
-		sprintf(value, "%c", *((int *)key[i].ptr)? 'T':'F');
+		sprintf(value, "%c", *((int *)key_str[i].ptr)? 'T':'F');
 		fprintf(file, "   <PARAM name=\"%s\" datatype=\"boolean\""
 				" ucd=\"%s\" value=\"%s\"/>\n",
 				name, ucd, value);
 		break;
 	case P_BOOLLIST:
-		n = *(key[i].nlistptr);
+		n = *(key_str[i].nlistptr);
 		if (n) {
-			sprintf(value, "%c", ((int *)key[i].ptr)[0]? 'T':'F');
+			sprintf(value, "%c", ((int *)key_str[i].ptr)[0]? 'T':'F');
 			fprintf(file, "   <PARAM name=\"%s\" datatype=\"boolean\""
 					" arraysize=\"%d\" ucd=\"%s\" value=\"%s",
 					name, n, ucd, value);
 			for (j=1; j<n; j++) {
-				sprintf(value, "%c", ((int *)key[i].ptr)[j]? 'T':'F');
+				sprintf(value, "%c", ((int *)key_str[i].ptr)[j]? 'T':'F');
 				fprintf(file, " %s", value);
 			}
 			fprintf(file, "\"/>\n");
@@ -1532,20 +1533,20 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 		}
 		break;
 	case P_STRING:
-		sprintf(value, "%s", (char *)key[i].ptr);
+		sprintf(value, "%s", (char *)key_str[i].ptr);
 		fprintf(file, "   <PARAM name=\"%s\" datatype=\"char\" arraysize=\"*\""
 				" ucd=\"%s\" value=\"%s\"/>\n",
 				name, ucd, *value? value: " ");
 		break;
 	case P_STRINGLIST:
-		n = *(key[i].nlistptr);
+		n = *(key_str[i].nlistptr);
 		if (n) {
-			sprintf(value, "%s", ((char **)key[i].ptr)[0]);
+			sprintf(value, "%s", ((char **)key_str[i].ptr)[0]);
 			fprintf(file, "   <PARAM name=\"%s\" datatype=\"char\""
 					" arraysize=\"*\" ucd=\"%s\" value=\"%s",
 					name, ucd, *value? value: " ");
 			for (j=1; j<n; j++) {
-				sprintf(value, "%s", ((char **)key[i].ptr)[j]);
+				sprintf(value, "%s", ((char **)key_str[i].ptr)[j]);
 				fprintf(file, ",%s", *value? value: " ");
 			}
 			fprintf(file, "\"/>\n");
@@ -1556,20 +1557,20 @@ int	write_xmlconfigparam(FILE *file, char *name, char *unit,
 		}
 		break;
 	case P_KEY:
-		sprintf(value, "%s", key[i].keylist[*((int *)key[i].ptr)]);
+		sprintf(value, "%s", key_str[i].keylist[*((int *)key_str[i].ptr)]);
 		fprintf(file, "   <PARAM name=\"%s\" datatype=\"char\" arraysize=\"*\""
 				" ucd=\"%s\" value=\"%s\"/>\n",
 				name, ucd, value);
 		break;
 	case P_KEYLIST:
-		n = *(key[i].nlistptr);
+		n = *(key_str[i].nlistptr);
 		if (n) {
-			sprintf(value, "%s", key[i].keylist[((int *)key[i].ptr)[0]]);
+			sprintf(value, "%s", key_str[i].keylist[((int *)key_str[i].ptr)[0]]);
 			fprintf(file, "   <PARAM name=\"%s\" datatype=\"char\""
 					" arraysize=\"*\" ucd=\"%s\" value=\"%s",
 					name, ucd, value);
 			for (j=1; j<n; j++) {
-				sprintf(value, "%s", key[i].keylist[((int *)key[i].ptr)[j]]);
+				sprintf(value, "%s", key_str[i].keylist[((int *)key_str[i].ptr)[j]]);
 				fprintf(file, ",%s", value);
 			}
 			fprintf(file, "\"/>\n");

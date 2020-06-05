@@ -31,33 +31,21 @@
 
 #include "structs.h"
 
-#include "context.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "prefs.h"
-#include "xml.h"
 
 /*--------------------------------- constants -------------------------------*/
 
 /*--------------------------------- typedefs --------------------------------*/
 
-//cattypeenum
 /*--------------------------- structure definitions -------------------------*/
-//outsamplestruct outcatstruct
-/* Output catalog fields */
 
-outsamplestruct refoutsample;
+extern outsamplestruct refoutsample;
 extern keystruct refoutkey[];
+
 /*-------------------------------- protos -----------------------------------*/
 
-outcatstruct *
-init_outcat (char *filename, int ncontext);
+outcatstruct *init_outcat (char *filename, int ncontext);
 
-void
-end_outcat (outcatstruct *outcat),
+void end_outcat (outcatstruct *outcat),
 write_outcat (outcatstruct *outcat, setstruct *set),
 write_vo_fields (FILE *file, tabstruct *objtab);
 

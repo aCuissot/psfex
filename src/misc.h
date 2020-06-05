@@ -28,6 +28,7 @@
 
 #ifndef _MISC__H_
 #define _MISC__H_
+
 #include "structs.h"
 
 #include	<stdlib.h>

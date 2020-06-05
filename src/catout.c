@@ -28,6 +28,11 @@
 
 #include "catout.h"
 
+#include <stdio.h>
+
+#include "prefs.h"
+
+outsamplestruct refoutsample;
 
 keystruct	refoutkey[] = {
     {"SOURCE_NUMBER", "Source index",

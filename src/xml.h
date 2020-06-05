@@ -39,7 +39,6 @@
 #include <time.h>
 
 #include "cplot.h"
-#include "prefs.h"
 #include "psf.h"
 /*----------------------------- Internal constants --------------------------*/
 #ifndef XSL_URL

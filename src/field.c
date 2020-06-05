@@ -26,7 +26,8 @@
  *
  *%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-#include	"field.h"
+#include "field.h"
+#include "prefs.h"
 
 /****** field_init ************************************************************
 PROTO	fieldstruct *field_init(char *catname)

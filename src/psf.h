@@ -30,6 +30,7 @@
 
 #ifndef _PSF_H_
 #define _PSF_H_
+
 #include "structs.h"
 
 #include "wcs/poly.h"
@@ -41,7 +42,6 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#include	"prefs.h"
 #include	"misc.h"
 #include	"vignet.h"
 

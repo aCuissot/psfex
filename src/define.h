@@ -39,6 +39,8 @@
 #include    "wcs/tnx.h"
 #include    "wcs/poly.h"
 #include "config.h"
+#include <stdlib.h>
+
 /*------------------------ what, who, when and where ------------------------*/
 
 #undef      BANNER
