@@ -1,6 +1,8 @@
 import numpy as np
 from define import *
 from enum import Enum
+import context
+import key
 
 class cattypeenum(Enum):
 	CAT_NONE = 1
@@ -29,6 +31,8 @@ class outsamplestruct():
 		self.chi2 = chi2
 		self.modresi = modresi
 	
+outsampledt = np.dtype([('ints', np.int32, 5), ('doubles', np.float64, 2 + context.MAXCONTEXT), ('floats', np.float32, 8)])
+
 class outcatstruct():
 	def __init__(self, outsample, ascfile, objtab, objkeys, buf, ncontext):
 		self.outsample = outsample
@@ -37,6 +41,9 @@ class outcatstruct():
 		self.objkeys = objkeys
 		self.buf = buf
 		self.ncontext = ncontext
+
+#tabstruc and FILE don t have dt, yet...		
+outcatdt = np.dtype([('int', np.int32), ('outsample', outsampledt), ('key', key.keydt)])
 
 def init_outcat(filename, ncontext):
 	imtabtemplate = [
@@ -111,6 +118,7 @@ def init_outcat(filename, ncontext):
 		save_tab(cat, cat.tab)
 
 		asctab.headnblock = 1 + (sizeof(imtabtemplate)-1)/FBSIZE;
+		asctab.headbuf = np.chararray(asctab.headnblock*FBSIZE)
 		asctab.headbuf = imtabtemplate[0]
 		
 		buf = asctab.headbuf
@@ -126,6 +134,7 @@ def init_outcat(filename, ncontext):
 		asctab.headbuf = NULL
 		free_tab(asctab)
 		key.naxis = 2
+		key.naxisn = np.zeros(key.naxis, dtype=np.int32)
 		key.naxisn[0] = 80
 		key.naxisn[1] = fitsfind(key.ptr, "END     ")+1
 		key.htype = H_STRING

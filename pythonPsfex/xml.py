@@ -1,17 +1,20 @@
 """extern time_t        thetime,thetime2;  
 extern pkeystruct    key[]
 extern char        keylist[][32]
-
-fieldstruct        **field_xml;
-int            nxml, nxmlmax;
 """
+
 from time import time
 import numpy as np
 from define import *
 
+field_xml = None
+nxml, nxmlmax = 0, 0
+
 def init_xml(ncat):
     if (not ncat) :
         field_xml = None
+#    else:
+#        QMALLOC(field_xml, fieldstruct *, ncat);
     nxml = 0
     nxmlmax = ncat
 
@@ -38,7 +41,7 @@ def write_xml(filename):
     write_xml_meta(file, None)
 
     file.write("</RESOURCE>\n")
-    file.write("</VOTABLE>\n")
+    file.wrifte("</VOTABLE>\n")
 
     file.close()
 
@@ -68,6 +71,8 @@ def write_xml_header(file):
 
 
 def write_xml_meta(file, error):
+    cp = np.zeros(CPLOT_NTYPES, dtype=np.int32)
+    
     if (error):
         thetime = time()
         today = date.today()

@@ -1,21 +1,26 @@
 import numpy as np
+import re
 from define import *
 from makeit import *
 from prefs import *
-SYNTAX = EXECUTABLE + " catalog1 [catalog2,...][@catalog_list1 [@catalog_list2 ...]]\n" \
-        "\t\t[-c <config_file>][-<keyword> <value>]\n" \
-        "> to dump a default configuration file: " + EXECUTABLE + " -d \n" \
-        "> to dump a default extended configuration file: " + EXECUTABLE + " -dd \n"
+import sys
 
+print ("juuj")
+
+SYNTAX = EXECUTABLE + " catalog1 [catalog2,...][@catalog_list1 [@catalog_list2 ...]]\n" + "\t\t[-c <config_file>][-<keyword> <value>]\n" + "> to dump a default configuration file: " + EXECUTABLE + " -d \n" + "> to dump a default extended configuration file: " + EXECUTABLE + " -dd \n"
+
+def strtok(L, R):
+    return [int(x) for x in filter(None, re.split('[,' + R + ']', L))]
 
 def main(argc, argv):
-
+    argkey , argval = np.chararray(argc), np.chararray(argc)
+    print("jaaj")
     if (argc<2):
-        print("\n         %s  Version %s (%s)\n", BANNER,MYVERSION,DATE)
-        print("\nWritten by %s\n", AUTHORS)
-        print("Copyright %s\n", COPYRIGHT)
-        print("\nVisit %s\n", WEBSITE)
-        print("\n%s\n", DISCLAIMER)
+        print("\n         %s  Version %s (%s)\n" % (BANNER,MYVERSION,DATE))
+        print("\nWritten by %s\n" % (AUTHORS))
+        print("Copyright %s\n" % (COPYRIGHT))
+        print("\nVisit %s\n" % (WEBSITE))
+        print("\n%s\n" % (DISCLAIMER))
         print("Modified version 0.0.1 with test\n")
         error(EXIT_SUCCESS, "SYNTAX: ", SYNTAX)
     
@@ -103,5 +108,7 @@ def main(argc, argv):
     NPRINTF(OUTPUT, "> All done (in %.1f s)\n", prefs.time_diff)
 
     exit(EXIT_SUCCESS)
-
-main(4, "pypsfex /mnt/NewHDD/PSFEx/psfex/tests/outTest.cat -c /mnt/NewHDD/PSFEx/psfex/tests/default.psfex")
+    
+if __name__ == '__main__':
+    print("jeej")
+    main(len(sys.argv), sys.argv)

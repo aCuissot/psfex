@@ -132,6 +132,7 @@ def  makeit():
                 or context.npc
                 or (prefs.stability_type == STABILITY_SEQUENCE
                         and prefs.psf_mef_type == PSF_MEF_INDEPENDENT)):
+            psfsteps = np.zeros(next, dtype=np.float32)
             for ext in range(next):
                 set = load_samples(incatnames, 0, ncat, ext, next, context)
                 if psfstep:
@@ -158,6 +159,7 @@ def  makeit():
 
     elif (prefs.newbasis_type == NEWBASIS_PCAINDEPENDENT):
         nbasis = prefs.newbasis_number
+        psfbasiss = np.zeros(next, dtype=np.float32)
         for ext in range(next):
             if (psfsteps):
                 step = psfsteps[ext]

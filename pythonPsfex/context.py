@@ -13,6 +13,11 @@ class contextstruct():
         self.npc = npc
         
 def context_init(names, group, ndim, degree, ngroup, pcexflag):
+    
+    context.group = np.zeros(ndim, dtype=np.int32)
+    context.degree = np.zeros(ndim, dtype=np.int32)
+    context.pcflag = np.zeros(ndim, dtype=np.int32)
+    groupflag = np.zeros(ndim, dtype=np.int32)
     d2=0
     npc_index =  0
     for d in range(ndim):
@@ -46,7 +51,7 @@ def context_init(names, group, ndim, degree, ngroup, pcexflag):
 
 def context_apply(context, psf, fields, ext, catindex, ncat):
     prime=[2.0,3.0,5.0,7.0,11.0,13.0,17.0,19.0,23.0,29.0,31.0,37.0,41.0,43.0,47.0,53.0,59.0,61.0]
-
+    dpos = np.zeros(MAXCONTEXT, dtype=np.float64)
     ncat += catindex
     for p in range(catindex, p<ncat):
         if (ext==ALL_EXTENSIONS):
@@ -83,7 +88,8 @@ def context_apply(context, psf, fields, ext, catindex, ncat):
         dpos[c] = prime[c]
     
     poly_func(poly2, dpos)
-
+    
+    polycopyflag = np.zeros(poly2.ncoeff*poly.ncoeff, dtype=np.int32)
     polycopyflagt = polycopyflag
     polycopyflagt_index = 0
     for n2 in range(poly2.ncoeff):
@@ -107,7 +113,10 @@ def context_apply(context, psf, fields, ext, catindex, ncat):
                 dpos[c] = 1.0
         
         poly_func(poly, dpos)
-
+        comp2 = np.zeros(comp2size, dtype=np.float32)
+        if (psf.basiscoeff):
+            bcoeff2 = np.zeros(bcoeff2size, dtype=np.float32)
+        
         polycopyflagt = polycopyflag
         polycopyflagt_index = 0
         for n2 in range(poly2.ncoeff):

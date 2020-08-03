@@ -39,6 +39,8 @@ class moffat_struct():
         self.noiseqarea = noiseqarea
         self.nsubpix = nsubpix
         
+moffatdt = np.dtype([('int', np.int32), ('doubles', np.float64, 4), ('floats', np.float32, 10)])
+        
 class psf_struct():
     def __init__(self, dim, size, npix, comp, loc, resi, contextname,
                 contextoffset, contextscale, cx, cy, poly, pixstep, pixsize,
@@ -148,13 +150,17 @@ class psf_struct():
         self.homopsf_params = homopsf_params
         self.homobasis_number = homobasis_number
 
+#Comment faire pour strcut poly qui n'est pas existant dans la version wcs d'astropy?
+psfdt = np.dtype([('ints', np.int32, 15), ('doubles', np.float64, 5), ('floats', np.float32, 64), ('moffats', moffatdt, 2)])
 
+EPS = 1e-4
 
 def   psf_clean(psf, set, prof_accuracy):
 
     psf_makeresi(psf, set, prefs.recenter_flag, prof_accuracy)
 
     nchi = 0
+    chi = np.zeros(set.sample, dtype=np.float32)
     chit = chi
     chit_index = 0
     chit2_index = 0
@@ -286,8 +292,10 @@ def psf_clip(psf) :
                     
 
 def psf_init(context, size, psfstep, pixsize, nsample):
+#    QCALLOC(psf, psfstruct, 1);
     psf.dim = PSF_NMASKDIM
-    names2 = NULL
+    psf.size = np.zeros(psf.dim, np.int32)
+    names2 = None
     group2 = dim2 = None
     ndim2 = context.ncontext
     if (ndim2) :
@@ -352,12 +360,18 @@ def psf_init(context, size, psfstep, pixsize, nsample):
     psf.npix *= psf.size[1]
     psf.size[2] = psf.poly.ncoeff
     psf.npix *= psf.size[2]
+    psf.comp = np.zeros(psf.npix, dtype=np.float32)
     npix = psf.size[0]*psf.size[1]
+    psf.loc = np.zeros(npix, dtype=np.float32)
+    psf.resi = np.zeros(npix, dtype=np.float32)
 
     nsnap = 1
     psf.nsnap = prefs.context_nsnap
     psf.cx = psf.cy = -1
     if (ndim2):
+        psf.contextoffset = np.zeros(ndim2, dtype=np.float64)
+        psf.contextscale = np.zeros(ndim2, dtype=np.float64)
+
         names2t=names2
         names2t_index = 0
         for d in range (ndim2):
@@ -413,10 +427,10 @@ def psf_end(psf):
 
 def psf_copy(psf) :
 
-
     newpsf = psf
     ndim = psf.poly.ndim
     psf.size = newpsf.size[:psf.dim]
+    
     for d in range(ndim):
         newpsf.contextname[d] = psf.contextname[d][:80]
     
@@ -471,6 +485,15 @@ def psf_make(psf, set, prof_accuracy) :
 
     ncoeff = poly.ncoeff
     npix = psf.size[0]*psf.size[1]
+    image = np.zeros(ngood*npix ,dtype=np.float32)
+    weight= np.zeros(ngood*npix ,dtype=np.float32)
+    pstack = np.zeros(ngood ,dtype=np.float64)
+    wstack = np.zeros(ngood ,dtype=np.float64)
+    if poly.ndim:
+        pos = np.zeros(ngood*poly.ndim ,dtype=np.float64)
+    else:
+        pos = np.zeros(1 ,dtype=np.float64)
+    basis = np.zeros(poly.ncoeff *ngood ,dtype=np.float64)
     if psf.pixstep>1.0:
         pixstep =  psf.pixstep 
     else:
@@ -573,12 +596,15 @@ def psf_build(psf, pos):
 
 
 def psf_makeresi(psf, set, centflag, prof_accuracy):
-
+    pos = np.zeros(MAXCONTEXT, dtype=np.float64)
+    amat = np.zeros(9, dtype=np.float64)
+    bmat = np.zeros(3, dtype=np.float64)
 
     accuflag = (prof_accuracy > 1.0/BIG)
     vigstep = 1/psf.pixstep
     npix = set.vigsize[0]*set.vigsize[1]
     ndim = psf.poly.ndim
+    dresi = np.zeros(npix, dtype=np.float64)
 
     if (centflag):
         cw=ch=int(2*set.fwhm+1.0)
@@ -589,6 +615,12 @@ def psf_makeresi(psf, set, centflag, prof_accuracy):
             ch=set.vigsize[1]
         
         ncpix = cw*ch
+        cdata = np.zeros(ncpix, dtype=np.float32)
+        cbasis = np.zeros(ncpix, dtype=np.float32)
+        cvigw = np.zeros(ncpix, dtype=np.float32)
+        cvigx = np.zeros(ncpix, dtype=np.float64)
+        cvigy = np.zeros(ncpix, dtype=np.float64)
+        
         hcw = (double)(cw/2)
         hch = (double)(ch/2)
         cvigxt = cvigx
@@ -786,6 +818,8 @@ def psf_makeresi(psf, set, centflag, prof_accuracy):
             sample.modresi = resival
     
     mse = sqrt(mse/ngood/nchi2)
+    fresi = np.zeros(npix, dtype=np.float32)
+
     if (ngood > 1):
         nm1 = (ngood - 1)
     else:
@@ -794,10 +828,8 @@ def psf_makeresi(psf, set, centflag, prof_accuracy):
     dresit_index = 0
     fresit=fresi
     fresit_index = 0
-    for i in range (npix, -1, -1):
-        fresit[fresit_index] = sqrt(dresit[dresit_index]/nm1)
-        dresit_index+=1
-        fresit_index+=1
+    for i in range (npix):
+        fresit[i] = sqrt(dresit[i]/nm1)
     
 
     vignet_resample(fresi, set.vigsize[0], set.vigsize[1],
@@ -809,6 +841,7 @@ def psf_makeresi(psf, set, centflag, prof_accuracy):
 
 
 def psf_refine(psf, set):
+    pos = np.zeros(MAXCONTEXT, dtype=np.float32)
 
     if (not set.ngood or not psf.basis) :
         return RETURN_ERROR
@@ -827,8 +860,17 @@ def psf_refine(psf, set):
     ncoeff = poly.ncoeff
     nsample = set.nsample
     nunknown = ncoeff*npsf
+    vecvig = np.zeros(nvpix, dtype=np.float32)
+    matoffset = nunknown-ncoeff
+    desmat = np.zeros(npsf*ndata, dtype=np.float)
+    desindex = np.zeros(npsf*ndata, dtype=np.int32)
+    bmat = np.zeros(nvpix, dtype=np.float64)
+    coeffmat = np.zeros(ncoeff**2, dtype=np.float64)
+    vig = np.zeros(nvpix, dtype=np.float64)
+    sigvig = np.zeros(nvpix, dtype=np.float64)
+    alphamat = np.zeros(nunknown**2, dtype=np.float64)
+    betamat = np.zeros(nunknown, dtype=np.float64)
 
-    matoffset =nunknown-ncoeff
     sample=set.sample
     for n in range(nsample):
         if (sample[n].badflag):
@@ -983,7 +1025,9 @@ def psf_refine(psf, set):
         psf.basiscoeff = None
     
     if (not psf.pixmask):
+        psf.comp = np.zeros(npix*ncoeff, dtype=np.float32)
         bcoeff = psf.basiscoeff
+    betamat2 = np.zeros(ncoeff, dtype=np.float64)
     bcoeff_index = 0
     for j in range(npsf):
         ppix = psf.comp
@@ -1004,13 +1048,15 @@ def psf_refine(psf, set):
 
 
 def  psf_orthopoly(psf, set):
-    
+    pos = np.zeros(POLY_MAXDIM, dtype=np.float64)
+
     poly = psf.poly
     ncoeff = poly.ncoeff
     ndim = poly.ndim
 
     ndata = set.ngood
     norm = -1.0/sqrt(ndata)
+    data = np.zeros(ncoeff*ndata, dtype=np.float64)
 
     sample=set.sample
     for n in range(ndata):
@@ -1053,6 +1099,7 @@ def  psf_makebasis(psf, set, basis_type,  nvec):
 
         psfthresh = psforder[npix-npsf]
 
+        psf.pixmask = np.zeros(npix, dtype=np.int32)
         psfmask = psf.pixmask
         npsf = 0
         irad = int((set.vigsize[1]-1)/(2*psf.pixstep))
@@ -1083,6 +1130,7 @@ def  psf_makebasis(psf, set, basis_type,  nvec):
                         psfmask[i] = 1
 
         psf.nbasis = npsf
+        psf.basis = np.zeros(npsf*npix, dtype=np.float32)
         basis = psf.basis
         basis_index = 0
         psfmask = psf.pixmask
@@ -1144,6 +1192,10 @@ def psf_pshapelet(basis, w, h, nmax, beta):
         rmax2 = yc    
     rmax2 *= rmax2*invbeta2
 
+    fr2 = np.zeros(w*h*(GAUSS_LAG_OSAMP**2), dtype=np.float64)
+    fexpr2 = np.zeros(w*h*(GAUSS_LAG_OSAMP**2), dtype=np.float64)
+    ftheta = np.zeros(w*h*(GAUSS_LAG_OSAMP**2), dtype=np.float64)
+
     fr2t = fr2
     fexpr2t = fexpr2
     fthetat = ftheta
@@ -1164,8 +1216,9 @@ def psf_pshapelet(basis, w, h, nmax, beta):
                     fexpr2t[f_index] = exp(-r2/2.0)
                     fthetat[f_index] = atan2(y1,x1)
                     f_index +=1 
-                
-    basist = basis[0]
+    
+    basis = np.zeros(w*h*kmax, dtype=float32)
+    basist = basis
     basist_index = 0
     k=1
     for n in range (nmax):
@@ -1248,7 +1301,9 @@ def  psf_readbasis(psf, filename, ext):
     tab = tab.prevtab
     npixin = tab.naxisn[0]*tab.naxisn[1]
     npixout = psf.size[0]*psf.size[1]
+#    QMALLOC(pixin, PIXTYPE, npixin);
     ncomp = tab.tabsize/tab.bytepix/npixin
+    psf.basis = np.float(ncomp*npixin, dtype= np.float32)
     QFSEEK(tab.cat.file, tab.bodypos, SEEK_SET, tab.cat.filename)
     for n in range(ncomp):
         read_body(tab, pixin, npixin)

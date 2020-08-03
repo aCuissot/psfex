@@ -312,7 +312,7 @@ def readprefs(filename, argkey, argval, narg):
                             break
                         if (i>=key[nkey].nlistmax):
                             error(EXIT_FAILURE, keyword, " has too many members")
-                        
+#                        QMALLOC(((char **)key[nkey].ptr)[i], char, MAXCHAR);                        
                         key[nkey].ptr[i] = value
                         value = strtok(None, notokstr)
                     
@@ -386,7 +386,7 @@ def list_to_str(listname):
 
 
 def useprefs():
-
+    ashort=1
     bswapflag = ashort
 
     if (prefs.npsf_size<2):

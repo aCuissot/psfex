@@ -2,6 +2,7 @@ import numpy as np
 from define import *
 
 def pca_onsnaps(psfs, ncat, npc):
+    dpos = np.zeros(POLY_MACDIM, dtype=np.float64)
 
     ndim = psfs[0].poly.ndim
     w = psfs[0].size[0]
@@ -13,6 +14,8 @@ def pca_onsnaps(psfs, ncat, npc):
     
     dstep = 1.0/PCA_NSNAP
     dstart = (1.0-dstep)/2.0
+    
+    covmat = np.zeros(npix**2, dtype=np.float64)
 
     for c in range(ncat):
         psf = psfs[c]
@@ -38,7 +41,8 @@ def pca_onsnaps(psfs, ncat, npc):
                     break
                 else: 
                     dpos[d] = -dstart
-          
+    
+    basis = np.zeros(npc*npix, dtype=np.float32)
     for p in range(npc):
         str = "Computing Principal Component vector #%d..." % (p)
         pca_findpc(covmat, basis[p*npix], npix);
@@ -47,7 +51,8 @@ def pca_onsnaps(psfs, ncat, npc):
 
 
 def pca_oncomps(psfs, next, ncat, npc):
-    
+    dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)
+
     ndim = psfs[0].poly.ndim
     npix = psfs[0].size[0]*psfs[0].size[1]
     nt = 1
@@ -58,6 +63,7 @@ def pca_oncomps(psfs, next, ncat, npc):
     dstep = 1.0/PCA_NSNAP
     dstart = (1.0-dstep)/2.0
 
+    comp = np.zeros(ncat*npixt, dtype=np.float64)
     compt = comp
     compt_index=  0
     for c in range(ncat):
@@ -94,7 +100,8 @@ def pca_oncomps(psfs, next, ncat, npc):
         for c in range(ncat):
             compt_index += npixt
             compt[compt_index] -= dval
-        
+    
+    covmat = np.zeros(ncat**2, dtype=np.float64)
     covmatt = covmat
     covmatt_index = 0
     for c1 in range(ncat):
@@ -109,6 +116,8 @@ def pca_oncomps(psfs, next, ncat, npc):
             covmatt[covmatt_index] = dval;
             covmatt_index+=1
         
+    vector = np.zeros(ncat, dtype=np.float32)
+    pc = np.zeros(ncat*npc, dtype=np.float64)
     for p in range(npc):
         str = "Computing Principal Component vector #%d..." % (p)
         pca_findpc(covmat, vector, ncat)
@@ -119,6 +128,10 @@ def pca_oncomps(psfs, next, ncat, npc):
 
 
 def pca_findpc(covmat, vec, nmat):
+    
+    xmat = np.zeros(nmat, dtype = np.float64)
+    tmat = np.zeros(nmat, dtype = np.float64)
+
     t=tmat
     for i in range(nmat):
         t[i] = 1.0

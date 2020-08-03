@@ -20,6 +20,9 @@ class interpolation_enum(Enum):
 interp_kernwidth = [1,2,4,6,8]
 
 def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, dgeoypix):
+    pos = [0.0, 0.0]
+    modnaxisn = [0, 0]
+    
     if (stepi <= 0.0):
         stepi = 1.0
     dstepi = 1.0/stepi
@@ -63,40 +66,31 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
     if (not pix2):
         pix2 = statpix2
     else:
-        #memset(pix2, 0, (size_t)(w2*h2)*sizeof(float)); ??
+        pix2[:w2*h2] = np.zeros(w2*h2)
         statpix2 = pix2;
     
-
+    dgeopix_index = 0
     if (dgeoxpix and dgeoypix):
         modnaxisn[0] = w1
         modnaxisn[1] = h1
         off2 = iys2*w2 + ixs2
-        pixout0 = pix2 + off2
-        dgeoxpix0 = dgeoxpix + off2
-        dgeoypix0 = dgeoypix + off2
+        pixout0 = pix2
+        dgeopix0_index = off2
+        dgeoxpix0 = dgeoxpix 
+        dgeoypix0 = dgeoypix
         y1 = ys1 + 1.0
-        j=ny2
-        while (j>0):
-            j -= 1
+        for j in range(ny2):
             y1 += step2
-            pixout = pixout0
-            dgeoxpix = dgeoxpix0
-            dgeoypix = dgeoypix0
-            dgeoxpix0 += w2
-            dgeoypix0 += w2
-            pixout0 += w2
+            dgeopix_index = dgeopix0_index
+            dgeoxpix0_index += w2
             x1 = xs1 + 1.0
-            i=nx2
-            dgeopix_index = 0
-            pixout_index = 0
-            while (i>0):
-                i -= 1
+            for i in range(nx2):
                 x1 += step2
                 pos[0] = x1 - dgeoxpix[dgeopix_index]*step2
                 pos[1] = y1 - dgeoypix[dgeopix_index]*step2
+                pixout[dgeopix_index] = vignet_interpolate_pix(pos, pix1, modnaxisn, INTERPTYPE)
                 dgeopix_index += 1
-                pixout[pixout_index] = vignet_interpolate_pix(pos, pix1, modnaxisn, INTERPTYPE)
-                pixout_index += 1
+
         return RETURN_OK
     
 
@@ -106,7 +100,7 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
     hmw = int((INTERPW/2)/dstepi) + 2
     interpw =  2*hmw
     iys1a-= hmh
-    if iys1a<0 or (iys1a< 0):
+    if iys1a+hmh<0 or (iys1a< 0):
         iys1a = 0
     
     ny1 = int(ys1+ny2*step2)+interpw-hmh;   
@@ -115,19 +109,20 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
     
     ny1 -= iys1a
     ys1 -= float(iys1a)
-    
+    mask = np.zeros(nx2*interpw, dtype=np.float64)
+    nmask = np.zeros(nx2, dtype=np.int32)
+    start = np.zeros(nx2, dtype=np.int32)
+
     x1 = xs1
     maskt = mask
     nmaskt = nmask
     startt = start
-    j=nx2
     startt_index = 0
     nmaskt_index = 0
     maskt_index = 0
     pixin_index = 0
 
-    while j>0:
-        j-=1
+    for j in range(nx2):
         x1+=step2
         ix1=int(x1)
         ix = ix1 - hmw
@@ -149,9 +144,7 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
         nmaskt_index += 1
         norm = 0.0
         x = dxm
-        i=n
-        while i>0:
-            i-=1
+        for i in range(n):
             x+=dstepi
             maskt[maskt_index]  = INTERPF(x)
             norm += maskt[maskt_index]
@@ -162,44 +155,40 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
         else:
             norm = dstepi
         maskt -= n
-        for i in range(n, -1, -1):
+        for i in range(n):
             maskt[maskt_index]  *= norm
             maskt_index += 1
-
-    pixin0 = pix1+iys1a*w1
+            
+    pix12 = np.zeros(nx2*ny1, dtype=np.float32)
+    pixin0 = pix1
     pixout0 = pix12
-    k=ny1
-    while k>0:
-        pixin0+=w1
-        pixout0+=1
-        k-=1
+    pixin0_index= iys1a*w1
+    pixout0_index = 0
+    for k in range(ny1):
+        pixin0_index+=w1
+        pixout0_index+=1
         maskt = mask
         nmaskt = nmask
+        nmaskt_index+=1
         startt = start
         pixout = pixout0
-        j=nx2
-        while j>0:
-            j-=x
-            pixout+=ny1
-            pixin = pixin0+startt[startt_index]
-            startt_index+=1
+        pixout_index = pixout0_index
+        for j in range(nx2):
+            pixout_index+=ny1
+            pixin = pixin0
             val = 0.0
-            i=nmaskt[nmaskt_index]
-            nmaskt_index += 1
-            while i>0:
-                i-=1
-                val += maskt[maskt_index] * pixin[pixin_index]
-                pixin_index += 1
+            for i in range(nmaskt[nmaskt_index]):                
+                val += maskt[maskt_index] * pixin[i+startt[j]]
                 maskt_index += 1
-            pixout = float(val)
+            pixout[pixout_index] = float(val)
+            nmaskt_index += 1
 
     y1 = ys1
     maskt = mask
+    maskt_index = 0
     nmaskt = nmask
     startt = start
-    j=ny2
-    while (j>0):
-        j-=1
+    for j in range(ny2):
         y1+=step2
         iy1=int(y1)
         iy = (iy1) - hmh
@@ -213,52 +202,45 @@ def vignet_resample(pix1, w1, h1, pix2, w2, h2, dx, dy, step2, stepi, dgeoxpix, 
         t=ny1-iy
         if (n>t):
             n=t
-        
-        startt[startt_index] = iy
-        nmaskt[nmaskt_index] = n
-        startt_index += 1
-        nmaskt_index += 1
+        startt[j] = iy
+        nmaskt[j] = n
         norm = 0.0
         y=dym
-        i=n
-        while i>0:  
+        for i in range(n):
             y+=dstepi
             maskt[maskt_index] = INTERPF(y)
-            maskt_index += 1
             norm += maskt[maskt_index]
-        
+            maskt_index += 1
+
         if norm > 0:
             norm = 1.0/norm
         else:
             norm = dstepi 
         maskt -= n
-        for i in range (n, -1, -1):
+        for i in range (n):
             maskt[maskt_index] *= norm
             maskt_index += 1
         
     pixin0 = pix12
-    pixout0 = pix2+ixs2+iys2*w2
-    k=nx2
-    while k>0: 
-        pixin0+=ny1
-        pixout0+=1
-        k-=1
+    pixin0_index = 0
+    pixout0 = pix2
+    pixout0_index = ixs2+iys2*w2
+    for k in range(nx2):
+        pixin0_index+=ny1
+        pixout0_index+=1
         maskt = mask
+        maskt_index = 0
         nmaskt = nmask
         startt = start
         pixout = pixout0
-        j=ny2
-        while j>0:
-            pixout+=w2
-            j-=1
-            pixin = pixin0+startt[startt_index]
-            startt_index += 1
+        pixout_index = 0
+        for j in range(ny2):
+            pixout_index+=w2
+            pixin = pixin0
             val = 0.0
-            for i in range(nmaskt[nmaskt_index], -1, -1):
-                val += maskt[maskt_index] * pixin[pixin_index]
-                pixin_index += 1 
+            for i in range(nmaskt[j]):
+                val += maskt[maskt_index] * pixin[i+startt[j]]
                 maskt_index += 1
-            nmaskt_index+=1
             pixout[pixout_index] = float(val)
             pixout_index += 1
 
@@ -269,7 +251,7 @@ def vignet_copy(pix1, w1, h1, pix2, w2, h2, idx, idy, vigop):
     pix1_index = 0
     pix2_index = 0
     if (vigop==VIGNET_CPY):
-        memset(pix2, 0, (size_t)(w2*h2)*sizeof(float))
+        pix2[:w2*h2] = np.zeros(w2*h2, dtype=np.float32)
     
     ymin = h2/2+idy-h1/2
     ny=h2-ymin
@@ -279,10 +261,10 @@ def vignet_copy(pix1, w1, h1, pix2, w2, h2, idx, idy, vigop):
         return RETURN_ERROR
     
     if (ymin<0):
-        pix1 -= ymin*w1
+        pix1_index -= ymin*w1
         ny += ymin
     else :
-        pix2 += ymin*w2
+        pix2_index += ymin*w2
     
     xmin = w2/2+idx-w1/2
     nx=w2-xmin
@@ -292,68 +274,61 @@ def vignet_copy(pix1, w1, h1, pix2, w2, h2, idx, idy, vigop):
         return RETURN_ERROR
     
     if (xmin<0):
-        pix1 -= xmin
+        pix1_index -= xmin
         nx += xmin
     else:
-        pix2 += xmin
+        pix2_index += xmin
     
     off1 = w1-nx
     off2 = w2-nx
     
     if vigop == VIGNET_CPY:
-        y=ny
-        while y>0:
-            y-=1
-            pix1+=off1
-            pix2+=off2
+        for y in range(ny):
+            pix1_index+=off1
+            pix2_index+=off2
             
-            for x in range(nx, -1, -1):
+            for x in range(nx):
                 pix2[pix2_index] = pix1[pix1_index]
                 pix1_index += 1
                 pix2_index += 1
 
     elif vigop == VIGNET_ADD:
-        y=ny
-        while y>0:
-            y-=1
-            pix1+=off1
-            pix2+=off2
-            for x in range(nx, -1, -1): 
+        for y in range(ny):
+
+            pix1_index+=off1
+            pix2_index+=off2
+            for x in range(nx): 
                 pix2[pix2_index] += pix2[pix1_index]
                 pix1_index += 1
                 pix2_index += 1
 
     elif vigop ==  VIGNET_SUB:
-        y=ny
-        while y>0:
-            y-=1
-            pix1+=off1
-            pix2+=off2
-            for x in range(nx, -1, -1):
+        for y in range(ny):
+
+            pix1_index+=off1
+            pix2_index+=off2
+            for x in range(nx):
                 pix2[pix2_index] -= pix2[pix1_index]
                 pix1_index += 1
                 pix2_index += 1
 
     elif vigop ==  VIGNET_MUL:
-        y=ny
-        while y>0:
-            y-=1
-            pix1+=off1
-            pix2+=off2
-            for x in range(nx, -1, -1):
+        for y in range(ny):
+
+            pix1_index+=off1
+            pix2_index+=off2
+            for x in range(nx):
                 pix2[pix2_index] *= pix2[pix1_index]
                 pix1_index += 1
                 pix2_index += 1
 
     elif vigop ==  VIGNET_DIV:
-        y=ny
-        while y>0:
-            y-=1
-            pix1+=off1
-            pix2+=off2
+        for y in range(ny):
+
+            pix1_index+=off1
+            pix2_index+=off2
             for x in range(nx, -1, -1):
-                pix2+=1  
-                """Attention, pix2 est peut etre une image, d' ou pix2++ est juste un changement de pixel sur cette img"""
+                pix2_index+=1  
                 if (pix1[pix1_index]):
                     pix2[pix2_index] /= pix1[pix1_index]
                     pix1_index+=1
@@ -407,17 +382,14 @@ def vignet_aperflux(ima, var, w, h, dxc, dyc, aper, gain, backnoise, fluxvar):
     if (xmin < 0 or xmax > w or ymin < 0 or ymax > h):
         return 0.0
 
-    y=ymin
-    while (y<ymax):
-        y += 1
+    for y in range(ymain, ymax):
         pos = y*w + xmin
-        imat = ima + pos
-        vart = var + pos
-        x=xmin
-        while(x<xmax):
-            x+=1
-            imat+=1
-            vart+=1
+        imat_index = vart_index = pos
+        imat = ima 
+        vart = var
+        for x in range(xmin, xmax):
+            imat_index+=1
+            vart_index+=1
             dx = x - mx
             dy = y - my
             r2=dx*dx+dy*dy
@@ -426,15 +398,11 @@ def vignet_aperflux(ima, var, w, h, dxc, dyc, aper, gain, backnoise, fluxvar):
                     dx += offsetx
                     dy += offsety
                     locarea = 0.0
-                    sy=APER_OVERSAMP
-                    while sy>0:
+                    for sy in range(APER_OVERSAMP):
                         dy+=scaley
-                        sy-=1
                         dx1 = dx
                         dy2 = dy*dy
-                        sx=APER_OVERSAMP
-                        while sx>0:
-                            sx-=1
+                        for sx in range(APER_OVERSAMP):
                             dx1+=scalex
                             if (dx1*dx1+dy2<raper2):
                                 locarea += scale2
@@ -443,16 +411,16 @@ def vignet_aperflux(ima, var, w, h, dxc, dyc, aper, gain, backnoise, fluxvar):
                     locarea = 1.0
                 
                 area += locarea
-                pvar=*vart
-                pix=*imat
+                pvar=vart[vart_index]
+                pix=imat[imat_index]
                 if (pix<=-BIG or (var and pvar>=vthresh)):
                     pos = y2*w + x2
-                    pix = *(imat + pos)
+                    pix = imat[imat_index + pos]
                     x2=int(2*mx+0.49999-x)
                     y2=int(2*my+0.49999-y)
                     if (x2>=0 and x2<w and y2>=0 and y2<h and pix>-BIG):
                         if (var) :
-                            pvar = *(var + pos)
+                            pvar = var[pos]
                             if (pvar>=vthresh) :
                                 pix = pvar = 0.0
                         
@@ -470,13 +438,16 @@ def vignet_aperflux(ima, var, w, h, dxc, dyc, aper, gain, backnoise, fluxvar):
         sigtv += tv*invgain
     
 
-    if (fluxvar != None):
+    if (fluxvar):
         fluxvar = sqrt(sigtv)
     
     return tv
     
     
 def vignet_interpolate_pix(posin, pix, naxisn, interptype):
+    buffer= np.zeros(INTERP_MAXKERNELWIDTH, dtype=np.float32)
+    kernel= np.zeros(INTERP_MAXKERNELWIDTH, dtype=np.float32)
+    dpos = [0.0, 0.0]
     kwidth = interp_kernwidth[interptype]
     start = 0
     fac = 1
@@ -500,29 +471,27 @@ def vignet_interpolate_pix(posin, pix, naxisn, interptype):
 
     vignet_make_kernel(dpos[0], kernel, interptype)
     step = naxisn[0]-kwidth
-    pixin = pix+start
+    pixin = pix
+    pixin_index = start
     pixout = buffer
-    tmp_index1 = 0
-    tmp_index2 = 0
-    for j in range(kwidth, -1, -1):
+    for j in range(kwidth):
         val = 0.0;
-        kvector = kernel
-        tmp_index = 0
-        for i in range(kwidth, -1, -1):
-            tmp_index1 +=1
-            val += kvector[tmp_index1]*(pixin[tmp_index1])
-        tmp_index+=1
-        pixout[tmp_index2] = val
-        pixin += step
-    
+        kvector = kernel;
+        for i in range(kwidth):
+            val += kvector[i]*pixin[pixin_index]
+            pixin_index+=1
+        
+        pixout[j] = val
+        pixin_index += step;
+        
 
     vignet_make_kernel(dpos[1], kernel, interptype)
     pixin = buffer
     val = 0.0
     kvector = kernel
-    for i in range(kwidth, -1,-1):
+    for i in range(kwidth):
         tmp_index1 += 1
-        val += kvector[tmp_index1]*(pixin[tmp_index1])
+        val += kvector[i]*(pixin[i])
     
     return val
 
@@ -534,7 +503,7 @@ def vignet_make_kernel(pos, kernel, interptype):
     elif (interptype == INTERP_BILINEAR):
         kernel[kernel_index] = 1.0-pos
         kernel_index += 1
-        kernel = pos
+        kernel[kernel_index] = pos
     elif (interptype == INTERP_LANCZOS2):
         if (pos<1e-5 and pos>-1e-5):
             kernel[kernel_index] = 0.0

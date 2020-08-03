@@ -3,6 +3,7 @@ from define import *
 from math import cos, sin, acos, asin, sqrt
 from random import random
 from enum import Enum
+from astropy.wcs.docstrings import naxis
 
 NAXIS = 2
 DEG = (PI/180.0)
@@ -118,8 +119,11 @@ def copy_wcs(wcsin):
 
 
 def create_wcs(ctype,crval, crpix, cdelt, naxisn, naxis):
+    #    QCALLOC(wcs, wcsstruct, 1);
 
     wcs.naxis = naxis
+    wcs.projp = np.zeros(naxis*100, dtype=np.float64)
+
     wcs.nprojp = 0
 
     wcs.longpole = wcs.latpole = 999.0
@@ -152,7 +156,7 @@ def create_wcs(ctype,crval, crpix, cdelt, naxisn, naxis):
     
 
     wcs.epoch = wcs.equinox = 2000.0
-
+#    QCALLOC(wcs->wcsprm, struct wcsprm, 1);
     wcsset(wcs.naxis,wcs.ctype, wcs.wcsprm)
     init_wcs(wcs)
     invert_wcs(wcs)
@@ -164,7 +168,12 @@ def create_wcs(ctype,crval, crpix, cdelt, naxisn, naxis):
 
 def init_wcs(wcs):
     naxis = wcs.naxis
-
+#    QCALLOC(wcs->lin, struct linprm, 1);
+    wcs.lin.cdelt = np.zeros(naxis, dtype=np.float64)
+    wcs.lin.crpix = np.zeros(naxis, dtype=np.float64)
+    wcs.lin.pc = np.zeros(naxis**2, dtype=np.float64)
+#    QCALLOC(wcs->cel, struct celprm, 1);
+#    QCALLOC(wcs->prj, struct prjprm, 1);
     if (wcs.inv_x):
         poly_end(wcs.inv_x)
         wcs.inv_x = None
@@ -275,13 +284,13 @@ def read_wcs(tab):
          filename = name
 
     FITSREADS(buf, "OBJECT  ", str, "Unnamed")
-
+#    QCALLOC(wcs, wcsstruct, 1);
     if (tab.naxis > NAXIS):
         warning("Maximum number of dimensions supported by this version of the ", "software exceeded\n")
         tab.naxis = 2
 
     wcs.naxis = naxis = tab.naxis
-
+    wcs.projp = np.zeros(naxis*100, np.float64)
     for l in range(naxis):
         wcs.naxisn[l] = tab.naxisn[l]
         str = "CTYPE%-3d"
@@ -343,6 +352,7 @@ def read_wcs(tab):
         wcs.cd[2] *= wcs.cdelt[0]
         wcs.cd[1] *= wcs.cdelt[1]
         wcs.cd[3] *= wcs.cdelt[1]
+#    QCALLOC(wcs->wcsprm, struct wcsprm, 1);
     
     if (not wcsset(wcs.naxis,wcs.ctype, wcs.wcsprm) and wcs.wcsprm.flag<999):
 
@@ -612,6 +622,11 @@ def wcs_supproj(name):
 
 
 def invert_wcs(wcs):
+    pixin = np.zeros(NAXIS, dtype=np.float64)
+    raw = np.zeros(NAXIS, dtype=np.float64)
+    rawmin = np.zeros(NAXIS, dtype=np.float64)
+
+    group = [1, 1]
     lng = wcs.wcsprm.lng
     lat = wcs.wcsprm.lat
     if (wcs.wcsprm.pcode == "TNX"):
@@ -623,6 +638,9 @@ def invert_wcs(wcs):
 
     lngstep = wcs.naxisn[lng]/(WCS_NGRIDPOINTS-1.0)
     latstep = wcs.naxisn[lat]/(WCS_NGRIDPOINTS-1.0)
+    outpos = np.zeros(2*WCS_NGRIDPOINTS2, dtype=np.float64)
+    lngpos = np.zeros(WCS_NGRIDPOINTS2, dtype=np.float64)
+    latpos = np.zeros(WCS_NGRIDPOINTS2, dtype=np.float64)
 
     for i in range(wcs.naxis):
         raw[i] = rawmin[i] = 0.5
@@ -721,7 +739,13 @@ def invert_wcs(wcs):
 
 
 def range_wcs(wcs):
-
+    pixin = np.zeros(NAXIS, dtype=np.float64)
+    raw = np.zeros(NAXIS, dtype=np.float64)
+    rawmin = np.zeros(NAXIS, dtype=np.float64)
+    world = np.zeros(NAXIS, dtype=np.float64)
+    world2 = np.zeros(NAXIS, dtype=np.float64)
+    linecount = np.zeros(NAXIS, dtype=np.int32)
+    
     naxis = wcs.naxis
     npoints = 1
     worldmin = wcs.wcsmin
@@ -814,6 +838,11 @@ def range_wcs(wcs):
 
 
 def frame_wcs(wcsin, wcsout):
+    rawin = np.zeros(NAXIS, dtype=np.float64)
+    rawout = np.zeros(NAXIS, dtype=np.float64)
+    world = np.zeros(NAXIS, dtype=np.float64)
+    linecount = np.zeros(NAXIS, dtype=np.int32)
+    
     naxis = wcsin.naxis
     npoints = 1
     min = wcsin.outmin
@@ -944,6 +973,7 @@ def eq_to_celsys(wcs, wcspos):
 
 
 def raw_to_wcs(wcs, pixpos, wcspos):
+    imgcrd = np.zeros(NAXIS, dtype=np.float64)
 
     if (wcsrev(wcs.ctype, wcs.wcsprm, pixpos, wcs.lin,imgcrd, wcs.prj, phi, theta, wcs.crval, wcs.cel, wcspos)):
         for i in range(wcs.naxis):
@@ -958,6 +988,7 @@ def raw_to_wcs(wcs, pixpos, wcspos):
 
 
 def wcs_to_raw(wcs, wcspos, pixpos):
+    imgcrd = np.zeros(NAXIS, dtype=np.float64)
 
     if (wcs.celsysconvflag):
         eq_to_celsys(wcs, wcspos)
@@ -1068,6 +1099,10 @@ def wcs_dist(wcs, wcspos1, wcspos2):
 
 
 def wcs_scale(wcs, pixpos):
+    wcspos = np.zeros(NAXIS, dtype=np.float64)
+    wcspos1 = np.zeros(NAXIS, dtype=np.float64)
+    wcspos2 = np.zeros(NAXIS, dtype=np.float64)
+    pixpos2 = np.zeros(NAXIS, dtype=np.float64)
 
     if (raw_to_wcs(wcs, pixpos, wcspos)):
         return 0.0
@@ -1106,6 +1141,10 @@ def wcs_scale(wcs, pixpos):
         return abs((dpos1*(wcspos2[lat]-wcspos[lat])-(wcspos1[lat]-wcspos[lat])*dpos2))
 
 def wcs_jacobian(wcs, pixpos, jacob):
+    pixpos0 = np.zeros(NAXIS, dtype=np.float64)
+    wcspos0 = np.zeros(NAXIS, dtype=np.float64)
+    wcspos = np.zeros(NAXIS, dtype=np.float64)
+
     lng = wcs.lng
     lat = wcs.lat
     naxis = wcs.naxis
@@ -1140,6 +1179,10 @@ def wcs_jacobian(wcs, pixpos, jacob):
 
 
 def wcs_rawtoraw(wcsin, wcsout, pixposin, pixposout, jacob):
+    pixpos0 = np.zeros(NAXIS, dtype=np.float64)
+    pixpos2 = np.zeros(NAXIS, dtype=np.float64)
+    wcspos = np.zeros(NAXIS, dtype=np.float64)
+
     naxis = wcsin.naxis
     for i in range(naxis):
         pixpos0[i] = pixposin[i]
@@ -1191,6 +1234,10 @@ def wcs_chirality(wcs):
 
 
 def precess_wcs(wcs, yearin, yearout):
+    crval = np.zeros(NAXIS, dtype=np.float64)
+    a = np.zeros(NAXIS**2, dtype=np.float64)
+    b = np.zeros(NAXIS**2, dtype=np.float64)
+
     lng = wcs.lng
     lat = wcs.lat
     if (lat==lng or yearin==yearout):
@@ -1284,7 +1331,13 @@ def b2j(yearobs, alphain, deltain, alphaout, deltaout):
         [-0.000551,        -0.238565,           0.435739, 0.99994704,         -0.01118251,        -0.00485767],
         [0.238514,        -0.002662,          -0.008541, 0.01118251,          0.99995883,        -0.00002718],
         [-0.435623,         0.012254,           0.002117, 0.00485767,      -0.00002714,         1.00000956]]
-    
+    a1 = np.zeros(3, dtype=np.float64)
+    r = np.zeros(3, dtype=np.float64)
+    ro = np.zeros(3, dtype=np.float64)
+    r2 = np.zeros(3, dtype=np.float64)
+    r2 = np.zeros(3, dtype=np.float64)
+    v1 = np.zeros(3, dtype=np.float64)
+    v = np.zeros(3, dtype=np.float64)
     t1 = (yearobs - 1950.0)/100.0
 
     alphain *= PI/180.0
@@ -1345,7 +1398,14 @@ def j2b(yearobs, alphain, deltain, alphaout, deltaout):
                [-0.0005508458576414713, 0.2384844384742432,   -0.4356144527773499,0.9999043171308133,    0.01118145410120206,   0.004858518651645554],
                [-0.2385354433560954,   -0.002664266996872802,  0.01225282765749546,-0.01118145417187502,   0.9999161290795875,   -2.717034576263522e-05],
                [0.4357269351676567,   -0.008536768476441086,  0.002113420799663768,-0.004858518477064975, -2.715994547222661e-05, 0.9999668385070383]]
-
+    a1 = np.zeros(3, dtype=np.float64)
+    r = np.zeros(3, dtype=np.float64)
+    ro = np.zeros(3, dtype=np.float64)
+    r2 = np.zeros(3, dtype=np.float64)
+    r2 = np.zeros(3, dtype=np.float64)
+    v1 = np.zeros(3, dtype=np.float64)
+    v = np.zeros(3, dtype=np.float64)
+    
     t1 = ((yearobs - 2000.0) + (MJD2000 - MJD1950)/365.25)*JU2TROP/100.0
     alphain *= DEG
     deltain *= DEG

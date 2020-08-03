@@ -3,7 +3,8 @@ from define import *
 from vignet import *
 
 def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, ext, next):
-
+    dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)
+    bigsize = [0, 0]
     npix = psf.size[0]*psf.size[1]
     poly = psf.poly
     ndim = poly.ndim
@@ -13,6 +14,7 @@ def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, e
     nbasis = psf_pshapelet(basis, psf.size[0],psf.size[1], homobasis_number, sqrt(homobasis_number+1.0)*homobasis_scale)
     nfree = nbasis*ncoeff
 
+#    QCALLOC(moffat, moffatstruct, 1);
     moffat.xc[0] = (psf.size[0]/2)
     moffat.xc[1] = (psf.size[1]/2)
     moffat.amplitude = 1.0
@@ -27,6 +29,13 @@ def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, e
     bigsize[0] = psf.size[0]*2
     bigsize[1] = psf.size[1]*2
     nbigpix = bigsize[0]*bigsize[1]
+
+    bigbasis = np.zeros(nbigpix, np.float32)
+    bigconv = np.zeros(nbigpix, np.float32)
+    basisc = np.zeros(nfree*npix, np.float32)
+    cross = np.zeros(nfree**2, np.float64)
+    tcross = np.zeros(nfree, np.float64)
+
 
     fft_init(prefs.nthreads)
     f1 = 0
@@ -62,6 +71,9 @@ def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, e
             tcross[f1] = dval
             
     fft_end(prefs.nthreads)
+
+    amat = np.zeros(nfree**2, dtype=np.float64)
+    bmat = np.zeros(nfree, dtype=np.float64)
 
     nt = HOMO_NSNAP**ndim
    
@@ -102,6 +114,7 @@ def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, e
             else:
                 dpos[d] = -dstart
 
+    kernel = np.zeros(npix*ncoeff, dtype=np.float32)
     bmatt = bmat
     bmat_index = 0
     for j in range(nbasis):
@@ -115,12 +128,6 @@ def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, e
                 kernelt[kernel_index]+= dval*(basis1[j*npix + p])
                 kernel_index+=1
 
-    vignet_copy(kernel, psf.size[0],psf.size[1],
-                bigconv, bigsize[0],bigsize[1], 0,0, VIGNET_CPY)
-    fft_conv(bigconv, fbigpsf, bigsize[0], bigsize[1]);
-    vignet_copy(bigconv, bigsize[0],bigsize[1],
-                kernorm, psf.size[0],psf.size[1], 0,0, VIGNET_CPY);
-    
     dval = 0.0
     kernelt = kernel
     for p in range(npix):
@@ -190,6 +197,7 @@ def psf_savehomo(psf, filename, ext, next):
     tab.bytepix = t_size[T_FLOAT]
     if (poly.ncoeff>1):
         tab.naxis = 3
+        tab.naxisn.resize(tab.naxis)
         tab.naxisn[0] = psf.size[0]
         tab.naxisn[1] = psf.size[1]
         tab.naxisn[2] = poly.ncoeff

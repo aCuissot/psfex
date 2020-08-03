@@ -24,6 +24,9 @@ class fieldstruct():
         self.modchi2 = modchi2
         self.modresi = modresi
 
+#A completer ce dt...
+fielddt = np.dtype([('chars', np.byte, MAXCHAR * 3 + 1)])
+
 def field_init(catname):
     cat = read_cat(catname)
     if (not cat):
@@ -78,6 +81,14 @@ def field_init(catname):
 
     field_locate(field)
     countsize = prefs.context_nsnap*prefs.context_nsnap
+    for e in range(next0):
+        field.lcount[e] = np.zeros(countsize, dtype=np.int32)
+        field.acount[e] = np.zeros(countsize, dtype=np.int32)
+        field.count[e] = np.zeros(countsize, dtype=np.int32)
+        field.modchi2[e] = np.zeros(countsize, dtype=np.float64)
+        field.modresi[e] = np.zeros(countsize, dtype=np.float64)
+    
+    
     return field
 
 
@@ -89,6 +100,9 @@ def field_end(field):
 
 
 def field_locate(field):
+    
+    scale = np.zeros((NAXIS, field.next), dtype=np.float64)
+    scalet = np.zeros((NAXIS, field.next), dtype=np.float64)
 
     cosalpha = sinalpha = sindelta = 0.0
     wcs = field.wcs[0]
@@ -275,6 +289,7 @@ def field_psfsave(field, filename):
             fitswrite(head, str, psf.size[i], H_INT, T_LONG)
         key = new_key("PSF_MASK")
         key.naxis = psf.dim
+        key.naxisn = np.zeros(key.axis, dtype=np.int32)
         for i in range(psf.dim):
             key.naxisn[i] = psf.size[i]
         
@@ -289,6 +304,7 @@ def field_psfsave(field, filename):
         if (psf.basiscoeff) :
             key = new_key("PSF_COEFFS")
             key.naxis = psf.dim - 1
+            key.naxisn = np.zeros(key.naxis, np.int32)
             key.naxisn[0] = psf.nbasis
             if (key.naxis>1) :
                 key.naxisn[1] = psf.size[2]

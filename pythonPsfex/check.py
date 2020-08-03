@@ -2,7 +2,7 @@ import numpy as np
 from define import *
 
 def check_write(field, set, checkname, checktype, ext, next, cubeflag):
-
+    dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)
     if (not ext):
         cat = new_cat(1)
         init_cat(cat)
@@ -41,11 +41,13 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     if checktype == PSF_BASIS:
         if (cubeflag) :
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = psf.size[0]
             tab.naxisn[1] = psf.size[1]
             tab.naxisn[2] = psf.nbasis
             npix = tab.naxisn[0]*tab.naxisn[1]*tab.naxisn[2]
             tab.tabsize = tab.bytepix*npix
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             fpix = psf.basis
@@ -65,6 +67,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             fpix = psf.basis
             fpix_index = 0
@@ -79,22 +82,10 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                     pix += step
 
     elif checktype ==  PSF_CHI:
-        nw = 1
-        nh = 1
-        w = psf.size[0]
-        h = psf.size[1]
-        tab.naxisn[0] = nw*w
-        tab.naxisn[1] = nh*h
-        tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
-        tab.bodybuf = pix0
-        pix = pix0
-        fpix = psf.resi
-        for i in range(w*h):
-           pix[i] = fpix[i]
-        break
          
         if (cubeflag):
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = set.vigsize[0]
             tab.naxisn[1] = set.vigsize[1]
             if set.ngood:
@@ -104,6 +95,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -133,6 +125,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             sample = set.sample
             g = 0
@@ -158,10 +151,12 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     elif checktype ==  PSF_PROTO:
         if (cubeflag):
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = psf.size[0]
             tab.naxisn[1] = psf.size[1]
             tab.naxisn[2] = psf.size[2]
             npix = tab.naxisn[0]*tab.naxisn[1]*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.tabsize = tab.bytepix*npix
             tab.bodybuf = pix0
             pix = pix0
@@ -179,6 +174,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[0] = nw*w
             tab.naxisn[1] = nh*h
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             dpost=dpos
             for i in range(psf.poly.ndim):
@@ -205,6 +201,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     elif checktype ==  PSF_RESIDUALS:
         if (cubeflag):
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = set.vigsize[0]
             tab.naxisn[1] = set.vigsize[1]
             if set.ngood:
@@ -213,6 +210,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 tab.naxisn[2] = 1
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -242,6 +240,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             sample = set.sample
             g = 0
@@ -307,12 +306,14 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 nh = nt/nw
                 np = 1
             tab.naxis = 4
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = w
             tab.naxisn[1] = h
             tab.naxisn[2] = nw
             tab.naxisn[3] = nh
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]*tab.naxisn[3]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -328,6 +329,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[0] = nw*w
             tab.naxisn[1] = nh*h
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             step = (nw-1)*w
             for n in range(nt):
@@ -350,6 +352,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     elif checktype == PSF_SAMPLES:
         if (cubeflag):
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = set.vigsize[0]
             tab.naxisn[1] = set.vigsize[1]
             if set.ngood:
@@ -359,6 +362,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -390,6 +394,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             sample = set.sample
             g = 0
@@ -456,12 +461,14 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 nh = nt/nw
                 np = 1
             tab.naxis = 4
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = w
             tab.naxisn[1] = h
             tab.naxisn[2] = nw
             tab.naxisn[3] = nh
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]*tab.naxisn[3]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -476,6 +483,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[0] = nw*w
             tab.naxisn[1] = nh*h
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             step = (nw-1)*w
             for n in range(nt):
@@ -498,6 +506,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     elif checktype ==  PSF_WEIGHTS:
         if (cubeflag) :
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = set.vigsize[0]
             tab.naxisn[1] = set.vigsize[1]
             if set.ngood:
@@ -506,6 +515,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 tab.naxisn[2] = 1
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -535,6 +545,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             sample = set.sample
             g = 0
@@ -582,12 +593,14 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 nh = nt/nw
                 np = 1
             tab.naxis = 4
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = w
             tab.naxisn[1] = h
             tab.naxisn[2] = nw
             tab.naxisn[3] = nh
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]*tab.naxisn[3]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -609,6 +622,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[0] = nw*w
             tab.naxisn[1] = nh*h
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             step = (nw-1)*w
             for n in range(nt):
@@ -646,6 +660,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             h = set.vigsize[1]
         else:
             h=1
+        vig0 = np.zeros(w*h, dtype=np.float32)
         dstep = 1.0/prefs.context_nsnap
         dstart = (1.0-dstep)/2.0
         for i in range(npc):
@@ -657,12 +672,14 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             else:
                 nh = nt/nw;
             tab.naxis = 4
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = w
             tab.naxisn[1] = h
             tab.naxisn[2] = nw
             tab.naxisn[3] = nh
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]*tab.naxisn[3]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             pix_index = 0
@@ -689,6 +706,8 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             step = (nw-1)*w
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
+
             tab.bodybuf = pix0
             for n in range(nt):
                 psf_build(psf, dpos)
@@ -733,6 +752,8 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
         tab.naxisn[1] = nh*h
         step = (nw-1)*w
         tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+        pix0 = np.zeros(tab.tabsize, dtype=np.float32)
+
         tab.bodybuf = pix0
         dstep = 1.0/psf.nsnap
         dstart = (1.0-dstep)/2.0
@@ -779,6 +800,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
         tab.naxisn[1] = nh*h
         step = (nw-1)*w
         tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+        pix0 = np.zeros(tab.tabsize, dtype=np.float32)
         tab.bodybuf = pix0
         dstep = 1.0/psf.nsnap
         dstart = (1.0-dstep)/2.0
@@ -837,6 +859,8 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
         tab.naxisn[1] = nh*h
         step = (nw-1)*w
         tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
+        pix0 = np.zeros(tab.tabsize, dtype=np.float32)
+
         tab.bodybuf = pix0
         dstep = 1.0/psf.nsnap
         dstart = (1.0-dstep)/2.0
@@ -905,11 +929,13 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             if not i:
                 ispoon = 1000;
                 spoonsize = ispoon*2
-
+                size = spoonsize
+                list = np.zeros(size)
             if not(i%1000):
                 str2 = "Reading input list... (%d objects)" % (i)
                 NFPRINTF(OUTPUT, str2)
-
+                size += spoonsize
+                list = np.zeros(size)
             list[2*i] = (float(str)-coffx)*invcscalex
             list[2*i+1] = (float(ptr)-coffy)*invcscaley
             i+=1
@@ -922,6 +948,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
         
         if (cubeflag):
             tab.naxis = 3
+            np.resize(tab.naxisn, naxis)
             tab.naxisn[0] = 48
             tab.naxisn[1] = 48
             if nlist:
@@ -930,6 +957,7 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
                 tab.naxisn[2] = 1
             npix = tab.naxisn[0]*tab.naxisn[1]
             tab.tabsize = tab.bytepix*npix*tab.naxisn[2]
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
             tab.bodybuf = pix0
             pix = pix0
             for n in range(nlist):
@@ -956,6 +984,8 @@ def check_write(field, set, checkname, checktype, ext, next, cubeflag):
             tab.naxisn[1] = nh*h
             tab.tabsize = tab.bytepix*tab.naxisn[0]*tab.naxisn[1]
             step = (nw-1)*w
+            pix0 = np.zeros(tab.tabsize, dtype=np.float32)
+            vig0 = np.zeros(w*h, dtype=np.float32)
             tab.bodybuf = pix0
             for n in range(nlist):
                 psf_build(psf, list[2*n])

@@ -84,10 +84,11 @@ def fft_ctf(data, width, height, sign):
 
 def fft_shift(data, width, height):
     npix = width*height
+    temp = np.zeros(npix, dtype=np.float32)
     datat = data
     xc = width/2
     yc = height/2
-    index =0
+    index = 0
     for y in range(height):
         y2 = y-yc
         if (y2<0):

@@ -4,6 +4,7 @@ from define import *
 lm_opts = [1.0e-2, 1.0e-12, 1.0e-12, 1.0e-12, 1.0e-4]
 
 def psf_wcsdiagnostic(psf, wcs):
+    raw = np.zeros(NAXIS, dtype=np.float64)
 
     if (not psf.samples_accepted or not wcs or wcs.naxis<2):
         psf.moffat_fwhm_wcs = psf.moffat_fwhm
@@ -94,7 +95,7 @@ def psf_wcsdiagnostic(psf, wcs):
 
 
 def psf_diagnostic(psf):
-
+    dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)
     nmed = 0
     npc = psf.poly.ndim
     nt = 1
@@ -288,6 +289,9 @@ def psf_diagnostic(psf):
 
 def psf_compdiag(psf0, moffat, dpos, oversamp):
     
+    dparam = np.zeros(PSF_DIAGNPARAM, dtype=np.float64)
+    param = np.zeros(PSF_DIAGNPARAM, dtype=np.float32)
+    
     psf = psf0
     psf.nsubpix = oversamp
     npc = psf.poly.ndim
@@ -339,6 +343,7 @@ def psf_compdiag(psf0, moffat, dpos, oversamp):
 
 
 def psf_diagresi(dparam, fvec, m, n, adata):
+    par = np.zeros(PSF_DIAGNPARAM, dtype=np.float32)
 
     psf = adata
     nsubpix = psf.nsubpix
@@ -401,6 +406,7 @@ def psf_normresi(par, psf):
     ct = cosf(par[5]*PI/180.0)
     st = sinf(par[5]*PI/180.0)
     nsubpix = psf.nsubpix
+    fvec = np.zeros(w*h, dtype=np.float32)
     if par[6]>PSF_BETAMIN:
         fac = 4.0*(pow(2.0, 1.0/par[6]) - 1.0)
     else:
