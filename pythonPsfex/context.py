@@ -1,5 +1,10 @@
 import numpy as np
 from define import *
+from astropy.io.fits import *
+from prefs import *
+from astropy.wcs import *
+from psf import *
+from field import *
 
 class contextstruct():
     def __init__(self, name, group, pcflag, ncontext, degree, ngroup, pc, npc):

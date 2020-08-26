@@ -1,8 +1,13 @@
 import numpy as np
 from define import *
 from enum import Enum
-import context
-import key
+from context import *
+from key import *
+from astropy.io.fits import *
+from cathead import *
+from prefs import *
+from sample import *
+from xml import *
 
 class cattypeenum(Enum):
 	CAT_NONE = 1
@@ -30,6 +35,24 @@ class outsamplestruct():
 		self.dy = dy
 		self.chi2 = chi2
 		self.modresi = modresi
+		
+	def zeros(self):
+		self.detindex = 0
+		self.extindex = 0
+		self.catindex = 0
+		self.badflag = 0
+		self.context = [0.0] * MAXCONTEXT
+		self.ncontext = 0
+		self.norm = 0.0
+		self.fwhm = 0.0
+		self.ellip = 0.0
+		self.snr = 0.0
+		self.x = 0.0
+		self.y = 0.0
+		self.dx = 0.0
+		self.dy = 0.0
+		self.chi2 = 0.0
+		self.modresi = 0.0
 	
 outsampledt = np.dtype([('ints', np.int32, 5), ('doubles', np.float64, 2 + context.MAXCONTEXT), ('floats', np.float32, 8)])
 
@@ -161,7 +184,7 @@ def write_outcat(outcat, set):
 	samp = set.sample
 	for n in range (set.nsample):
 	
-		#memset(outsample, 0, sizeof(outsample)); Mettre toutes les valeurs a 0
+		outsample.zeros()
 		outsample.detindex = samp[n].detindex
 		outsample.extindex = samp[n].extindex + 1
 		outsample.catindex = samp[n].catindex + 1

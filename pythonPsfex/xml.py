@@ -2,7 +2,11 @@
 extern pkeystruct    key[]
 extern char        keylist[][32]
 """
-
+from astropy.io.fits import *
+from key import *
+from field import *
+from prefs import *
+from psf import *
 from time import time
 import numpy as np
 from define import *
@@ -41,7 +45,7 @@ def write_xml(filename):
     write_xml_meta(file, None)
 
     file.write("</RESOURCE>\n")
-    file.wrifte("</VOTABLE>\n")
+    file.write("</VOTABLE>\n")
 
     file.close()
 

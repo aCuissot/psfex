@@ -1,5 +1,31 @@
 import numpy as np
 from define import *
+from enum import Enum
+from astropy.io.fits import *
+from diagnostic import *
+from field import *
+from astropy.wcs import *
+from prefs import *
+from sample import *
+from vignet import *
+
+class checkenum(Enum):
+    PSF_NONE = 1
+    PSF_BASIS = 2
+    PSF_CHI = 3
+    PSF_PROTO = 4
+    PSF_RESIDUALS = 5
+    PSF_RESIDUALS_GRID = 6
+    PSF_SAMPLES = 7
+    PSF_SAMPLES_GRID = 8
+    PSF_SNAPSHOTS = 9
+    PSF_SNAPSHOTS_IMRES = 10
+    PSF_WEIGHTS = 11
+    PSF_MOFFAT = 12
+    PSF_SUBMOFFAT = 13
+    PSF_SUBSYM = 14
+    PSF_GREAT = 15
+    
 
 def check_write(field, set, checkname, checktype, ext, next, cubeflag):
     dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)

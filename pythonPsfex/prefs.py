@@ -1,5 +1,7 @@
 import numpy as np
 from define import *
+from astropy.io.fits import *
+from preflist import *
 
 prefs = None
 def dumpprefs(state):

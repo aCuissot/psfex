@@ -1,6 +1,13 @@
 import numpy as np
 from define import *
 from misc import *
+from astropy.io.fits import *
+from astropy.wcs import *
+from prefs import *
+from context import *
+from misc import *
+from sample import *
+from vignet import *
 from enum import Enum
 
 PSF_NODIAG = 0

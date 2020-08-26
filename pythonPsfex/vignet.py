@@ -2,6 +2,7 @@ import numpy as np
 from define import *
 from enum import Enum
 from astropy.coordinates.builtin_frames.utils import norm
+from astropy.io.fits import *
 
 class vignet_operation_enum(Enum):
     VIGNET_CPY = 1

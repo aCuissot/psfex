@@ -4,6 +4,9 @@ from math import cos, sin, acos, asin, sqrt
 from random import random
 from enum import Enum
 from astropy.wcs.docstrings import naxis
+from astropy.wcs import *
+from fitswcs import *
+from astropy.io.fits import *
 
 NAXIS = 2
 DEG = (PI/180.0)

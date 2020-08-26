@@ -1,4 +1,6 @@
 from key import *
+from catout import *
+
 refoutkey = [
   pkeystruct("SOURCE_NUMBER", "Source index",
     refoutsample.detindex, H_INT, T_LONG,

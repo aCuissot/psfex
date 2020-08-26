@@ -2,13 +2,19 @@ import numpy as np
 from define import *
 from time import time
 from datetime import date, datetime
-from _datetime import datetime #??
 thetime, thetime2 = 0.0, 0.0
 from psf import *
 from pca import *
 from homo import *
 from field import *
 from xml import *
+from prefs import *
+from astropy.io.fits import *
+from check import *
+from catout import *
+from sample import *
+from context import *
+from diagnostic import *
 
 
 def  makeit():

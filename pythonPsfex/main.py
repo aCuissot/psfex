@@ -3,9 +3,10 @@ import re
 from define import *
 from makeit import *
 from prefs import *
+from astropy.io.fits import *
+from prefs import *
 import sys
 
-print ("juuj")
 
 SYNTAX = EXECUTABLE + " catalog1 [catalog2,...][@catalog_list1 [@catalog_list2 ...]]\n" + "\t\t[-c <config_file>][-<keyword> <value>]\n" + "> to dump a default configuration file: " + EXECUTABLE + " -d \n" + "> to dump a default extended configuration file: " + EXECUTABLE + " -dd \n"
 
@@ -14,7 +15,6 @@ def strtok(L, R):
 
 def main(argc, argv):
     argkey , argval = np.chararray(argc), np.chararray(argc)
-    print("jaaj")
     if (argc<2):
         print("\n         %s  Version %s (%s)\n" % (BANNER,MYVERSION,DATE))
         print("\nWritten by %s\n" % (AUTHORS))
@@ -62,9 +62,6 @@ def main(argc, argv):
 
                     exit(EXIT_SUCCESS)
                     break
-                elif opt == 't':
-                    testOutFiles(argv[0])
-                    break
                 else:
                     error(EXIT_SUCCESS,"SYNTAX: ", SYNTAX)
                 
@@ -110,5 +107,4 @@ def main(argc, argv):
     exit(EXIT_SUCCESS)
     
 if __name__ == '__main__':
-    print("jeej")
     main(len(sys.argv), sys.argv)

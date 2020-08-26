@@ -1,4 +1,9 @@
-idummy
+from key import *
+from check import *
+from context import *
+from xml import *
+
+idummy = 0
 
 key = [pkeystruct("BADPIXEL_FILTER", P_BOOL, prefs.badpix_flag),
   pkeystruct("BADPIXEL_NMAX", P_INT, prefs.badpix_nmax, 0,100000000),

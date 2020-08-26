@@ -1,6 +1,11 @@
 import numpy as np
 from define import *
 from vignet import *
+from astropy.io.fits import *
+from astropy.wcs import *
+from fft import *
+from diagnostic import *
+from psf import *
 
 def psf_homo(psf, filename, homopsf_params, homobasis_number, homobasis_scale, ext, next):
     dpos = np.zeros(POLY_MAXDIM, dtype=np.float64)

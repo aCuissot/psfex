@@ -9,7 +9,7 @@ not necessary for basic operation.
 
 When it comes to memory usage, the amount required by PSFEx
 depends mostly on the number of point sources present in the input
-catalogues times the number of pixels in the small image that
+catalogues times the number of pixels in the sm	all image that
 represents each of them. A typical figure is about 15 kbytes per point
 source; hence even on a modest computer with 1GB of memory, more than
 20,000 point sources can easily be accommodated at once.

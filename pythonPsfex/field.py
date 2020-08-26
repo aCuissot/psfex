@@ -1,6 +1,11 @@
 import numpy as np
 from define import *
 from fitswcs import *
+from astropy.io.fits import *
+from check import *
+from misc import *
+from prefs import *
+from psf import *
 
 class fieldstruct():
     def __init__(self, catname, rcatname, rtcatname, ident, next, ndet, psf,

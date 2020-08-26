@@ -1,5 +1,14 @@
 import numpy as np
 from define import *
+from astropy.io.fits import *
+from fitswcs import *
+from prefs import *
+from psf import *
+from astropy.wcs import *
+from levmar.levmar import *
+
+
+
 
 lm_opts = [1.0e-2, 1.0e-12, 1.0e-12, 1.0e-12, 1.0e-4]
 

@@ -1,5 +1,9 @@
 import numpy as np
 from define import *
+from astropy.io.fits import *
+from prefs import *
+from psf import *
+
 
 def pca_onsnaps(psfs, ncat, npc):
     dpos = np.zeros(POLY_MACDIM, dtype=np.float64)
