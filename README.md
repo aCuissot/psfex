@@ -12,3 +12,10 @@ Check out the on-line [documentation], the [official web page], and the [user fo
 [documentation]: http://psfex.readthedocs.org
 [official web page]: http://astromatic.net/software/psfex
 [user forum]: http://astromatic.net/forum/forumdisplay.php?fid=21
+
+Working on:
+- basic refactor in 'master'
+- Python translation, testing python libs and trying too implement a deep learning based method in branch 'pythonFroScratch'
+- refactor the code, the includes, ... in branch 'working_on_opti'
+- create a cython wrapper to use psfex in python in branch 'cython'
+- use C++ to improve performances in branch 'cpp'
